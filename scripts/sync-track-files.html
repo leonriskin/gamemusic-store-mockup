@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sync track files to tracks/</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    pre { background: #111; color: #ddd; padding: 12px; border-radius: 8px; overflow: auto; }
+    .ok { color: #6f6; }
+    .err { color: #f66; }
+  </style>
+</head>
+<body>
+  <h1>Sync Admin uploads → tracks/</h1>
+  <p>Use after uploading demo / loop / pack in Admin. Open via the local server, e.g.
+    <code>http://localhost:8765/scripts/sync-track-files.html?id=1&amp;slug=2am-snowflakes</code></p>
+  <pre id="log">Starting…</pre>
+  <script>
+    const FILE_DB_NAME = 'riskin_tracks_files';
+    const FILE_STORE = 'files';
+    const logEl = document.getElementById('log');
+    const log = (msg, cls) => {
+      logEl.innerHTML += `\n<span class="${cls || ''}">${msg}</span>`;
+    };
+
+    function fileKey(trackId, type) { return `track_${trackId}_${type}`; }
+
+    function openFileDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(FILE_DB_NAME, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore(FILE_STORE);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function loadFile(key) {
+      const db = await openFileDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(FILE_STORE, 'readonly');
+        const req = tx.objectStore(FILE_STORE).get(key);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function saveToTracks(relPath, blob) {
+      const res = await fetch('/__dev/save-track-file?rel=' + encodeURIComponent(relPath), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/octet-stream' },
+        body: blob,
+      });
+      if (!res.ok) throw new Error(`Save failed (${res.status}) for ${relPath}`);
+    }
+
+    async function syncTrack(trackId, slug) {
+      const base = `tracks/${slug}`;
+      const jobs = [
+        ['demo', `${base}/demo.mp3`],
+        ['loopZip', `${base}/loop.zip`],
+        ['packZip', `${base}/pack.zip`],
+      ];
+      for (const [type, dest] of jobs) {
+        let blob = await loadFile(fileKey(trackId, type));
+        if (!blob && type === 'packZip') blob = await loadFile(fileKey(trackId, 'zip'));
+        if (!blob) {
+          log(`skip ${dest} — not in Admin storage`, 'err');
+          continue;
+        }
+        await saveToTracks(dest, blob);
+        log(`saved ${dest} (${(blob.size / 1024 / 1024).toFixed(2)} MB)`, 'ok');
+      }
+    }
+
+    (async () => {
+      const params = new URLSearchParams(location.search);
+      const trackId = parseInt(params.get('id') || '1', 10);
+      const slug = params.get('slug') || '2am-snowflakes';
+      logEl.textContent = `Track ${trackId} → tracks/${slug}/\n`;
+      try {
+        await syncTrack(trackId, slug);
+        log('\nDone. Update catalog.json if needed, then hard-refresh the store.', 'ok');
+      } catch (err) {
+        log(`\nError: ${err.message}`, 'err');
+        log('Restart start-server.ps1 if you see 404 on POST.', 'err');
+      }
+    })();
+  </script>
+</body>
+</html>
