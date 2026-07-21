@@ -1,0 +1,51 @@
+<svg viewBox="0 0 35 32" preserveAspectRatio="xMidYMax meet" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="rtEqGrad" x1="17" y1="0" x2="17" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7df5e3"/>
+      <stop offset="0.55" stop-color="#5eead4"/>
+      <stop offset="1" stop-color="#3ecdb8"/>
+    </linearGradient>
+    <filter id="rtEqGlow" x="-50%" y="-80%" width="200%" height="220%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="bloom"/>
+      <feColorMatrix in="bloom" type="matrix" values="0 0 0 0 0.37  0 0 0 0 0.92  0 0 0 0 0.83  0 0 0 0.9 0" result="neon"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.7" result="inner"/>
+      <feMerge>
+        <feMergeNode in="neon"/>
+        <feMergeNode in="inner"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g shape-rendering="crispEdges" filter="url(#rtEqGlow)">
+    <rect x="0" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="0" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="0" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="5" y="9" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="5" y="13" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="5" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="5" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="5" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="5" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="10" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="10" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="5" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="9" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="13" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="15" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="20" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="20" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="20" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="20" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="25" y="13" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="25" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="25" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="25" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="25" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="30" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="30" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+    <rect x="30" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+  </g>
+</svg>

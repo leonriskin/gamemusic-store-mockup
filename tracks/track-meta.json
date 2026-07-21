@@ -1,8 +1,8 @@
-{
+﻿{
     "_sourceUrl":  "https://www.dropbox.com/scl/fi/my8k721elifs4zl71dosm/Tracks-Upload-Status-2013.xlsx?rlkey=3ome8ym5wcg0sbg4q3u4ddcv0\u0026dl=0",
     "_source":  "Tracks-Upload-Status-2013.xlsx",
     "_sheet":  "Tracks Status ",
-    "_updated":  "2026-07-18",
+    "_updated":  "2026-07-21",
     "_instructions":  "Update the spreadsheet, copy it to tracks/Tracks-Upload-Status-2013.xlsx, then run scripts/import-track-meta.ps1",
     "tracks":  [
                    {
@@ -10522,6 +10522,30 @@
                        "duration":  "1.23",
                        "timeSignature":  "45386",
                        "category2":  "campgaign"
+                   },
+                   {
+                       "title":  "Santa Got A Brand New Toy",
+                       "slug":  "santa-got-a-brand-new-toy",
+                       "description":  "A cheerful Christmas tune full of toy-shop wonder â€” Santa, bells, piano, and festive sparkle for holiday games, children\u0027s apps, cartoons, and seasonal menus.",
+                       "tags":  [
+                                    "Christmas",
+                                    "Holidays",
+                                    "Children",
+                                    "Happy",
+                                    "Toys",
+                                    "Santa",
+                                    "Cartoon",
+                                    "Game",
+                                    "Cheerful",
+                                    "Snow"
+                                ],
+                       "genre":  "Holidays",
+                       "bpm":  120,
+                       "duration":  "1:29",
+                       "instruments":  "piano, bells, strings, celeste",
+                       "category2":  "Christmas",
+                       "motionElements":  "v"
                    }
                ]
 }
+

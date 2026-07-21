@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -39,9 +39,6 @@
       place-items: center; color: var(--text-muted); flex-shrink: 0;
     }
     .nav-toggle:hover { color: var(--text); background: var(--surface); }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; min-width: 0; }
-    .logo-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-dim); border: 1px solid rgba(94,234,212,0.25); display: grid; place-items: center; }
-    .logo-mark svg { width: 16px; height: 16px; fill: var(--accent); }
     .nav { display: flex; align-items: center; gap: 20px; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
     .cart-btn { position: relative; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-muted); }
@@ -62,19 +59,43 @@
     .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
     .btn-sm { padding: 6px 14px; font-size: 12px; } .btn-lg { padding: 14px 28px; font-size: 15px; }
 
-    .hero { padding: 56px 32px 24px; max-width: 1200px; margin: 0 auto; }
-    .hero h1 { font-family: var(--serif); font-size: clamp(32px,4.5vw,52px); font-weight: 400; line-height: 1.15; max-width: 680px; margin-bottom: 0; }
-    .hero h1 em { font-style: italic; color: var(--accent); }
-    .hero-headline { opacity: 1; transform: translateY(0); }
-    .hero-headline.is-visible { animation: headlineFadeIn 2s ease-out forwards; }
-    @keyframes headlineFadeIn {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
+    .site-brand {
+      max-width: 1200px; margin: 0 auto; padding: 36px 32px 4px;
     }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-headline.is-visible { opacity: 1; transform: none; animation: none; }
+    .brand-logo {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      column-gap: 14px;
+      row-gap: 5px;
+      align-items: end;
+      font-size: clamp(28px, 3.5vw, 36px);
+      color: var(--text);
     }
-    .search-block { max-width: 1200px; margin: 0 auto 20px; padding: 0 32px; display: flex; flex-direction: column; gap: 20px; }
+    .brand-logo:hover .brand-title strong { color: var(--accent-hover); }
+    .brand-top-row { display: contents; }
+    .brand-eq-wrap {
+      grid-column: 1; grid-row: 1;
+      height: 1em; width: calc(1em * 35 / 32);
+      overflow: hidden; line-height: 0; align-self: end;
+      padding-top: 5px; margin-top: -5px;
+    }
+    .brand-mark {
+      width: 100%; height: 100%; display: block; overflow: visible;
+    }
+    .brand-title {
+      grid-column: 2; grid-row: 1;
+      font-size: 1em; font-weight: 400; letter-spacing: -0.025em;
+      line-height: 1; white-space: nowrap;
+      align-self: end;
+    }
+    .brand-title strong { font-weight: 700; color: var(--text); transition: color 0.15s; }
+    .brand-tagline {
+      grid-column: 2; grid-row: 2;
+      font-size: 0.39em; font-weight: 400; color: rgba(94, 234, 212, 0.52);
+      letter-spacing: 0.005em; line-height: 1.2;
+    }
+
+    .search-block { max-width: 1200px; margin: 0 auto 20px; padding: 16px 32px 0; display: flex; flex-direction: column; gap: 20px; }
     .search-main { position: relative; }
     .search-hero-box { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
     .search-hero-box:focus-within { border-color: rgba(94,234,212,0.4); }
@@ -389,6 +410,8 @@
     .admin-grid { display: grid; grid-template-columns: 320px 1fr; gap: 28px; align-items: start; }
     .admin-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
     .admin-panel-head { padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+    .admin-track-search { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .admin-track-search .form-input { padding: 8px 12px; font-size: 13px; }
     .admin-track-list { max-height: 600px; overflow-y: auto; }
     .admin-track-row { display: flex; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
     .admin-track-row:hover, .admin-track-row.selected { background: var(--surface-2); }
@@ -434,6 +457,7 @@
     .art-gen-preview img, .art-fill { width: 100%; height: 100%; object-fit: cover; display: block; }
     .art-gen-placeholder { width: 100%; height: 100%; display: grid; place-items: center; font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px; line-height: 1.4; }
     .art-gen-hint { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.45; }
+    .art-prompt-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
     .meta-status { font-size: 12px; margin-bottom: 14px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); line-height: 1.45; }
     .meta-status.linked { border-color: rgba(94,234,212,0.35); color: var(--accent); background: var(--accent-dim); }
     .meta-status.missing { color: var(--text-muted); }
@@ -547,7 +571,7 @@
       .detail-art-wrap { width: 120px; }
       .users-stats { grid-template-columns: repeat(2, 1fr); }
       .admin-user-row-main { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .header, .hero, .catalog, .filters, .results-bar, .search-block, .contact-section { padding-left: 16px; padding-right: 16px; }
+      .header, .site-brand, .catalog, .filters, .results-bar, .search-block, .contact-section { padding-left: 16px; padding-right: 16px; }
       .bp-info { display: none; }
       .track-row-tags { display: none; }
     }
@@ -559,7 +583,6 @@
       }
       .header-start { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
       .nav-toggle { display: grid; }
-      .logo { font-size: 14px; }
       .nav {
         display: none; order: 3; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 4px;
         padding: 4px 0 8px; border-top: 1px solid var(--border); margin-top: 2px;
@@ -614,10 +637,6 @@
       <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu" onclick="toggleNavMenu()">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
-      <a href="#" class="logo" onclick="showPage('browse'); closeNavMenu(); return false;">
-        <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
-        Riskin Tracks
-      </a>
     </div>
     <nav class="nav" id="mainNav">
       <a href="#" class="active" data-nav="browse" onclick="showPage('browse'); closeNavMenu(); return false;">Browse</a>
@@ -639,8 +658,74 @@
 
   <!-- BROWSE -->
   <div id="page-browse" class="page active">
-    <section class="hero">
-      <h1 id="heroHeadline" class="hero-headline is-visible"></h1>
+    <section class="site-brand">
+      <a href="#" class="brand-logo" onclick="showPage('browse'); closeNavMenu(); return false;" aria-label="Riskin Tracks home">
+        <span class="brand-top-row">
+          <span class="brand-eq-wrap" aria-hidden="true">
+          <svg class="brand-mark" viewBox="0 0 35 32" preserveAspectRatio="xMidYMax meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="rtEqGrad" x1="17" y1="0" x2="17" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7df5e3"/>
+                <stop offset="0.55" stop-color="#5eead4"/>
+                <stop offset="1" stop-color="#3ecdb8"/>
+              </linearGradient>
+              <filter id="rtEqGlow" x="-50%" y="-80%" width="200%" height="220%" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="bloom"/>
+                <feColorMatrix in="bloom" type="matrix" values="0 0 0 0 0.37  0 0 0 0 0.92  0 0 0 0 0.83  0 0 0 0.9 0" result="neon"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.7" result="inner"/>
+                <feMerge>
+                  <feMergeNode in="neon"/>
+                  <feMergeNode in="inner"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <g shape-rendering="crispEdges" filter="url(#rtEqGlow)">
+              <!-- 3×3 cells, 1px gaps; bottoms on y=32 -->
+              <!-- col 0: 3 -->
+              <rect x="0" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="0" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="0" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <!-- col 1: 6 -->
+              <rect x="5" y="9" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="5" y="13" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="5" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="5" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="5" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="5" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <!-- col 2: 2 -->
+              <rect x="10" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="10" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <!-- col 3: 7 -->
+              <rect x="15" y="5" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="15" y="9" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="15" y="13" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="15" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="15" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="15" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="15" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <!-- col 4: 4 -->
+              <rect x="20" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="20" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="20" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="20" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <!-- col 5: 5 -->
+              <rect x="25" y="13" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="25" y="17" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="25" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="25" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="25" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <!-- col 6: 3 -->
+              <rect x="30" y="21" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="30" y="25" width="3" height="3" fill="url(#rtEqGrad)"/>
+              <rect x="30" y="29" width="3" height="3" fill="url(#rtEqGrad)"/>
+            </g>
+          </svg>
+          </span>
+          <span class="brand-title"><strong>Riskin</strong> Tracks</span>
+        </span>
+        <span class="brand-tagline">Music for indie games</span>
+      </a>
     </section>
 
     <div class="search-block">
@@ -817,6 +902,9 @@
       <div class="admin-grid">
         <div class="admin-panel">
           <div class="admin-panel-head">Catalog (<span id="adminCount">0</span>)</div>
+          <div class="admin-track-search">
+            <input class="form-input" id="adminTrackSearch" type="search" placeholder="Search tracks by name…" autocomplete="off" oninput="onAdminTrackSearchInput()" />
+          </div>
           <div class="admin-track-list" id="adminTrackList"></div>
         </div>
 
@@ -830,11 +918,13 @@
               <div class="form-group">
                 <label>Cover art</label>
                 <div class="art-gen-preview" id="artPreview">
-                  <div class="art-gen-placeholder">Generated on publish from genre, tags, and mood</div>
+                  <div class="art-gen-placeholder">Cover art is generated from the track title on publish</div>
                 </div>
-                <p class="art-gen-hint">Cover art draws from tags, BPM, and feel sliders — each tag suggests a different visual concept.</p>
+                <p class="art-gen-hint">Auto-generated from the track title — soft gradient and flowing lines in the Riskin Tracks catalog style. Regenerate for a different layout with the same colors.</p>
                 <p class="art-gen-concept" id="artConceptLabel" style="display:none;font-size:12px;color:var(--accent);margin:8px 0 0"></p>
-                <button type="button" class="btn btn-ghost btn-sm" id="regenArtBtn" style="display:none" onclick="regenerateArtPreview()">Regenerate artwork</button>
+                <div class="art-prompt-actions">
+                  <button type="button" class="btn btn-ghost btn-sm" id="regenArtBtn" style="display:none" onclick="regenerateArtPreview()">Regenerate artwork</button>
+                </div>
               </div>
               <div class="form-group">
                 <label>Preview MP3 (store player)</label>
@@ -1232,30 +1322,6 @@
   <script src="assets/jspdf.umd.min.js"></script>
 
   <script>
-    const HEADLINES = [
-      'Music that fits your game',
-      'Find the soundtrack your game deserves',
-      'Music your players will remember',
-      'Soundtracks that tell your story',
-      'Music that plays like your game',
-      'Find the perfect soundtrack',
-      'Discover music by emotion',
-      'Find music by mood and genre',
-      'Every game has a soundtrack. Find yours',
-    ];
-
-    function initHeadline() {
-      const h1 = document.getElementById('heroHeadline');
-      if (!h1) return;
-      const tagline = HEADLINES[Math.floor(Math.random() * HEADLINES.length)];
-      h1.classList.remove('is-visible');
-      h1.innerHTML = `Riskin Tracks — <em>${tagline}</em>`;
-      document.title = `Riskin Tracks — ${tagline}`;
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => h1.classList.add('is-visible'));
-      });
-    }
-
     const DEFAULT_CHARACTERISTICS = [
       { key: 'calm_chaos', left: 'Calm', right: 'Chaos' },
       { key: 'dark_bright', left: 'Dark', right: 'Bright' },
@@ -1339,6 +1405,7 @@
     const DUCKED_VOLUME = 0.4;
     let pendingDemoDownload = null;
     let selectedAdminUserEmail = null;
+    let adminTrackSearch = '';
     let lastOrderDetails = null;
 
     const FILE_DB_NAME = 'riskin_tracks_files';
@@ -1409,11 +1476,24 @@
       const paths = trackDiskRelPaths(track);
       track.demo = paths.demo;
       track.loopZip = paths.loopZip;
-      track.packZip = paths.packZip;
       track.demoUrl = paths.demo;
       track.loopZipUrl = paths.loopZip;
-      track.packZipUrl = paths.packZip;
-      track.zipUrl = paths.packZip;
+      if (trackHasPack(track) || pendingFiles?.packZip?.blob) {
+        track.packZip = paths.packZip;
+        track.packZipUrl = paths.packZip;
+        track.zipUrl = paths.packZip;
+        track.hasPackZip = true;
+        track.loopOnly = false;
+      } else {
+        delete track.packZip;
+        track.packZipUrl = null;
+        track.zipUrl = null;
+        track.packZipName = null;
+        track.hasPackZip = false;
+        track.hasZip = false;
+        track.loopOnly = true;
+        delete track.packPrice;
+      }
       return track;
     }
 
@@ -1448,6 +1528,8 @@
             packPrice: track.packPrice,
             price: track.price,
             tags: track.tags || [],
+            hasPackZip: trackHasPack(track) || !!pendingFiles?.packZip?.blob,
+            loopOnly: !(trackHasPack(track) || !!pendingFiles?.packZip?.blob),
           }),
         });
         return res.ok;
@@ -1463,8 +1545,10 @@
       const specs = [
         ['demo', paths.demo, fileKey(track.id, 'demo')],
         ['loopZip', paths.loopZip, fileKey(track.id, 'loopZip')],
-        ['packZip', paths.packZip, fileKey(track.id, 'packZip')],
       ];
+      if (trackHasPack(track) || pendingFiles?.packZip?.blob) {
+        specs.push(['packZip', paths.packZip, fileKey(track.id, 'packZip')]);
+      }
       for (const [, dest, key] of specs) {
         let blob = pendingFiles?.demo?.blob && dest.endsWith('demo.mp3') ? pendingFiles.demo.blob
           : pendingFiles?.loopZip?.blob && dest.endsWith('loop.zip') ? pendingFiles.loopZip.blob
@@ -1476,9 +1560,9 @@
         if (await saveBlobToTracksFolder(dest, blob)) saved.push(dest);
       }
       applyTrackDiskPaths(track);
-      await updateCatalogTrackOnDisk(track);
+      const catalogOk = await updateCatalogTrackOnDisk(track);
       invalidateWaveform(track.id);
-      return { ok: saved.length > 0, saved };
+      return { ok: catalogOk || saved.length > 0, saved, catalogOk };
     }
 
     function getDemoAudio() {
@@ -2099,24 +2183,26 @@
     function normalizeTrack(t) {
       const loopPrice = t.loopPrice ?? t.price ?? DEFAULT_LOOP_PRICE;
       const packPrice = t.packPrice ?? DEFAULT_PACK_PRICE;
+      const loopOnly = !!t.loopOnly || !(t.hasPackZip || t.packZip || t.packZipUrl || t.packZipName || t.zipUrl || t.zipName);
       return {
         ...t,
         id: normalizeTrackId(t.id),
         loopPrice,
         packPrice,
         price: loopPrice,
+        loopOnly,
         status: t.status || 'published',
         emotions: normalizeEmotions(t.emotions),
         hasDemo: t.hasDemo || !!t.demoName || !!t.demoUrl || !!t.demoDataUrl,
         hasLoopZip: t.hasLoopZip || !!t.loopZipName || !!t.loopZipUrl,
-        hasPackZip: t.hasPackZip || !!t.packZipName || !!t.packZipUrl || t.hasZip || !!t.zipName || !!t.zipUrl,
+        hasPackZip: loopOnly ? false : (t.hasPackZip || !!t.packZipName || !!t.packZipUrl || t.hasZip || !!t.zipName || !!t.zipUrl),
         loopZipName: t.loopZipName || null,
         loopZipUrl: t.loopZipUrl || null,
-        packZipName: t.packZipName || t.zipName || null,
-        packZipUrl: t.packZipUrl || t.zipUrl || null,
-        hasZip: t.hasPackZip || t.hasZip || !!t.packZipName || !!t.packZipUrl || !!t.zipName || !!t.zipUrl,
-        zipName: t.packZipName || t.zipName || null,
-        zipUrl: t.packZipUrl || t.zipUrl || null,
+        packZipName: loopOnly ? null : (t.packZipName || t.zipName || null),
+        packZipUrl: loopOnly ? null : (t.packZipUrl || t.zipUrl || null),
+        hasZip: loopOnly ? false : (t.hasPackZip || t.hasZip || !!t.packZipName || !!t.packZipUrl || !!t.zipName || !!t.zipUrl),
+        zipName: loopOnly ? null : (t.packZipName || t.zipName || null),
+        zipUrl: loopOnly ? null : (t.packZipUrl || t.zipUrl || null),
         views: t.views || 0,
         purchases: t.purchases || 0,
         publishedAt: t.publishedAt || null,
@@ -2129,6 +2215,11 @@
 
     function getPackPrice(t) {
       return t?.packPrice ?? DEFAULT_PACK_PRICE;
+    }
+
+    function trackHasPack(t) {
+      if (!t || t.loopOnly) return false;
+      return !!(t.hasPackZip || t.packZip || t.packZipUrl || t.packZipName || t.zipUrl || t.zipName);
     }
 
     function getUpgradePrice(t) {
@@ -2262,7 +2353,8 @@
     }
 
     function canUpgradeTrack(trackId) {
-      return getOwnedTier(trackId) === 'loop';
+      const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(trackId));
+      return getOwnedTier(trackId) === 'loop' && trackHasPack(t);
     }
 
     function addUpgradeToCart(trackId) {
@@ -2286,7 +2378,7 @@
       classical: 'Orchestral', relaxation: 'Ambient', 'world music': 'Acoustic', world: 'Acoustic',
       rock: 'Rock', jazz: 'Jazz', house: 'Electronic', electronic: 'Electronic', pop: 'Electronic',
       corporate: 'Ambient', cinematic: 'Orchestral', film: 'Orchestral', horror: 'Ambient',
-      comedy: 'Acoustic', children: 'Acoustic', holidays: 'Ambient', experimental: 'Electronic',
+      comedy: 'Acoustic', children: 'Acoustic', experimental: 'Electronic',
       documentary: 'Acoustic', dramatic: 'Orchestral', funk: 'Electronic', suspense: 'Ambient',
       'tv shows': 'Electronic', chiptune: 'Chiptune', ambient: 'Ambient', acoustic: 'Acoustic',
       orchestral: 'Orchestral',
@@ -2298,7 +2390,7 @@
     function normalizeCatalogTrack(entry) {
       const demoPath = entry.demo || entry.demoUrl || null;
       const loopZipPath = entry.loopZip || entry.loopZipUrl || null;
-      const packZipPath = entry.packZip || entry.packZipUrl || entry.zip || entry.zipUrl || null;
+      const packZipPath = entry.loopOnly ? null : (entry.packZip || entry.packZipUrl || entry.zip || entry.zipUrl || null);
       return normalizeTrack({
         ...entry,
         demoUrl: demoPath,
@@ -2341,16 +2433,37 @@
 
     function mergeCatalogTrack(staticTrack, localTrack) {
       if (!localTrack) return staticTrack;
-      return normalizeTrack({
+      const merged = {
         ...staticTrack,
         ...localTrack,
+        title: localTrack.title || staticTrack.title,
+        desc: localTrack.desc ?? staticTrack.desc,
+        genre: localTrack.genre ?? staticTrack.genre,
+        bpm: localTrack.bpm ?? staticTrack.bpm,
+        duration: localTrack.duration ?? staticTrack.duration,
+        tags: localTrack.tags?.length ? localTrack.tags : staticTrack.tags,
+        loopPrice: localTrack.loopPrice ?? staticTrack.loopPrice,
+        packPrice: localTrack.packPrice ?? staticTrack.packPrice,
         demoUrl: localTrack.demoUrl || staticTrack.demoUrl,
         loopZipUrl: localTrack.loopZipUrl || staticTrack.loopZipUrl,
-        packZipUrl: localTrack.packZipUrl || staticTrack.packZipUrl,
-        zipUrl: localTrack.packZipUrl || localTrack.zipUrl || staticTrack.packZipUrl || staticTrack.zipUrl,
         cover: staticTrack.cover || localTrack.cover,
-        emotions: localTrack.emotions,
-      });
+        emotions: localTrack.emotions ?? staticTrack.emotions,
+      };
+      if (staticTrack.loopOnly) {
+        merged.loopOnly = true;
+        delete merged.packZip;
+        merged.packZipUrl = null;
+        merged.packZipName = null;
+        merged.zipUrl = null;
+        merged.zipName = null;
+        merged.hasPackZip = false;
+        merged.hasZip = false;
+        delete merged.packPrice;
+      } else {
+        merged.packZipUrl = localTrack.packZipUrl || staticTrack.packZipUrl;
+        merged.zipUrl = localTrack.packZipUrl || localTrack.zipUrl || staticTrack.packZipUrl || staticTrack.zipUrl;
+      }
+      return normalizeTrack(merged);
     }
 
     async function loadStaticCatalog() {
@@ -2366,6 +2479,7 @@
           ...staticTracks.map(st => mergeCatalogTrack(st, localById.get(st.id))),
           ...tracks.filter(t => !staticIds.has(t.id)),
         ];
+        syncTaxonomyFromTracks(tracks);
         applyMetaToAllTracks();
         persist();
         return true;
@@ -2428,7 +2542,7 @@
       return trackMetaBySlug.get(slug) || trackMetaByTitle.get(normalizeTitleKey(title)) || null;
     }
 
-    function applyTrackMeta(track) {
+    function applyTrackMeta(track, { overwrite = false } = {}) {
       const meta = findTrackMeta(track);
       if (!meta) {
         track.metaSource = null;
@@ -2444,6 +2558,7 @@
         loop: meta.loop || null,
         motionElements: meta.motionElements || null,
       };
+      if (!overwrite) return true;
       if (meta.description) track.desc = meta.description;
       if (meta.tags?.length) track.tags = normalizeSpreadsheetTags(meta.tags);
       const genre = normalizeSpreadsheetGenre(meta.genre);
@@ -2458,16 +2573,8 @@
       tracks.forEach(t => applyTrackMeta(t));
     }
 
-    function mergeSpreadsheetMetaInto(data) {
-      const meta = findTrackMeta(data.title);
-      if (!meta) return null;
-      if (meta.description) data.desc = meta.description;
-      if (meta.tags?.length) data.tags = normalizeSpreadsheetTags(meta.tags);
-      const genre = normalizeSpreadsheetGenre(meta.genre);
-      if (genre) data.genre = genre;
-      if (meta.bpm) data.bpm = parseInt(meta.bpm, 10) || data.bpm;
-      if (meta.duration) data.duration = meta.duration;
-      return meta;
+    function applySpreadsheetMetaToTrack(track) {
+      return applyTrackMeta(track, { overwrite: true });
     }
 
     function applySpreadsheetMetaFromForm() {
@@ -2495,7 +2602,7 @@
           meta.tags?.length ? `${meta.tags.length} tags` : null,
           meta.description ? 'description' : null,
         ].filter(Boolean);
-        el.textContent = `Spreadsheet meta found for “${meta.title}”.${bits.length ? ' Includes ' + bits.join(', ') + '.' : ''}`;
+        el.textContent = `Spreadsheet meta available for “${meta.title}”.${bits.length ? ' Reference: ' + bits.join(', ') + '.' : ''} Use “Apply spreadsheet meta” to copy into the form — edits you save are kept.`;
         if (btn) btn.style.display = 'inline-flex';
       } else {
         el.className = 'meta-status missing';
@@ -2521,7 +2628,11 @@
       }
       if (meta.bpm) document.getElementById('fBpm').value = meta.bpm;
       if (meta.duration) document.getElementById('fDuration').value = meta.duration;
-      if (meta.tags?.length) renderTagPicker(normalizeSpreadsheetTags(meta.tags));
+      if (meta.tags?.length) {
+        const metaTags = normalizeSpreadsheetTags(meta.tags);
+        syncTaxonomyFromTracks([{ tags: metaTags }]);
+        renderTagPicker(metaTags);
+      }
     }
 
     function isTrackNew(t) {
@@ -2626,6 +2737,11 @@
         </button>`;
       }
       if (owned === 'loop') {
+        if (!trackHasPack(t)) {
+          return `<button type="button" class="track-row-icon owned" title="Track owned" onclick="event.stopPropagation(); showCartToast('You already own this track')">
+            ${OWNED_CHECKMARK_SVG}
+          </button>`;
+        }
         return `<button type="button" class="track-row-icon owned-upgrade" title="Loop owned — upgrade to full pack" onclick="event.stopPropagation(); addUpgradeToCart(${t.id}); openCart()">
           ${CART_ICON_SVG}
         </button>`;
@@ -2642,13 +2758,14 @@
       const t = tracks.find(tr => normalizeTrackId(tr.id) === id);
       if (!t || t.status === 'draft') return false;
       tier = tier || selectedPurchaseTier || 'loop';
+      if (tier === 'pack' && !trackHasPack(t)) tier = 'loop';
       if (tier === 'upgrade') {
         if (!canUpgradeTrack(id)) {
           showCartToast('Upgrade is only available when you own the loop edition.');
           return false;
         }
-      } else if (getOwnedTier(id) === 'pack') {
-        showCartToast('You already own the full pack for this track');
+      } else if (getOwnedTier(id) === 'pack' || (getOwnedTier(id) === 'loop' && !trackHasPack(t))) {
+        showCartToast(getOwnedTier(id) === 'pack' ? 'You already own the full pack for this track' : 'You already own this track');
         return false;
       } else if (tier === 'loop' && getOwnedTier(id) === 'loop') {
         showCartToast('You own the loop edition. Use upgrade to add the full pack.');
@@ -2705,9 +2822,10 @@
       trackId = normalizeTrackId(trackId);
       const t = tracks.find(tr => normalizeTrackId(tr.id) === trackId);
       if (!t || !['loop', 'pack', 'upgrade'].includes(tier)) return;
+      if (tier === 'pack' && !trackHasPack(t)) tier = 'loop';
       if (tier === 'upgrade') {
         if (!canUpgradeTrack(trackId)) return;
-      } else if (getOwnedTier(trackId) === 'pack') {
+      } else if (getOwnedTier(trackId) === 'pack' || (getOwnedTier(trackId) === 'loop' && !trackHasPack(t))) {
         return;
       } else if (tier === 'loop' && getOwnedTier(trackId) === 'loop') {
         return;
@@ -2731,6 +2849,11 @@
           <div class="cart-tier-desc">Pay the difference to unlock every version and format.</div>`;
       }
       const loopPrice = formatMoney(getLoopPrice(t));
+      if (!trackHasPack(t)) {
+        return `
+          <div class="cart-row-tier">Loop only · ${loopPrice}</div>
+          <div class="cart-tier-desc">Non-exclusive game loop · indie game license.</div>`;
+      }
       const packPrice = formatMoney(getPackPrice(t));
       return `
         <div class="cart-tier-options">
@@ -2770,6 +2893,7 @@
       const packPrice = getPackPrice(t);
       const upgradePrice = getUpgradePrice(t);
       const owned = getOwnedTier(t.id);
+      const hasPack = trackHasPack(t);
       const loopOption = document.getElementById('tierOptionLoop');
       const packOption = document.getElementById('tierOptionPack');
       const tiersWrap = document.getElementById('detailTiers');
@@ -2779,10 +2903,13 @@
       const addBtn = document.getElementById('detailAddCartBtn');
       const buyBtn = document.getElementById('detailBuyBtn');
 
+      if (packOption) packOption.style.display = hasPack ? '' : 'none';
+      if (!hasPack) selectedPurchaseTier = 'loop';
+
       if (loopOption) {
         loopOption.querySelector('.tier-price').textContent = formatMoney(loopPrice);
       }
-      if (packOption) {
+      if (packOption && hasPack) {
         packOption.querySelector('.tier-price').textContent = formatMoney(packPrice);
       }
       document.getElementById('detailUpgradePrice').textContent = upgradePrice;
@@ -2807,6 +2934,17 @@
 
       if (owned === 'loop') {
         if (tiersWrap) tiersWrap.style.display = 'none';
+        if (!hasPack) {
+          if (upgradeEl) upgradeEl.style.display = 'none';
+          if (signinHint) signinHint.style.display = 'none';
+          if (ownedEl) {
+            ownedEl.style.display = 'block';
+            ownedEl.innerHTML = `<strong>You own this track.</strong> Download the loop from your account.`;
+          }
+          if (addBtn) { addBtn.disabled = true; addBtn.textContent = 'Owned'; }
+          if (buyBtn) { buyBtn.disabled = true; buyBtn.textContent = 'Already purchased'; }
+          return;
+        }
         if (upgradeEl) upgradeEl.style.display = 'block';
         if (signinHint) signinHint.style.display = 'none';
         if (addBtn) { addBtn.disabled = true; addBtn.textContent = 'Loop owned'; }
@@ -2814,7 +2952,7 @@
         return;
       }
 
-      if (tiersWrap) tiersWrap.style.display = 'flex';
+      if (tiersWrap) tiersWrap.style.display = hasPack ? 'flex' : 'none';
       if (upgradeEl) upgradeEl.style.display = 'none';
       if (signinHint) signinHint.style.display = currentUser ? 'none' : 'block';
     }
@@ -2822,7 +2960,9 @@
     function buyNow(tier = null) {
       if (!currentTrack) return;
       tier = tier || selectedPurchaseTier || 'loop';
-      if (tier !== 'upgrade' && getOwnedTier(currentTrack.id)) return;
+      if (tier === 'pack' && !trackHasPack(currentTrack)) tier = 'loop';
+      const owned = getOwnedTier(currentTrack.id);
+      if (tier !== 'upgrade' && (owned === 'pack' || (owned === 'loop' && !trackHasPack(currentTrack)))) return;
       checkoutItems = [{ track: currentTrack, tier }];
       openCheckout();
     }
@@ -2836,12 +2976,17 @@
 
     function bpBuyClick() {
       if (!playingTrackId) return;
+      const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(playingTrackId));
       const owned = getOwnedTier(playingTrackId);
       if (owned === 'pack') {
         showCartToast('You already own the full pack for this track');
         return;
       }
       if (owned === 'loop') {
+        if (!trackHasPack(t)) {
+          showCartToast('You already own this track');
+          return;
+        }
         addUpgradeToCart(playingTrackId);
         openCart();
         return;
@@ -2856,15 +3001,22 @@
       badge.classList.toggle('visible', cart.length > 0);
       const btn = document.getElementById('bpBuyBtn');
       if (btn && playingTrackId) {
+        const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(playingTrackId));
         const owned = getOwnedTier(playingTrackId);
         if (owned === 'pack') {
           btn.textContent = 'Owned';
           btn.style.opacity = '0.65';
           btn.title = 'You already own the full pack';
         } else if (owned === 'loop') {
-          btn.textContent = 'Upgrade';
-          btn.style.opacity = '1';
-          btn.title = 'Add pack upgrade to cart';
+          if (!trackHasPack(t)) {
+            btn.textContent = 'Owned';
+            btn.style.opacity = '0.65';
+            btn.title = 'You already own this track';
+          } else {
+            btn.textContent = 'Upgrade';
+            btn.style.opacity = '1';
+            btn.title = 'Add pack upgrade to cart';
+          }
         } else if (isInCart(playingTrackId)) {
           btn.textContent = 'In cart';
           btn.style.opacity = '0.7';
@@ -3399,102 +3551,24 @@
       if (dots) dots.innerHTML = emotionStepDots(parseInt(input.value));
     }
 
-    const GENRE_PALETTES = {
-      electronic: ['#ff006e', '#8338ec', '#3a86ff', '#0d0221', '#00f5d4'],
-      orchestral: ['#5c1a1b', '#c9a227', '#2d1f3d', '#8b4513', '#f4e4bc'],
-      ambient: ['#0f4c5c', '#5fa8a8', '#bee3db', '#1b3a4b', '#62b6cb'],
-      acoustic: ['#6b4c3b', '#c9a66b', '#2d5016', '#f2e8cf', '#8fbc8f'],
-      chiptune: ['#39ff14', '#ff006e', '#00d4ff', '#ffd60a', '#1a0533'],
-      rock: ['#dc2f02', '#370617', '#ffba08', '#6a040f', '#03071e'],
-      jazz: ['#5c007a', '#ff7b00', '#240046', '#ffb627', '#10002b'],
-    };
+    // Cover art — title-derived palette, unified soft gradient + line style (Riskin catalog look).
+    const ART_VARIANT_COUNT = 8;
+    const ART_VARIANT_LABELS = [
+      'Horizon drift', 'Corner glow', 'Center bloom', 'Rising mist',
+      'Silk diagonal', 'Twin aurora', 'Quiet ripple', 'Deep vignette',
+    ];
 
-    // Tag-driven visual language — colors, shapes, and gradients from tag meaning.
-    const TAG_THEMES = {
-      exploration: {
-        palette: ['#0b3d4a', '#1b6b7a', '#7ec8c8', '#f4d58d', '#2d1f3d'],
-        style: 'horizon',
-        label: 'open world',
-      },
-      menu: {
-        palette: ['#3d405b', '#81b29a', '#f2cc8f', '#e07a5f', '#f4f1de'],
-        style: 'minimal',
-        label: 'calm UI',
-      },
-      puzzle: {
-        palette: ['#5e548e', '#9f86c0', '#be95c4', '#e0b1cb', '#231942'],
-        style: 'tiles',
-        label: 'logic',
-      },
-      action: {
-        palette: ['#d00000', '#ff4500', '#ffba08', '#370617', '#03071e'],
-        style: 'streaks',
-        label: 'impact',
-      },
-      boss: {
-        palette: ['#240046', '#7b2cbf', '#e0aaff', '#ff006e', '#10002b'],
-        style: 'burst',
-        label: 'climax',
-      },
-      stealth: {
-        palette: ['#0a0e14', '#1b263b', '#415a77', '#778da9', '#e0e1dd'],
-        style: 'shadow',
-        label: 'hidden',
-      },
-      racing: {
-        palette: ['#ff5400', '#ffbd00', '#003049', '#d62828', '#f77f00'],
-        style: 'speed',
-        label: 'velocity',
-      },
-      scifi: {
-        palette: ['#10002b', '#7b2cbf', '#00f5d4', '#ff006e', '#3a0ca3'],
-        style: 'neon',
-        label: 'future',
-      },
-      horror: {
-        palette: ['#0d0208', '#370617', '#6a040f', '#9d0208', '#2b0505'],
-        style: 'horror',
-        label: 'dread',
-      },
-      retro: {
-        palette: ['#ff006e', '#8338ec', '#3a86ff', '#ffbe0b', '#1a0533'],
-        style: 'pixel',
-        label: 'arcade',
-      },
-      playful: {
-        palette: ['#ffd166', '#ef476f', '#06d6a0', '#118ab2', '#073b4c'],
-        style: 'bubbles',
-        label: 'fun',
-      },
-      soft: {
-        palette: ['#ffd6e0', '#c9f0ff', '#e2f0cb', '#fff1c1', '#e7d4ff'],
-        style: 'soft',
-        label: 'gentle',
-      },
+    const TITLE_WORD_HUES = {
+      snow: 198, snowflake: 198, snowflakes: 198, ice: 195, icy: 195, frost: 200, winter: 205, cold: 200,
+      santa: 2, christmas: 350, holiday: 355, toy: 38, toys: 38, cheer: 42, jingle: 45, festive: 40,
+      neon: 285, drift: 192, cyber: 280, digital: 265, electric: 275, synth: 278,
+      night: 232, midnight: 235, moon: 220, star: 215, stars: 215, dream: 248, sleep: 240,
+      sun: 32, dawn: 28, sunset: 18, gold: 42, fire: 12, warm: 25, glow: 35,
+      ocean: 202, sea: 200, rain: 210, storm: 230, cloud: 215, clouds: 215, sky: 205,
+      forest: 135, green: 130, leaf: 125, dark: 255, shadow: 260, black: 250,
+      love: 340, heart: 345, happy: 45, sad: 220, calm: 195, chaos: 290, brand: 32, new: 38,
+      am: 230, pm: 250, flake: 198, bells: 42, bell: 42,
     };
-
-    const TAG_ALIASES = {
-      'boss fight': 'boss',
-      'sci-fi': 'scifi',
-      'sci fi': 'scifi',
-      '8-bit': 'retro',
-      '8bit': 'retro',
-      'arcade': 'retro',
-      'chiptune': 'retro',
-      'pixel': 'retro',
-      'playful': 'playful',
-      'quirky': 'playful',
-      'cute': 'soft',
-      'kids': 'soft',
-      'whimsical': 'soft',
-      'dark': 'horror',
-      'scary': 'horror',
-    };
-
-    function normalizeTagKey(tag) {
-      const raw = (tag || '').toLowerCase().trim().replace(/[^a-z0-9 -]/g, '');
-      return TAG_ALIASES[raw] || raw.replace(/\s+/g, ' ');
-    }
 
     function hashTagString(str) {
       let h = 2166136261;
@@ -3506,40 +3580,12 @@
     }
 
     function artSignature(track) {
-      const tags = (track.tags || []).slice().sort().join('|').toLowerCase();
-      return `${tags}::${track.genre || ''}::${track.bpm || ''}::${JSON.stringify(track.emotions || {})}`;
+      const title = (track.title || '').trim().toLowerCase();
+      return `${title}::v${track.artConceptIndex ?? 0}`;
     }
 
-    function parseTrackBpm(track) {
-      const n = parseInt(track.bpm, 10);
-      return Number.isFinite(n) && n > 0 ? n : 120;
-    }
-
-    function emotionLean(emotions, key) {
-      return emotionValue(emotions, key) - SLIDER_NEUTRAL;
-    }
-
-    function bpmVisualHints(bpm) {
-      if (bpm < 75) return { styles: ['minimal', 'horizon', 'soft'], density: 0.55, energy: 'slow', label: 'slow pulse' };
-      if (bpm < 95) return { styles: ['horizon', 'soft', 'minimal'], density: 0.7, energy: 'relaxed', label: 'easy groove' };
-      if (bpm < 115) return { styles: ['motion', 'tiles', 'horizon'], density: 0.85, energy: 'moderate', label: 'steady drive' };
-      if (bpm < 135) return { styles: ['motion', 'streaks', 'neon'], density: 1.05, energy: 'driving', label: 'high energy' };
-      return { styles: ['speed', 'streaks', 'burst'], density: 1.25, energy: 'fast', label: 'rapid fire' };
-    }
-
-    const BPM_PALETTES = {
-      slow: ['#1a3a4a', '#4a7c8c', '#a8c5b8', '#d4e4d4', '#2c3e50'],
-      relaxed: ['#3d5a80', '#98c1d9', '#e0fbfc', '#ee6c4d', '#293241'],
-      moderate: ['#5c4d7d', '#8b7fb8', '#c9b6e4', '#f0a6ca', '#2d2a32'],
-      driving: ['#ff5400', '#ffbd00', '#003049', '#d62828', '#023047'],
-      fast: ['#ff006e', '#fb5607', '#ffbe0b', '#03045e', '#0077b6'],
-    };
-
-    function paletteForStyle(style) {
-      for (const theme of Object.values(TAG_THEMES)) {
-        if (theme.style === style) return [...theme.palette];
-      }
-      return [...GENRE_PALETTES.ambient];
+    function titleWords(title) {
+      return (title || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 1);
     }
 
     function hexToRgb(hex) {
@@ -3550,6 +3596,15 @@
 
     function rgbToHex(r, g, b) {
       return '#' + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
+    }
+
+    function hslToHex(h, s, l) {
+      s /= 100;
+      l /= 100;
+      const k = n => (n + h / 30) % 12;
+      const a = s * Math.min(l, 1 - l);
+      const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+      return rgbToHex(f(0) * 255, f(8) * 255, f(4) * 255);
     }
 
     function darkenColor(hex, amt) {
@@ -3563,116 +3618,25 @@
       return rgbToHex(r + (255 - r) * amt, g + (255 - g) * amt, b + (255 - b) * amt);
     }
 
-    function warmShift(hex, amt) {
-      const { r, g, b } = hexToRgb(hex);
-      return rgbToHex(r + amt * 28, g + amt * 12, b - amt * 8);
-    }
-
-    function coolShift(hex, amt) {
-      const { r, g, b } = hexToRgb(hex);
-      return rgbToHex(r - amt * 12, g + amt * 8, b + amt * 28);
-    }
-
-    function applyEmotionPalette(palette, emotions) {
-      let p = [...palette];
-      const bright = emotionLean(emotions, 'dark_bright');
-      const happy = emotionLean(emotions, 'happy_sad');
-      const organic = emotionLean(emotions, 'organic_electronic');
-      const hopeful = emotionLean(emotions, 'hopeful_hopeless');
-      const fantasy = emotionLean(emotions, 'realistic_fantasy');
-
-      if (bright > 1) p = p.map(c => lightenColor(c, bright * 0.05));
-      if (bright < -1) p = p.map(c => darkenColor(c, -bright * 0.07));
-      if (happy > 1) p = p.map(c => warmShift(c, happy * 0.04));
-      if (happy < -1) p = p.map(c => coolShift(c, -happy * 0.04));
-      if (hopeful > 1) p = p.map(c => warmShift(lightenColor(c, 0.08), hopeful * 0.03));
-      if (hopeful < -1) p = p.map(c => darkenColor(c, -hopeful * 0.06));
-      if (organic > 2) p = p.map(c => warmShift(c, 0.12));
-      if (organic < -2) p = p.map((c, i) => (i % 2 ? coolShift(c, 0.15) : c));
-      if (fantasy > 2) p = p.map((c, i) => (i < 2 ? coolShift(lightenColor(c, 0.1), 0.1) : c));
-      if (fantasy < -2) p = p.map(c => darkenColor(c, 0.12));
-      return p.slice(0, 6);
-    }
-
-    function buildArtConcepts(track) {
-      const concepts = [];
-      const seenStyles = new Set();
-      const emotions = track.emotions || {};
-      const bpm = parseTrackBpm(track);
-      const bpmHint = bpmVisualHints(bpm);
-      const tagKeys = (track.tags || []).map(normalizeTagKey);
-      const genre = (track.genre || 'Ambient').toLowerCase();
-
-      const addConcept = (style, palette, label, extra = {}) => {
-        if (seenStyles.has(style)) return;
-        seenStyles.add(style);
-        concepts.push({
-          style,
-          palette: applyEmotionPalette(palette, emotions),
-          label,
-          density: (extra.density ?? bpmHint.density),
-          variant: extra.variant ?? 0,
-        });
+    function paletteFromTitle(title) {
+      const key = (title || 'Track').trim();
+      const words = titleWords(key);
+      let hue = hashTagString(key.toLowerCase()) % 360;
+      words.forEach(w => {
+        const stem = w.replace(/(ing|ed|es|s)$/, '');
+        const hint = TITLE_WORD_HUES[w] ?? TITLE_WORD_HUES[stem];
+        if (hint != null) hue = Math.round(hue * 0.5 + hint * 0.5) % 360;
+        else hue = (hue + (hashTagString(w) % 20) - 10 + 360) % 360;
+      });
+      const sat = 34 + (hashTagString(key + 's') % 16);
+      return {
+        deep: hslToHex(hue, sat, 12),
+        shadow: hslToHex((hue + 10) % 360, sat - 4, 18),
+        mid: hslToHex((hue + 24) % 360, sat, 32),
+        glow: hslToHex((hue + 48) % 360, sat - 6, 46),
+        haze: hslToHex((hue + 16) % 360, sat - 10, 56),
+        accent: hslToHex((hue + 175) % 360, sat - 8, 40),
       };
-
-      tagKeys.forEach(key => {
-        const theme = TAG_THEMES[key];
-        if (!theme) return;
-        addConcept(theme.style, theme.palette, `${capitalize(key)} · ${theme.label}`, { variant: hashTagString(key) % 4 });
-      });
-
-      const emotionAxes = [
-        { key: 'peaceful_aggressive', left: ['soft', 'minimal'], right: ['streaks', 'burst'], leftLabel: 'Peaceful', rightLabel: 'Aggressive' },
-        { key: 'realistic_fantasy', left: ['horizon', 'shadow'], right: ['neon', 'bubbles'], leftLabel: 'Realistic', rightLabel: 'Fantasy' },
-        { key: 'simple_epic', left: ['minimal', 'tiles'], right: ['burst', 'neon'], leftLabel: 'Simple', rightLabel: 'Epic' },
-        { key: 'calm_chaos', left: ['soft', 'minimal'], right: ['streaks', 'speed'], leftLabel: 'Calm', rightLabel: 'Chaos' },
-        { key: 'relaxed_intense', left: ['horizon', 'soft'], right: ['speed', 'streaks'], leftLabel: 'Relaxed', rightLabel: 'Intense' },
-        { key: 'safe_dangerous', left: ['soft', 'minimal'], right: ['horror', 'shadow'], leftLabel: 'Safe', rightLabel: 'Dangerous' },
-        { key: 'hopeful_hopeless', left: ['horizon', 'bubbles'], right: ['horror', 'shadow'], leftLabel: 'Hopeful', rightLabel: 'Hopeless' },
-        { key: 'happy_sad', left: ['bubbles', 'soft'], right: ['shadow', 'horizon'], leftLabel: 'Happy', rightLabel: 'Sad' },
-        { key: 'organic_electronic', left: ['horizon', 'soft'], right: ['neon', 'tiles'], leftLabel: 'Organic', rightLabel: 'Electronic' },
-      ];
-
-      emotionAxes.forEach(({ key, left, right, leftLabel, rightLabel }) => {
-        const lean = emotionLean(emotions, key);
-        if (Math.abs(lean) < 2) return;
-        const styles = lean > 0 ? right : left;
-        const pole = lean > 0 ? rightLabel : leftLabel;
-        styles.forEach(style => {
-          addConcept(style, paletteForStyle(style), `${pole} · ${bpmHint.label}`, {
-            density: bpmHint.density * (1 + Math.abs(lean) * 0.06),
-            variant: (Math.abs(lean) + hashTagString(key)) % 4,
-          });
-        });
-      });
-
-      bpmHint.styles.forEach(style => {
-        addConcept(style, BPM_PALETTES[bpmHint.energy] || paletteForStyle(style), `${bpm} BPM · ${bpmHint.energy}`, {
-          variant: bpm % 4,
-        });
-      });
-
-      if (!concepts.length) {
-        if (genre === 'chiptune') addConcept('pixel', TAG_THEMES.retro.palette, 'Retro · arcade', { variant: 1 });
-        else addConcept('motion', GENRE_PALETTES[genre] || GENRE_PALETTES.ambient, `${capitalize(genre)} · motion`, { variant: 0 });
-      }
-
-      return concepts;
-    }
-
-    function capitalize(s) {
-      return (s || '').replace(/\b\w/g, c => c.toUpperCase());
-    }
-
-    function nextArtConceptIndex(track, concepts) {
-      const len = concepts.length;
-      if (len <= 1) return 0;
-      const prevStyle = track.artConceptStyle;
-      const candidates = concepts.map((c, i) => ({ i, style: c.style })).filter(x => x.style !== prevStyle);
-      if (candidates.length) {
-        return candidates[Math.floor(Math.random() * candidates.length)].i;
-      }
-      return ((track.artConceptIndex ?? -1) + 1) % len;
     }
 
     function mulberry32(seed) {
@@ -3686,395 +3650,184 @@
       };
     }
 
-    function emotionValue(emotions, key) {
-      return normalizeEmotionValue((emotions || {})[key]);
+    function withAlpha(hex, alpha) {
+      const { r, g, b } = hexToRgb(hex);
+      return `rgba(${r},${g},${b},${alpha})`;
     }
 
-    function pick(rand, arr) {
-      return arr[Math.floor(rand() * arr.length)];
+    function drawSoftBlob(ctx, cx, cy, r, hex, alpha) {
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0, withAlpha(hex, alpha));
+      g.addColorStop(0.55, withAlpha(hex, alpha * 0.35));
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
     }
 
-    function fillBackground(ctx, size, profile, rand, type) {
-      const [c1, c2, c3, c4] = profile.palette;
-      const v = profile.variant ?? 0;
+    function drawSoftCurve(ctx, pts, hex, width, alpha) {
+      if (pts.length < 4) return;
+      ctx.save();
+      ctx.strokeStyle = withAlpha(hex, alpha);
+      ctx.lineWidth = width;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pts[0], pts[1]);
+      for (let i = 2; i < pts.length - 2; i += 2) {
+        const cpx = pts[i];
+        const cpy = pts[i + 1];
+        const x = pts[i + 2];
+        const y = pts[i + 3];
+        ctx.quadraticCurveTo(cpx, cpy, x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawTitleBackground(ctx, size, p, variant) {
       let bg;
-      if (type === 'horizon') {
-        bg = ctx.createLinearGradient(0, 0, 0, size);
-        bg.addColorStop(0, v % 2 ? c1 : (c4 || c1));
-        bg.addColorStop(0.55, v % 3 ? c3 : c2);
-        bg.addColorStop(1, c2);
-      } else if (type === 'radial') {
-        const cx = v % 2 ? size * 0.35 : size * 0.65;
-        const cy = v % 3 ? size * 0.4 : size * 0.55;
-        bg = ctx.createRadialGradient(cx, cy, 0, size * 0.5, size * 0.5, size * 0.75);
-        bg.addColorStop(0, c3);
-        bg.addColorStop(0.5, c2);
-        bg.addColorStop(1, c1);
-      } else if (type === 'diagonal') {
-        bg = ctx.createLinearGradient(v % 2 ? size : 0, 0, v % 2 ? 0 : size, size);
-        bg.addColorStop(0, c1);
-        bg.addColorStop(0.5, c2);
-        bg.addColorStop(1, c3 || c1);
-      } else if (type === 'horizontal') {
-        bg = ctx.createLinearGradient(0, 0, size, 0);
-        bg.addColorStop(0, c1);
-        bg.addColorStop(0.5, c2);
-        bg.addColorStop(1, c3 || c1);
-      } else {
-        bg = ctx.createLinearGradient(size, 0, 0, size);
-        bg.addColorStop(0, c1);
-        bg.addColorStop(1, c2);
+      switch (variant) {
+        case 0:
+          bg = ctx.createLinearGradient(0, 0, 0, size);
+          bg.addColorStop(0, p.shadow);
+          bg.addColorStop(0.45, p.mid);
+          bg.addColorStop(1, p.deep);
+          break;
+        case 1:
+          bg = ctx.createLinearGradient(0, 0, size, size);
+          bg.addColorStop(0, p.deep);
+          bg.addColorStop(0.4, p.mid);
+          bg.addColorStop(1, p.haze);
+          break;
+        case 2:
+          bg = ctx.createRadialGradient(size * 0.5, size * 0.46, 0, size * 0.5, size * 0.5, size * 0.72);
+          bg.addColorStop(0, p.glow);
+          bg.addColorStop(0.55, p.mid);
+          bg.addColorStop(1, p.deep);
+          break;
+        case 3:
+          bg = ctx.createLinearGradient(0, size, 0, 0);
+          bg.addColorStop(0, p.deep);
+          bg.addColorStop(0.35, p.shadow);
+          bg.addColorStop(1, p.haze);
+          break;
+        case 4:
+          bg = ctx.createLinearGradient(size, 0, 0, size);
+          bg.addColorStop(0, p.shadow);
+          bg.addColorStop(0.5, p.glow);
+          bg.addColorStop(1, p.deep);
+          break;
+        case 5:
+          bg = ctx.createLinearGradient(0, size * 0.5, size, size * 0.5);
+          bg.addColorStop(0, p.deep);
+          bg.addColorStop(0.5, p.mid);
+          bg.addColorStop(1, p.deep);
+          break;
+        case 6:
+          bg = ctx.createLinearGradient(0, size * 0.25, 0, size);
+          bg.addColorStop(0, p.haze);
+          bg.addColorStop(0.55, p.glow);
+          bg.addColorStop(1, p.shadow);
+          break;
+        default:
+          bg = ctx.createRadialGradient(size * 0.55, size * 0.4, 0, size * 0.5, size * 0.5, size * 0.85);
+          bg.addColorStop(0, p.mid);
+          bg.addColorStop(0.65, p.shadow);
+          bg.addColorStop(1, p.deep);
       }
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, size, size);
     }
 
-    function artDensity(profile, base) {
-      return Math.max(1, Math.floor(base * (profile.density ?? 1)));
-    }
-
-    function drawHorizonArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'horizon');
-      const layers = artDensity(profile, 3 + Math.floor(rand() * 3));
-      for (let i = 0; i < layers; i++) {
-        const yBase = size * (0.45 + i * 0.12);
-        ctx.fillStyle = darkenColor(pick(rand, profile.palette), i * 0.12);
-        ctx.beginPath();
-        ctx.moveTo(0, size);
-        ctx.lineTo(0, yBase);
-        for (let x = 0; x <= size; x += size / 8) {
-          ctx.lineTo(x, yBase + (rand() - 0.5) * size * 0.08);
+    function drawTitleLines(ctx, size, p, variant, rand) {
+      const n = 5 + (variant % 4);
+      for (let i = 0; i < n; i++) {
+        const t = i / Math.max(1, n - 1);
+        const col = i % 3 === 0 ? p.haze : i % 3 === 1 ? p.glow : p.accent;
+        const w = size * (0.012 + rand() * 0.02);
+        const a = 0.07 + rand() * 0.14;
+        let pts;
+        if (variant === 0 || variant === 6) {
+          const y = size * (0.25 + t * 0.5 + (rand() - 0.5) * 0.08);
+          pts = [-size * 0.05, y, size * 0.3, y + (rand() - 0.5) * size * 0.08, size * 0.7, y - (rand() - 0.5) * size * 0.06, size * 1.05, y + (rand() - 0.5) * size * 0.05];
+        } else if (variant === 1 || variant === 4) {
+          pts = [0, size, size * (0.15 + rand() * 0.2), size * (0.55 + t * 0.2), size * (0.65 + t * 0.15), size * (0.15 + rand() * 0.25), size, 0];
+        } else if (variant === 2) {
+          const cx = size * 0.5;
+          const cy = size * 0.48;
+          const r = size * (0.15 + t * 0.28);
+          const ang = t * Math.PI * 2 + rand() * 0.5;
+          pts = [cx + Math.cos(ang) * r, cy + Math.sin(ang) * r, cx + Math.cos(ang + 0.8) * r * 1.1, cy + Math.sin(ang + 0.8) * r * 1.1, cx + Math.cos(ang + 1.6) * r, cy + Math.sin(ang + 1.6) * r];
+        } else if (variant === 3) {
+          const x = size * (0.2 + t * 0.6);
+          pts = [x, size * 1.05, x + (rand() - 0.5) * size * 0.08, size * 0.55, x - (rand() - 0.5) * size * 0.06, size * 0.08, x + (rand() - 0.5) * size * 0.05, -size * 0.05];
+        } else if (variant === 5) {
+          const side = i % 2 === 0 ? 0.12 : 0.88;
+          pts = [size * side, size * (0.2 + rand() * 0.15), size * 0.5, size * (0.35 + t * 0.25), size * (1 - side), size * (0.55 + rand() * 0.2)];
+        } else {
+          pts = [size * rand(), size * rand(), size * rand(), size * rand(), size * rand(), size * rand()];
         }
-        ctx.lineTo(size, size);
-        ctx.closePath();
-        ctx.fill();
-      }
-      for (let i = 0; i < artDensity(profile, 20 + Math.floor(rand() * 15)); i++) {
-        const x = rand() * size;
-        const y = rand() * size * 0.42;
-        const r = 1 + rand() * 2.5;
-        ctx.fillStyle = `rgba(255,255,255,${0.2 + rand() * 0.5})`;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
+        drawSoftCurve(ctx, pts, col, w, a);
       }
     }
 
-    function drawMinimalArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'radial');
-      const cx = size * (0.35 + rand() * 0.3);
-      const cy = size * (0.35 + rand() * 0.3);
-      for (let i = 0; i < 3; i++) {
-        const r = size * (0.18 + i * 0.12);
-        ctx.strokeStyle = pick(rand, profile.palette) + (i === 0 ? 'cc' : '55');
-        ctx.lineWidth = size * (0.012 + rand() * 0.008);
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-      roundRect(ctx, size * 0.08, size * 0.72, size * 0.35, size * 0.06, size * 0.03);
-      ctx.fillStyle = pick(rand, profile.palette) + '66';
-      ctx.fill();
-    }
+    function drawTitleArt(ctx, size, palette, variant, rand) {
+      const p = palette;
+      drawTitleBackground(ctx, size, p, variant);
 
-    function drawTilesArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'diagonal');
-      const grid = 6 + Math.floor(rand() * 3);
-      const cell = size / grid;
-      for (let row = 0; row < grid; row++) {
-        for (let col = 0; col < grid; col++) {
-          if ((row + col + Math.floor(rand() * 2)) % 2) continue;
-          const pad = cell * 0.12;
-          ctx.fillStyle = pick(rand, profile.palette) + 'bb';
-          roundRect(ctx, col * cell + pad, row * cell + pad, cell - pad * 2, cell - pad * 2, cell * 0.15);
-          ctx.fill();
-        }
-      }
-    }
-
-    function drawStreaksArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'diagonal');
-      ctx.globalCompositeOperation = 'lighter';
-      for (let i = 0; i < artDensity(profile, 12 + Math.floor(rand() * 8)); i++) {
-        const x1 = rand() * size;
-        const y1 = rand() * size;
-        const len = size * (0.3 + rand() * 0.5);
-        const angle = -0.4 + rand() * 0.3;
-        const x2 = x1 + Math.cos(angle) * len;
-        const y2 = y1 + Math.sin(angle) * len;
-        const lg = ctx.createLinearGradient(x1, y1, x2, y2);
-        lg.addColorStop(0, 'rgba(255,255,255,0)');
-        lg.addColorStop(0.4, pick(rand, profile.palette) + 'ee');
-        lg.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.strokeStyle = lg;
-        ctx.lineWidth = size * (0.02 + rand() * 0.06);
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      }
-      for (let i = 0; i < 5; i++) {
-        const x = rand() * size;
-        const y = rand() * size;
-        ctx.fillStyle = pick(rand, profile.palette) + '99';
-        ctx.beginPath();
-        ctx.moveTo(x, y - size * 0.08);
-        ctx.lineTo(x + size * 0.07, y + size * 0.08);
-        ctx.lineTo(x - size * 0.07, y + size * 0.08);
-        ctx.closePath();
-        ctx.fill();
-      }
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    function drawBurstArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'radial');
-      const cx = size * 0.5;
-      const cy = size * 0.5;
-      const spikes = 9 + Math.floor(rand() * 6);
-      for (let i = 0; i < spikes; i++) {
-        const angle = (i / spikes) * Math.PI * 2 + rand() * 0.2;
-        const inner = size * (0.08 + rand() * 0.06);
-        const outer = size * (0.42 + rand() * 0.12);
-        ctx.fillStyle = pick(rand, profile.palette) + 'aa';
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + Math.cos(angle - 0.08) * inner, cy + Math.sin(angle - 0.08) * inner);
-        ctx.lineTo(cx + Math.cos(angle) * outer, cy + Math.sin(angle) * outer);
-        ctx.lineTo(cx + Math.cos(angle + 0.08) * inner, cy + Math.sin(angle + 0.08) * inner);
-        ctx.closePath();
-        ctx.fill();
-      }
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.35);
-      g.addColorStop(0, '#000000cc');
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, size, size);
-    }
-
-    function drawShadowArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'diagonal');
-      const slitX = size * (0.55 + rand() * 0.25);
-      const lg = ctx.createLinearGradient(slitX - size * 0.08, 0, slitX + size * 0.02, 0);
-      lg.addColorStop(0, 'rgba(255,255,255,0)');
-      lg.addColorStop(0.5, pick(rand, profile.palette) + '55');
-      lg.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = lg;
-      ctx.fillRect(0, 0, size, size);
-      ctx.fillStyle = 'rgba(0,0,0,0.45)';
-      ctx.fillRect(0, 0, slitX - size * 0.05, size);
-      for (let i = 0; i < 6; i++) {
-        const y = rand() * size;
-        ctx.fillStyle = `rgba(255,255,255,${0.02 + rand() * 0.04})`;
-        ctx.fillRect(0, y, size, 1 + rand() * 3);
-      }
-    }
-
-    function drawSpeedArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'horizontal');
-      for (let i = 0; i < artDensity(profile, 18 + Math.floor(rand() * 10)); i++) {
-        const y = rand() * size;
-        const w = size * (0.4 + rand() * 0.55);
-        const h = 2 + rand() * 8;
-        const x = rand() * size * 0.3;
-        const lg = ctx.createLinearGradient(x, y, x + w, y);
-        lg.addColorStop(0, 'rgba(255,255,255,0)');
-        lg.addColorStop(0.3, pick(rand, profile.palette) + 'cc');
-        lg.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = lg;
-        ctx.fillRect(x, y, w, h);
-      }
-      if (rand() > 0.4) {
-        const check = size / 16;
-        for (let row = 0; row < 4; row++) {
-          for (let col = 0; col < 4; col++) {
-            if ((row + col) % 2) continue;
-            ctx.fillStyle = (row + col) % 4 ? '#ffffff22' : '#00000033';
-            ctx.fillRect(col * check, size - check * 4 + row * check, check, check);
-          }
-        }
-      }
-    }
-
-    function drawNeonArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'radial');
-      const step = size / 10;
-      ctx.strokeStyle = pick(rand, profile.palette) + '44';
-      ctx.lineWidth = 1;
-      for (let i = 0; i <= 10; i++) {
-        ctx.beginPath();
-        ctx.moveTo(i * step, 0);
-        ctx.lineTo(i * step, size);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, i * step);
-        ctx.lineTo(size, i * step);
-        ctx.stroke();
-      }
       ctx.globalCompositeOperation = 'screen';
-      for (let i = 0; i < 5; i++) {
-        const x = rand() * size;
-        const y = rand() * size;
-        const r = size * (0.12 + rand() * 0.2);
-        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-        g.addColorStop(0, pick(rand, profile.palette) + 'dd');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
+      if (variant === 5) {
+        drawSoftBlob(ctx, size * 0.22, size * 0.42, size * 0.38, p.glow, 0.28);
+        drawSoftBlob(ctx, size * 0.78, size * 0.58, size * 0.34, p.accent, 0.22);
+      } else if (variant === 2) {
+        drawSoftBlob(ctx, size * 0.5, size * 0.46, size * 0.42, p.glow, 0.32);
+        drawSoftBlob(ctx, size * 0.5, size * 0.46, size * 0.22, p.haze, 0.18);
+      } else if (variant === 7) {
+        drawSoftBlob(ctx, size * 0.5, size * 0.45, size * 0.48, p.mid, 0.2);
+      } else {
+        drawSoftBlob(ctx, size * (0.18 + rand() * 0.25), size * (0.2 + rand() * 0.25), size * (0.28 + rand() * 0.12), p.glow, 0.24);
+        drawSoftBlob(ctx, size * (0.55 + rand() * 0.25), size * (0.55 + rand() * 0.25), size * (0.22 + rand() * 0.14), p.accent, 0.16);
       }
       ctx.globalCompositeOperation = 'source-over';
-      ctx.fillStyle = 'rgba(255,255,255,0.04)';
-      for (let y = 0; y < size; y += 4) ctx.fillRect(0, y, size, 1);
-    }
 
-    function drawHorrorArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'radial');
-      ctx.globalCompositeOperation = 'overlay';
-      for (let i = 0; i < 30; i++) {
-        const x1 = rand() * size;
-        const y1 = rand() * size;
-        ctx.strokeStyle = pick(rand, profile.palette) + '66';
-        ctx.lineWidth = 1 + rand() * 3;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x1 + (rand() - 0.5) * size * 0.4, y1 + (rand() - 0.5) * size * 0.4);
-        ctx.stroke();
-      }
-      ctx.globalCompositeOperation = 'source-over';
-      const cx = size * (0.3 + rand() * 0.4);
-      const cy = size * (0.3 + rand() * 0.4);
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.5);
-      g.addColorStop(0, pick(rand, profile.palette) + '55');
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g;
+      drawTitleLines(ctx, size, p, variant, rand);
+
+      const vig = ctx.createRadialGradient(size / 2, size / 2, size * 0.15, size / 2, size / 2, size * 0.78);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(0.72, 'rgba(0,0,0,0.08)');
+      vig.addColorStop(1, 'rgba(0,0,0,0.45)');
+      ctx.fillStyle = vig;
       ctx.fillRect(0, 0, size, size);
     }
 
-    function drawPixelArt(ctx, size, profile, rand) {
-      ctx.fillStyle = profile.palette[4] || profile.palette[0];
-      ctx.fillRect(0, 0, size, size);
-      const cell = size / 32;
-      const colors = profile.palette.slice(0, 5);
-      for (let row = 0; row < 32; row++) {
-        for (let col = 0; col < 32; col++) {
-          if (rand() > 0.55) continue;
-          ctx.fillStyle = pick(rand, colors);
-          ctx.fillRect(col * cell, row * cell, cell - 1, cell - 1);
-        }
-      }
-      ctx.fillStyle = 'rgba(255,255,255,0.06)';
-      for (let y = 0; y < size; y += 4) ctx.fillRect(0, y, size, 1);
+    function nextArtVariantIndex(track) {
+      return ((track?.artConceptIndex ?? -1) + 1) % ART_VARIANT_COUNT;
     }
-
-    function drawBubblesArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'diagonal');
-      for (let i = 0; i < 16; i++) {
-        const x = rand() * size;
-        const y = rand() * size;
-        const r = size * (0.06 + rand() * 0.16);
-        ctx.fillStyle = pick(rand, profile.palette) + 'cc';
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.2, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-    }
-
-    function drawSoftArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'radial');
-      for (let i = 0; i < 8; i++) {
-        const x = rand() * size;
-        const y = rand() * size;
-        const r = size * (0.14 + rand() * 0.24);
-        const g = ctx.createRadialGradient(x, y, r * 0.1, x, y, r);
-        g.addColorStop(0, pick(rand, profile.palette) + 'ee');
-        g.addColorStop(1, pick(rand, profile.palette) + '00');
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function drawMotionArt(ctx, size, profile, rand) {
-      fillBackground(ctx, size, profile, rand, 'diagonal');
-      ctx.globalCompositeOperation = 'screen';
-      for (let i = 0; i < 5 + Math.floor(rand() * 3); i++) {
-        const x = rand() * size;
-        const y = rand() * size;
-        const r = size * (0.15 + rand() * 0.3);
-        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-        g.addColorStop(0, pick(rand, profile.palette) + 'bb');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g;
-        ctx.globalAlpha = 0.5 + rand() * 0.35;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    function roundRect(ctx, x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.arcTo(x + w, y, x + w, y + h, r);
-      ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y, x + w, y, r);
-      ctx.closePath();
-    }
-
-    const ART_DRAWERS = {
-      horizon: drawHorizonArt,
-      minimal: drawMinimalArt,
-      tiles: drawTilesArt,
-      streaks: drawStreaksArt,
-      burst: drawBurstArt,
-      shadow: drawShadowArt,
-      speed: drawSpeedArt,
-      neon: drawNeonArt,
-      horror: drawHorrorArt,
-      pixel: drawPixelArt,
-      bubbles: drawBubblesArt,
-      soft: drawSoftArt,
-      motion: drawMotionArt,
-    };
 
     function generateTrackArtwork(track, seed, conceptIndex) {
-      const concepts = buildArtConcepts(track);
-      const idx = conceptIndex != null ? ((conceptIndex % concepts.length) + concepts.length) % concepts.length : 0;
-      const concept = concepts[idx];
-      const tagKey = (track.tags || []).slice().sort().join('|').toLowerCase();
-      const bpm = parseTrackBpm(track);
-      const baseSeed = seed ?? track.artSeed ?? ((track.id || 1) * 7919);
-      const artSeed = (baseSeed ^ hashTagString(`${tagKey}|${track.genre}|${bpm}|${idx}|${concept.style}`)) >>> 0;
+      const title = (track.title || 'Track').trim();
+      const palette = paletteFromTitle(title);
+      const idx = conceptIndex != null ? ((conceptIndex % ART_VARIANT_COUNT) + ART_VARIANT_COUNT) % ART_VARIANT_COUNT : 0;
+      const baseSeed = seed ?? track.artSeed ?? hashTagString(title.toLowerCase());
+      const artSeed = (baseSeed ^ hashTagString(`${title.toLowerCase()}|v${idx}`)) >>> 0;
       const rand = mulberry32(artSeed);
-      const profile = { ...concept, bpm };
       const size = 512;
       const canvas = document.createElement('canvas');
       canvas.width = size;
       canvas.height = size;
       const ctx = canvas.getContext('2d');
 
-      const drawer = ART_DRAWERS[concept.style] || drawMotionArt;
-      drawer(ctx, size, profile, rand);
+      drawTitleArt(ctx, size, palette, idx, rand);
 
       return {
-        dataUrl: canvas.toDataURL('image/jpeg', 0.88),
+        dataUrl: canvas.toDataURL('image/jpeg', 0.9),
         artSeed,
         conceptIndex: idx,
-        conceptStyle: concept.style,
-        conceptLabel: concept.label,
-        conceptCount: concepts.length,
+        conceptStyle: `v${idx}`,
+        conceptLabel: ART_VARIANT_LABELS[idx],
+        conceptCount: ART_VARIANT_COUNT,
       };
     }
 
@@ -4110,7 +3863,7 @@
       if (dataUrl) {
         el.innerHTML = `<img src="${dataUrl}" alt="Generated cover art preview"/>`;
       } else {
-        el.innerHTML = `<div class="art-gen-placeholder">${editingId ? 'No artwork yet' : 'Generated on publish from genre, tags, and mood'}</div>`;
+        el.innerHTML = `<div class="art-gen-placeholder">${editingId ? 'No artwork yet' : 'Cover art is generated from the track title on publish'}</div>`;
       }
       if (labelEl) {
         if (conceptLabel) {
@@ -4137,29 +3890,35 @@
       };
     }
 
-    function regenerateArtPreview() {
-      if (!editingId) return;
-      const track = { ...tracks.find(t => t.id === editingId), ...buildTrackArtInput() };
-      const concepts = buildArtConcepts(track);
-      const conceptIdx = nextArtConceptIndex(track, concepts);
-      const seed = (Date.now() ^ Math.floor(Math.random() * 1e9) ^ hashTagString(`${conceptIdx}-${concepts[conceptIdx]?.style}`)) >>> 0;
-      const generated = generateTrackArtwork(track, seed, conceptIdx);
+    function applyGeneratedArtPreview(trackInput, generated) {
       pendingArtRegenerate = true;
       pendingArtSeed = generated.artSeed;
       pendingArtConceptIndex = generated.conceptIndex;
       setAdminArtPreview(generated.dataUrl, generated.conceptLabel, generated);
+      if (!editingId) return;
       const saved = tracks.find(t => t.id === editingId);
-      if (saved) {
-        saved.artwork = generated.dataUrl;
-        saved.artSeed = generated.artSeed;
-        saved.artConceptIndex = generated.conceptIndex;
-        saved.artConceptStyle = generated.conceptStyle;
-        saved.artConceptLabel = generated.conceptLabel;
-        saved.artSignature = artSignature(track);
-        persist();
-        renderTracks();
-        renderAdmin();
-      }
+      if (!saved) return;
+      saved.artwork = generated.dataUrl;
+      saved.artSeed = generated.artSeed;
+      saved.artConceptIndex = generated.conceptIndex;
+      saved.artConceptStyle = generated.conceptStyle;
+      saved.artConceptLabel = generated.conceptLabel;
+      saved.artSignature = artSignature(trackInput);
+      delete saved.artPrompt;
+      persist();
+      renderTracks();
+      renderAdmin();
+    }
+
+    function regenerateArtPreview() {
+      if (!editingId) return;
+      const saved = tracks.find(t => t.id === editingId);
+      const title = document.getElementById('fTitle')?.value?.trim() || saved?.title || 'Track';
+      const track = { title };
+      const conceptIdx = nextArtVariantIndex(saved || track);
+      const seed = (Date.now() ^ Math.floor(Math.random() * 1e9) ^ hashTagString(`${title}|${conceptIdx}|regen`)) >>> 0;
+      const generated = generateTrackArtwork(track, seed, conceptIdx);
+      applyGeneratedArtPreview({ title }, generated);
     }
 
     function artHtml(t) {
@@ -5287,12 +5046,37 @@
     }
 
     /* Admin tracks */
-    function populateGenreSelect() {
-      document.getElementById('fGenre').innerHTML = genres.map(g => `<option>${g}</option>`).join('');
+    function syncTaxonomyFromTracks(list) {
+      let changed = false;
+      (list || []).forEach(t => {
+        if (t.genre && !genres.includes(t.genre)) {
+          genres.push(t.genre);
+          changed = true;
+        }
+        (t.tags || []).forEach(tag => {
+          if (tag && !tags.includes(tag)) {
+            tags.push(tag);
+            changed = true;
+          }
+        });
+      });
+      return changed;
+    }
+
+    function populateGenreSelect(extraGenres = []) {
+      const all = [...genres];
+      extraGenres.forEach(g => {
+        if (g && !all.includes(g)) all.push(g);
+      });
+      document.getElementById('fGenre').innerHTML = all.map(g => `<option>${g}</option>`).join('');
     }
 
     function renderTagPicker(selected = []) {
-      document.getElementById('tagPicker').innerHTML = tags.map(t => `
+      const allTags = [...tags];
+      selected.forEach(t => {
+        if (t && !allTags.includes(t)) allTags.push(t);
+      });
+      document.getElementById('tagPicker').innerHTML = allTags.map(t => `
         <input type="checkbox" class="tag-check" id="tag_${t.replace(/\s/g,'_')}" value="${t}" ${selected.includes(t)?'checked':''} />
         <label class="tag-check-label" for="tag_${t.replace(/\s/g,'_')}">${t}</label>
       `).join('');
@@ -5306,16 +5090,36 @@
       return e;
     }
 
+    function adminTracksForList() {
+      const q = adminTrackSearch.trim();
+      if (!q) return tracks;
+      return tracks.filter(t => trackMatchesQuery(t, q));
+    }
+
+    function onAdminTrackSearchInput() {
+      adminTrackSearch = document.getElementById('adminTrackSearch')?.value || '';
+      renderAdmin();
+    }
+
     function renderAdmin() {
-      document.getElementById('adminCount').textContent = tracks.length;
+      const visible = adminTracksForList();
+      const countEl = document.getElementById('adminCount');
+      if (countEl) {
+        countEl.textContent = adminTrackSearch.trim()
+          ? `${visible.length} / ${tracks.length}`
+          : String(tracks.length);
+      }
       const list = document.getElementById('adminTrackList');
       if (!tracks.length) {
         list.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px">No tracks yet.</div>`;
+      } else if (!visible.length) {
+        const term = adminTrackSearch.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        list.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px">No tracks match “${term}”.</div>`;
       } else {
-        list.innerHTML = tracks.map(t => `
+        list.innerHTML = visible.map(t => `
           <div class="admin-track-row${editingId===t.id?' selected':''}${t.status==='draft'?' draft':''}" onclick="editTrack(${t.id})">
             <div class="admin-track-thumb">${artHtml(t)}</div>
-            <div><div class="admin-track-row-title">${t.title}${t.status==='draft'?' <span class="draft-badge">Draft</span>':''}${isTrackNew(t)?' <span class="draft-badge" style="background:rgba(245,158,108,0.25);color:var(--warm)">NEW</span>':''}${t.metaSource==='spreadsheet'?' <span class="draft-badge" style="background:rgba(94,234,212,0.15);color:var(--accent)">META</span>':''}</div><div class="admin-track-row-meta">${t.genre} · $${getLoopPrice(t)} loop / $${getPackPrice(t)} pack${t.demoName?' · mp3 ✓':''}${t.hasLoopZip||t.loopZipName?' · loop ✓':''}${t.hasPackZip||t.packZipName||t.zipName?' · pack ✓':''} · ${t.views||0} views · ${t.purchases||0} sold</div></div>
+            <div><div class="admin-track-row-title">${t.title}${t.status==='draft'?' <span class="draft-badge">Draft</span>':''}${isTrackNew(t)?' <span class="draft-badge" style="background:rgba(245,158,108,0.25);color:var(--warm)">NEW</span>':''}${t.metaSource==='spreadsheet'?' <span class="draft-badge" style="background:rgba(94,234,212,0.15);color:var(--accent)">META</span>':''}</div><div class="admin-track-row-meta">${t.genre} · ${trackHasPack(t) ? `$${getLoopPrice(t)} loop / $${getPackPrice(t)} pack` : `$${getLoopPrice(t)} loop only`}${t.demoName?' · mp3 ✓':''}${t.hasLoopZip||t.loopZipName?' · loop ✓':''}${trackHasPack(t)?' · pack ✓':''} · ${t.views||0} views · ${t.purchases||0} sold</div></div>
           </div>
         `).join('');
       }
@@ -5371,7 +5175,8 @@
       document.getElementById('adminFormTitle').textContent = 'Edit track';
       document.getElementById('fTitle').value = t.title;
       document.getElementById('fDesc').value = t.desc || '';
-      populateGenreSelect();
+      syncTaxonomyFromTracks([t]);
+      populateGenreSelect([t.genre]);
       document.getElementById('fGenre').value = t.genre;
       document.getElementById('fBpm').value = t.bpm;
       document.getElementById('fDuration').value = t.duration;
@@ -5381,7 +5186,7 @@
       renderEmotionSliders('trackEmotionSliders', normalizeEmotions(t.emotions), 'onTrackEmotionChange');
       setAdminArtPreview(t.artwork, t.artConceptLabel, {
         conceptIndex: t.artConceptIndex,
-        conceptCount: buildArtConcepts(t).length,
+        conceptCount: ART_VARIANT_COUNT,
       });
       document.getElementById('regenArtBtn').style.display = 'inline-flex';
       updateMetaStatusUI();
@@ -5434,11 +5239,20 @@
       const selectedTags = [...document.querySelectorAll('#tagPicker input:checked')].map(c => c.value);
       const loopPrice = parseInt(document.getElementById('fLoopPrice').value) || DEFAULT_LOOP_PRICE;
       const packPrice = parseInt(document.getElementById('fPackPrice').value) || DEFAULT_PACK_PRICE;
+      const genre = document.getElementById('fGenre').value;
+      if (genre && !genres.includes(genre)) genres.push(genre);
+      selectedTags.forEach(tag => {
+        if (tag && !tags.includes(tag)) tags.push(tag);
+      });
+      const tagPickerReady = document.querySelectorAll('#tagPicker input').length > 0;
+      const resolvedTags = tagPickerReady
+        ? selectedTags
+        : (isEdit && editingId ? (tracks.find(t => t.id === editingId)?.tags || selectedTags) : selectedTags);
       const data = {
         title: document.getElementById('fTitle').value.trim(),
         desc: document.getElementById('fDesc').value.trim(),
-        genre: document.getElementById('fGenre').value,
-        tags: selectedTags,
+        genre,
+        tags: resolvedTags,
         bpm: parseInt(document.getElementById('fBpm').value) || 120,
         duration: document.getElementById('fDuration').value || '2:30',
         loopPrice,
@@ -5455,8 +5269,6 @@
         return;
       }
       if (!isEdit) data.color = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
-
-      mergeSpreadsheetMetaInto(data);
 
       let trackId = editingId;
 
@@ -5578,7 +5390,8 @@
         const savedTrack = tracks.find(t => t.id === trackId);
         if (savedTrack && !asDraft) {
           const sync = await syncTrackFilesToDisk(savedTrack);
-          if (!sync.ok) console.warn('Track files not written to tracks/ folder — restart start-server.ps1 and save again.');
+          if (!sync.catalogOk) console.warn('catalog.json not updated — restart start-server.ps1 and save again.');
+          else if (!sync.ok) console.warn('Track files not re-written to tracks/ folder — metadata was still saved.');
         }
         persist();
         resetForm();
@@ -5783,7 +5596,6 @@
 
     async function boot() {
       initStorage();
-      initHeadline();
       initWaveformScrub();
       initListWaveformScrub();
       initDetailWaveformScrub();

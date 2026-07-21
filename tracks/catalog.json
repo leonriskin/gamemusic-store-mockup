@@ -1,37 +1,73 @@
 {
-  "_instructions": "Track metadata for published catalog comes from Tracks-Upload-Status-2013.xlsx. After updating the spreadsheet, copy it to tracks/Tracks-Upload-Status-2013.xlsx and run scripts/import-track-meta.ps1 to refresh tracks/track-meta.json.",
-  "tracks": [
-    {
-      "id": 1,
-      "title": "2AM Snowflakes",
-      "genre": "Ambient",
-      "bpm": 72,
-      "duration": "3:03",
-      "price": 9,
-      "loopPrice": 9,
-      "packPrice": 12,
-      "tags": ["Exploration", "Menu", "Puzzle"],
-      "desc": "A gentle late-night ambient piece — soft textures and slow movement for exploration, menus, and quiet game moments.",
-      "cover": "tracks/2am-snowflakes/cover.jpg",
-      "demo": "tracks/2am-snowflakes/demo.mp3",
-      "loopZip": "tracks/2am-snowflakes/loop.zip",
-      "packZip": "tracks/2am-snowflakes/pack.zip"
-    },
-    {
-      "id": 2,
-      "title": "Neon Drift",
-      "artist": "Riskin Tracks",
-      "genre": "Electronic",
-      "bpm": 110,
-      "duration": "2:48",
-      "price": 9,
-      "loopPrice": 9,
-      "packPrice": 12,
-      "tags": ["Racing", "Sci-fi", "Action"],
-      "desc": "Driving electronic pulse with neon energy — suited to racing sequences, sci-fi action, and high-tempo gameplay.",
-      "cover": "assets/genre-thumbnails/electronic.png",
-      "demo": "tracks/neon-drift/demo.mp3",
-      "zip": "tracks/neon-drift/hifi.zip"
-    }
-  ]
+    "_instructions":  "Track metadata for published catalog comes from Tracks-Upload-Status-2013.xlsx. After updating the spreadsheet, copy it to tracks/Tracks-Upload-Status-2013.xlsx and run scripts/import-track-meta.ps1 to refresh tracks/track-meta.json.",
+    "tracks":  [
+                   {
+                       "id":  1,
+                       "title":  "2AM Snowflakes",
+                       "genre":  "Ambient",
+                       "bpm":  72,
+                       "duration":  "3:03",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "packPrice":  12,
+                       "tags":  [
+                                    "Exploration",
+                                    "Menu",
+                                    "Puzzle"
+                                ],
+                       "desc":  "A gentle late-night ambient piece — soft textures and slow movement for exploration, menus, and quiet game moments.",
+                       "cover":  "tracks/2am-snowflakes/cover.jpg",
+                       "demo":  "tracks/2am-snowflakes/demo.mp3",
+                       "loopZip":  "tracks/2am-snowflakes/loop.zip",
+                       "packZip":  "tracks/2am-snowflakes/pack.zip"
+                   },
+                   {
+                       "id":  2,
+                       "title":  "Neon Drift",
+                       "artist":  "Riskin Tracks",
+                       "genre":  "Electronic",
+                       "bpm":  110,
+                       "duration":  "2:48",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "packPrice":  12,
+                       "tags":  [
+                                    "Racing",
+                                    "Sci-fi",
+                                    "Action"
+                                ],
+                       "desc":  "Driving electronic pulse with neon energy — suited to racing sequences, sci-fi action, and high-tempo gameplay.",
+                       "cover":  "assets/genre-thumbnails/electronic.png",
+                       "demo":  "tracks/neon-drift/demo.mp3",
+                       "zip":  "tracks/neon-drift/hifi.zip"
+                   },
+                   {
+                       "id":  3,
+                       "title":  "Santa Got A Brand New Toy",
+                       "genre":  "Holidays",
+                       "bpm":  120,
+                       "duration":  "1:29",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Christmas",
+                                    "Holidays",
+                                    "Children",
+                                    "Happy",
+                                    "Toys",
+                                    "Santa",
+                                    "Cartoon",
+                                    "Game",
+                                    "Cheerful",
+                                    "Snow"
+                                ],
+                       "desc":  "A cheerful Christmas tune full of toy-shop wonder — Santa, bells, piano, and festive sparkle for holiday games, children's apps, cartoons, and seasonal menus.",
+                       "cover":  "tracks/santa-got-a-brand-new-toy/cover.jpg",
+                       "demo":  "tracks/santa-got-a-brand-new-toy/demo.mp3",
+                       "loopZip":  "tracks/santa-got-a-brand-new-toy/loop.zip",
+                       "loopOnly":  true,
+                       "status":  "published"
+                   }
+               ]
 }
+

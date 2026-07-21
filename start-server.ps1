@@ -21,6 +21,7 @@ function Send-StaticFile($ctx, $file) {
     '.jpg' { 'image/jpeg' }
     '.jpeg' { 'image/jpeg' }
     '.png' { 'image/png' }
+    '.svg' { 'image/svg+xml' }
     '.zip' { 'application/zip' }
     default { 'application/octet-stream' }
   }
@@ -55,6 +56,7 @@ function Send-StaticFile($ctx, $file) {
 function Start-PowerShellServer {
   $listener = New-Object System.Net.HttpListener
   $listener.Prefixes.Add($url)
+  $listener.Prefixes.Add("http://127.0.0.1:$port/")
   try {
     $listener.Start()
   } catch {
@@ -76,7 +78,7 @@ function Start-PowerShellServer {
           $rel = $ctx.Request.QueryString['rel']
           if (-not $rel -or $rel -notmatch '^tracks/[a-z0-9-]+/[a-z0-9._-]+$') {
             $ctx.Response.StatusCode = 400
-            return
+            continue
           }
           $target = Join-Path $PSScriptRoot ($rel.Replace('/', [IO.Path]::DirectorySeparatorChar))
           $dir = Split-Path $target -Parent
@@ -89,15 +91,24 @@ function Start-PowerShellServer {
           $bytes = [Text.Encoding]::UTF8.GetBytes('OK')
           $ctx.Response.ContentLength64 = $bytes.Length
           $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
-          return
+          continue
         }
         if ($ctx.Request.HttpMethod -eq 'POST' -and $path -eq '/__dev/update-catalog-track') {
           $reader = New-Object IO.StreamReader($ctx.Request.InputStream, [Text.Encoding]::UTF8)
           $json = $reader.ReadToEnd()
-          $payload = $json | ConvertFrom-Json
+          if (-not $json) {
+            $ctx.Response.StatusCode = 400
+            continue
+          }
+          try {
+            $payload = $json | ConvertFrom-Json
+          } catch {
+            $ctx.Response.StatusCode = 400
+            continue
+          }
           if (-not $payload.id -or -not $payload.slug) {
             $ctx.Response.StatusCode = 400
-            return
+            continue
           }
           $catalogPath = Join-Path $PSScriptRoot 'tracks\catalog.json'
           $catalog = Get-Content $catalogPath -Raw | ConvertFrom-Json
@@ -109,7 +120,20 @@ function Start-PowerShellServer {
           $base = "tracks/$($payload.slug)"
           $entry | Add-Member -NotePropertyName demo -NotePropertyValue "$base/demo.mp3" -Force
           $entry | Add-Member -NotePropertyName loopZip -NotePropertyValue "$base/loop.zip" -Force
-          $entry | Add-Member -NotePropertyName packZip -NotePropertyValue "$base/pack.zip" -Force
+          $hasPack = $false
+          if ($payload.PSObject.Properties.Name -contains 'hasPackZip') {
+            $hasPack = [bool]$payload.hasPackZip
+          } elseif ($payload.PSObject.Properties.Name -contains 'loopOnly') {
+            $hasPack = -not [bool]$payload.loopOnly
+          }
+          if ($hasPack) {
+            $entry | Add-Member -NotePropertyName packZip -NotePropertyValue "$base/pack.zip" -Force
+            if ($entry.PSObject.Properties.Name -contains 'loopOnly') { $entry.PSObject.Properties.Remove('loopOnly') }
+          } else {
+            if ($entry.PSObject.Properties.Name -contains 'packZip') { $entry.PSObject.Properties.Remove('packZip') }
+            if ($entry.PSObject.Properties.Name -contains 'packPrice') { $entry.PSObject.Properties.Remove('packPrice') }
+            $entry | Add-Member -NotePropertyName loopOnly -NotePropertyValue $true -Force
+          }
           if ($payload.title) { $entry | Add-Member -NotePropertyName title -NotePropertyValue $payload.title -Force }
           if ($payload.genre) { $entry | Add-Member -NotePropertyName genre -NotePropertyValue $payload.genre -Force }
           if ($payload.bpm) { $entry | Add-Member -NotePropertyName bpm -NotePropertyValue $payload.bpm -Force }
@@ -126,7 +150,7 @@ function Start-PowerShellServer {
           $ok = [Text.Encoding]::UTF8.GetBytes('OK')
           $ctx.Response.ContentLength64 = $ok.Length
           $ctx.Response.OutputStream.Write($ok, 0, $ok.Length)
-          return
+          continue
         }
         if ($path -eq '/') { $path = '/index.html' }
         $file = Join-Path $PSScriptRoot ($path.TrimStart('/').Replace('/', [IO.Path]::DirectorySeparatorChar))
@@ -152,16 +176,18 @@ function Start-PowerShellServer {
 }
 
 $python = Get-Command python -ErrorAction SilentlyContinue
-if ($python) {
+if ($env:GMS_USE_PYTHON_SERVER -eq '1' -and $python) {
+  Write-Host "GMS_USE_PYTHON_SERVER=1 — admin save-to-disk endpoints are unavailable."
   & $python.Source -m http.server $port
   if ($LASTEXITCODE -eq 0) { return }
 }
 
 $py = Get-Command py -ErrorAction SilentlyContinue
-if ($py) {
+if ($env:GMS_USE_PYTHON_SERVER -eq '1' -and $py) {
+  Write-Host "GMS_USE_PYTHON_SERVER=1 — admin save-to-disk endpoints are unavailable."
   & $py.Source -m http.server $port
   if ($LASTEXITCODE -eq 0) { return }
 }
 
-Write-Host "Python not found - using built-in PowerShell server."
+Write-Host "Using built-in PowerShell server (admin saves update tracks/catalog.json)."
 Start-PowerShellServer
