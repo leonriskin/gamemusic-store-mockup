@@ -831,7 +831,7 @@
       <div class="footer-links">
         <a href="#contact" onclick="showPage('browse'); document.getElementById('contact').scrollIntoView({behavior:'smooth'}); return false;">Contact</a>
         <a href="#" onclick="showPage('license'); return false;">License</a>
-        <a href="#" onclick="showPage('admin-tracks'); return false;">Admin</a>
+        <a href="#" class="admin-link" onclick="showPage('admin-tracks'); return false;">Admin</a>
       </div>
     </footer>
   </div>
@@ -1408,6 +1408,35 @@
     /** Catalog track ids permanently removed from the store (survives localStorage). */
     const LEGACY_REMOVED_CATALOG_IDS = [2];
     const LEGACY_REMOVED_TITLE_KEYS = new Set(['neon drift']);
+
+    function isLocalDev() {
+      const h = location.hostname;
+      if (h === 'localhost' || h === '127.0.0.1') return true;
+      if (location.protocol === 'file:') return true;
+      return false;
+    }
+
+    function isAdminPage(name) {
+      return typeof name === 'string' && name.startsWith('admin');
+    }
+
+    function initAdminAccessGuard() {
+      if (isLocalDev()) return;
+      document.querySelectorAll('.admin-link').forEach(el => { el.style.display = 'none'; });
+      document.body.classList.remove('admin-mode');
+      document.querySelectorAll('.page[id^="page-admin"]').forEach(p => p.classList.remove('active'));
+      const browse = document.getElementById('page-browse');
+      if (browse && !document.querySelector('.page.active')) browse.classList.add('active');
+      const blockAdminHash = () => {
+        if (isLocalDev()) return;
+        const hash = (location.hash || '').toLowerCase();
+        if (!hash.includes('admin')) return;
+        history.replaceState(null, '', location.pathname + location.search);
+        showPage('browse');
+      };
+      blockAdminHash();
+      window.addEventListener('hashchange', blockAdminHash);
+    }
 
     let tracks = [];
     let genres = [];
@@ -5031,6 +5060,9 @@
     }
 
     function showPage(name) {
+      if (isAdminPage(name) && !isLocalDev()) {
+        name = 'browse';
+      }
       closeNavMenu();
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page-' + name).classList.add('active');
@@ -6554,6 +6586,7 @@
     }
 
     async function boot() {
+      initAdminAccessGuard();
       initStorage();
       applyPlaybackLoopSetting();
       initWaveformScrub();
