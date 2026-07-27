@@ -89,6 +89,7 @@
     }
     .search-clear-btn.visible { display: flex; }
     .search-clear-btn:hover { color: var(--text); background: var(--border); }
+    .search-submit-btn { flex-shrink: 0; padding: 8px 18px; font-size: 14px; }
     .search-hint { font-size: 13px; color: var(--text-muted); margin-top: 10px; line-height: 1.5; }
     .feel-toggle {
       display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
@@ -779,7 +780,8 @@
         <div class="search-hero-box">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
           <input type="text" id="searchInput" placeholder="Search by title, tags, genres, or mood…" autocomplete="off"
-            oninput="onSearchInput()" onfocus="onSearchInput()" onblur="closeSearchDropdown()" />
+            oninput="onSearchInput()" onfocus="onSearchInput()" onkeydown="onSearchKeydown(event)" onblur="closeSearchDropdown()" />
+          <button type="button" class="btn btn-primary search-submit-btn" onclick="submitTextSearch()">Search</button>
           <button type="button" class="search-clear-btn" id="searchClearBtn" onclick="clearSearchFilters()" aria-label="Clear search" title="Clear search">×</button>
         </div>
         <button type="button" class="feel-toggle" id="feelToggle" aria-expanded="false" onclick="toggleFeelPanel()">
@@ -1472,6 +1474,8 @@
     let tags = [];
     let characteristics = [];
     let searchEmotions = {};
+    let appliedSearchQuery = '';
+    let appliedSearchEmotions = null;
     let editingCharIndex = null;
     let currentTrack = null;
     let currentGenre = 'all';
@@ -4607,24 +4611,36 @@
       return `<div class="art-fill" style="background:linear-gradient(135deg, hsl(${h},55%,42%) 0%, hsl(${(h + 40) % 360},40%,16%) 100%)"></div>`;
     }
 
+    function hasAppliedEmotionFilter() {
+      return appliedSearchEmotions && characteristics.some(c =>
+        normalizeEmotionValue(appliedSearchEmotions[c.key]) !== SLIDER_NEUTRAL
+      );
+    }
+
     function hasActiveSearchFilters() {
+      return !!appliedSearchQuery || hasAppliedEmotionFilter();
+    }
+
+    function hasDraftSearchUI() {
       const q = (document.getElementById('searchInput')?.value || '').trim();
-      const hasEmotion = characteristics.some(c =>
+      const hasEmotionDraft = characteristics.some(c =>
         normalizeEmotionValue(searchEmotions[c.key]) !== SLIDER_NEUTRAL
       );
-      return !!q || hasEmotion;
+      return !!q || hasEmotionDraft;
     }
 
     function updateSearchClearUI() {
-      const active = hasActiveSearchFilters();
-      document.getElementById('searchClearBtn')?.classList.toggle('visible', active);
+      const showClear = hasActiveSearchFilters() || hasDraftSearchUI();
+      document.getElementById('searchClearBtn')?.classList.toggle('visible', showClear);
       const filteredEl = document.getElementById('catalogFiltered');
-      if (filteredEl) filteredEl.style.display = active ? 'block' : 'none';
+      if (filteredEl) filteredEl.style.display = hasActiveSearchFilters() ? 'block' : 'none';
     }
 
     function clearSearchFilters() {
       const input = document.getElementById('searchInput');
       if (input) input.value = '';
+      appliedSearchQuery = '';
+      appliedSearchEmotions = null;
       closeSearchDropdown();
       searchEmotions = defaultEmotions();
       renderEmotionSliders('searchEmotionSliders', searchEmotions, 'onSearchEmotionChange');
@@ -4644,6 +4660,16 @@
         normalizeEmotionValue(searchEmotions[c.key]) !== SLIDER_NEUTRAL
       );
       if (!hasEmotion) return;
+      appliedSearchEmotions = { ...searchEmotions };
+      resetCatalogPage();
+      renderTracks();
+      updateSearchClearUI();
+      document.querySelector('.catalog')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function submitTextSearch() {
+      appliedSearchQuery = (document.getElementById('searchInput')?.value || '').trim();
+      closeSearchDropdown();
       resetCatalogPage();
       renderTracks();
       updateSearchClearUI();
@@ -4674,16 +4700,16 @@
       searchEmotions = defaultEmotions();
       renderEmotionSliders('searchEmotionSliders', searchEmotions, 'onSearchEmotionChange');
       updateFeelToggleState();
-      renderTracks();
     }
 
     function onTrackEmotionChange(input) { updateEmotionStepDots(input); }
 
-    function emotionMatchScore(trackEmotions) {
+    function emotionMatchScore(trackEmotions, emotionsSource) {
+      const src = emotionsSource || searchEmotions;
       let totalDiff = 0;
       let activeAxes = 0;
       characteristics.forEach(c => {
-        const searchVal = normalizeEmotionValue(searchEmotions[c.key]);
+        const searchVal = normalizeEmotionValue(src[c.key]);
         if (searchVal === SLIDER_NEUTRAL) return;
         activeAxes++;
         const trackVal = normalizeEmotionValue((trackEmotions || defaultEmotions())[c.key]);
@@ -4694,22 +4720,20 @@
     }
 
     function getFilteredTracks() {
-      const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-      const hasEmotionFilter = characteristics.some(c =>
-        normalizeEmotionValue(searchEmotions[c.key]) !== SLIDER_NEUTRAL
-      );
+      const q = appliedSearchQuery.toLowerCase().trim();
+      const hasEmotionFilter = hasAppliedEmotionFilter();
 
       let list = getPublishedTracks().filter(t => {
         if (q && !trackMatchesQuery(t, q)) return false;
         if (hasEmotionFilter) {
-          const score = emotionMatchScore(t.emotions);
+          const score = emotionMatchScore(t.emotions, appliedSearchEmotions);
           if (score > 3) return false;
         }
         return true;
       });
 
       if (hasEmotionFilter) {
-        list.sort((a, b) => emotionMatchScore(a.emotions) - emotionMatchScore(b.emotions));
+        list.sort((a, b) => emotionMatchScore(a.emotions, appliedSearchEmotions) - emotionMatchScore(b.emotions, appliedSearchEmotions));
       }
       if (showFavouritesOnly) {
         list = list.filter(t => isFavourite(t.id));
@@ -4739,10 +4763,7 @@
     }
 
     function sortList(list) {
-      const hasEmotion = characteristics.some(c =>
-        normalizeEmotionValue(searchEmotions[c.key]) !== SLIDER_NEUTRAL
-      );
-      if (hasEmotion) return list;
+      if (hasAppliedEmotionFilter()) return list;
       const sorted = [...list];
       if (currentSort === 'popular') sorted.sort(comparePopularOrder);
       else if (currentSort === 'newest') sorted.sort(compareNewestOrder);
@@ -5234,8 +5255,7 @@
     }
 
     function onSearchInput() {
-      resetCatalogPage();
-      renderTracks();
+      updateSearchClearUI();
       const q = document.getElementById('searchInput').value.toLowerCase().trim();
       const dd = document.getElementById('searchDropdown');
       if (!q) { dd.classList.remove('open'); return; }
@@ -5250,13 +5270,23 @@
       dd.classList.add('open');
     }
 
+    function onSearchKeydown(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        submitTextSearch();
+      }
+    }
+
     function closeSearchDropdown() { setTimeout(() => document.getElementById('searchDropdown').classList.remove('open'), 150); }
-    function selectSuggestion(id) { document.getElementById('searchInput').value = tracks.find(t => t.id === id).title; closeSearchDropdown(); resetCatalogPage(); renderTracks(); }
+    function selectSuggestion(id) {
+      document.getElementById('searchInput').value = tracks.find(t => t.id === id).title;
+      closeSearchDropdown();
+      submitTextSearch();
+    }
     function applyChip(tag) {
       document.getElementById('searchInput').value = tag;
-      resetCatalogPage();
-      renderTracks();
       showPage('browse');
+      submitTextSearch();
     }
 
     function toggleNavMenu() {
