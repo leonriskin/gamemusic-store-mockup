@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riskin Tracks — Logo mockup (headphones)</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0d10;
+      --text: #f2f3f7;
+      --muted: rgba(94, 234, 212, 0.52);
+      --border: rgba(255,255,255,0.08);
+      --surface: #14161c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 48px 32px;
+      line-height: 1.5;
+    }
+    h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+    .lead { color: #8b92a8; font-size: 14px; margin-bottom: 40px; max-width: 640px; }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+    .panel h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #8b92a8;
+      margin-bottom: 20px;
+    }
+    .site-preview {
+      padding: 28px 0 8px;
+    }
+    .brand-logo {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      column-gap: 16px;
+      row-gap: 6px;
+      align-items: end;
+      font-size: 36px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand-icon {
+      grid-column: 1;
+      grid-row: 1;
+      height: 1.15em;
+      width: auto;
+      align-self: end;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(94, 234, 212, 0.25));
+    }
+    .brand-title {
+      grid-column: 2;
+      grid-row: 1;
+      font-size: 1em;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      line-height: 1;
+      align-self: end;
+    }
+    .brand-title strong { font-weight: 700; }
+    .brand-tagline {
+      grid-column: 2;
+      grid-row: 2;
+      font-size: 0.39em;
+      color: var(--muted);
+    }
+    .search-box {
+      margin-top: 24px;
+      max-width: 720px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: #8b92a8;
+      font-size: 16px;
+    }
+    .full-mockup {
+      width: 100%;
+      max-width: 860px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .icon-only {
+      width: 180px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 700px) {
+      .grid-two { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Logo mockup — neon headphones</h1>
+  <p class="lead">Neon headphones mark is now live in <code>index.html</code>. This page shows the raster mockup that inspired it.</p>
+
+  <div class="panel">
+    <h2>In context (above search)</h2>
+    <div class="site-preview">
+      <a href="#" class="brand-logo" onclick="return false">
+        <img class="brand-icon" src="riskin-tracks-logo-headphones-icon-mockup.png" alt="" />
+        <span class="brand-title"><strong>Riskin</strong> Tracks</span>
+        <span class="brand-tagline">Music for indie games</span>
+      </a>
+      <div class="search-box">Search by title, tags, genres, or mood…</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Full mockup assets</h2>
+    <div class="grid-two">
+      <img class="full-mockup" src="riskin-tracks-logo-headphones-mockup.png" alt="Full horizontal logo mockup" />
+      <img class="icon-only" src="riskin-tracks-logo-headphones-icon-mockup.png" alt="Icon only mockup" />
+    </div>
+  </div>
+</body>
+</html>

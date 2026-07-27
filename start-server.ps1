@@ -152,6 +152,35 @@ function Start-PowerShellServer {
           $ctx.Response.OutputStream.Write($ok, 0, $ok.Length)
           continue
         }
+        if ($ctx.Request.HttpMethod -eq 'POST' -and $path -eq '/__dev/remove-catalog-track') {
+          $reader = New-Object IO.StreamReader($ctx.Request.InputStream, [Text.Encoding]::UTF8)
+          $json = $reader.ReadToEnd()
+          if (-not $json) {
+            $ctx.Response.StatusCode = 400
+            continue
+          }
+          try {
+            $payload = $json | ConvertFrom-Json
+          } catch {
+            $ctx.Response.StatusCode = 400
+            continue
+          }
+          if (-not $payload.id) {
+            $ctx.Response.StatusCode = 400
+            continue
+          }
+          $catalogPath = Join-Path $PSScriptRoot 'tracks\catalog.json'
+          $catalog = Get-Content $catalogPath -Raw | ConvertFrom-Json
+          $targetId = [int]$payload.id
+          $catalog.tracks = @($catalog.tracks | Where-Object { [int]$_.id -ne $targetId })
+          ($catalog | ConvertTo-Json -Depth 8) | Set-Content $catalogPath -Encoding UTF8
+          $ctx.Response.StatusCode = 200
+          $ctx.Response.ContentType = 'text/plain; charset=utf-8'
+          $ok = [Text.Encoding]::UTF8.GetBytes('OK')
+          $ctx.Response.ContentLength64 = $ok.Length
+          $ctx.Response.OutputStream.Write($ok, 0, $ok.Length)
+          continue
+        }
         if ($path -eq '/') { $path = '/index.html' }
         $file = Join-Path $PSScriptRoot ($path.TrimStart('/').Replace('/', [IO.Path]::DirectorySeparatorChar))
         if (Test-Path $file -PathType Leaf) {

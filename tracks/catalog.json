@@ -1,54 +1,66 @@
-{
+﻿{
     "_instructions":  "Track metadata for published catalog comes from Tracks-Upload-Status-2013.xlsx. After updating the spreadsheet, copy it to tracks/Tracks-Upload-Status-2013.xlsx and run scripts/import-track-meta.ps1 to refresh tracks/track-meta.json.",
     "tracks":  [
                    {
                        "id":  1,
-                       "title":  "2AM Snowflakes",
-                       "genre":  "Ambient",
-                       "bpm":  72,
-                       "duration":  "3:03",
-                       "price":  9,
-                       "loopPrice":  9,
-                       "packPrice":  12,
-                       "tags":  [
-                                    "Exploration",
-                                    "Menu",
-                                    "Puzzle"
-                                ],
-                       "desc":  "A gentle late-night ambient piece — soft textures and slow movement for exploration, menus, and quiet game moments.",
                        "cover":  "tracks/2am-snowflakes/cover.jpg",
                        "demo":  "tracks/2am-snowflakes/demo.mp3",
                        "loopZip":  "tracks/2am-snowflakes/loop.zip",
-                       "packZip":  "tracks/2am-snowflakes/pack.zip"
-                   },
-                   {
-                       "id":  2,
-                       "title":  "Neon Drift",
-                       "artist":  "Riskin Tracks",
-                       "genre":  "Electronic",
-                       "bpm":  110,
-                       "duration":  "2:48",
-                       "price":  9,
+                       "packZip":  "tracks/2am-snowflakes/pack.zip",
+                       "title":  "2AM Snowflakes",
+                       "genre":  "Ambient",
+                       "bpm":  72,
+                       "duration":  "1:33",
+                       "desc":  "A gentle late-night ambient piece — soft textures and slow movement for exploration, menus, and quiet game moments.",
                        "loopPrice":  9,
                        "packPrice":  12,
+                       "price":  9,
                        "tags":  [
-                                    "Racing",
-                                    "Sci-fi",
-                                    "Action"
+                                    "Menu",
+                                    "Exploration",
+                                    "Puzzle"
                                 ],
-                       "desc":  "Driving electronic pulse with neon energy — suited to racing sequences, sci-fi action, and high-tempo gameplay.",
-                       "cover":  "assets/genre-thumbnails/electronic.png",
-                       "demo":  "tracks/neon-drift/demo.mp3",
-                       "zip":  "tracks/neon-drift/hifi.zip"
+                       "packContents":  [
+                                            {
+                                                "name":  "2AM Snowflakes - full - no static.wav",
+                                                "duration":  "2:02"
+                                            },
+                                            {
+                                                "name":  "2AM Snowflakes - full.wav",
+                                                "duration":  "2:02"
+                                            },
+                                            {
+                                                "name":  "2AM Snowflakes - long loop no static.wav",
+                                                "duration":  "1:34"
+                                            },
+                                            {
+                                                "name":  "2AM Snowflakes - long loop.wav",
+                                                "duration":  "1:34"
+                                            },
+                                            {
+                                                "name":  "2AM Snowflakes - short loop - no static.wav",
+                                                "duration":  "0:29"
+                                            },
+                                            {
+                                                "name":  "2AM Snowflakes - short loop.wav",
+                                                "duration":  "0:29"
+                                            }
+                                        ]
                    },
                    {
                        "id":  3,
+                       "cover":  "tracks/santa-got-a-brand-new-toy/cover.jpg",
+                       "status":  "published",
+                       "demo":  "tracks/santa-got-a-brand-new-toy/demo.mp3",
+                       "loopZip":  "tracks/santa-got-a-brand-new-toy/loop.zip",
+                       "loopOnly":  true,
                        "title":  "Santa Got A Brand New Toy",
-                       "genre":  "Holidays",
+                       "genre":  "Rock",
                        "bpm":  120,
-                       "duration":  "1:29",
-                       "price":  9,
+                       "duration":  "1:23",
+                       "desc":  "Groovy retro happy tune",
                        "loopPrice":  9,
+                       "price":  9,
                        "tags":  [
                                     "Christmas",
                                     "Holidays",
@@ -60,14 +72,1774 @@
                                     "Game",
                                     "Cheerful",
                                     "Snow"
-                                ],
-                       "desc":  "A cheerful Christmas tune full of toy-shop wonder — Santa, bells, piano, and festive sparkle for holiday games, children's apps, cartoons, and seasonal menus.",
-                       "cover":  "tracks/santa-got-a-brand-new-toy/cover.jpg",
-                       "demo":  "tracks/santa-got-a-brand-new-toy/demo.mp3",
-                       "loopZip":  "tracks/santa-got-a-brand-new-toy/loop.zip",
+                                ]
+                   },
+                   {
+                       "id":  4,
+                       "cover":  "tracks/distorted-reality-perception/cover.jpg",
+                       "status":  "published",
+                       "demo":  "tracks/distorted-reality-perception/demo.mp3",
+                       "loopZip":  "tracks/distorted-reality-perception/loop.zip",
                        "loopOnly":  true,
-                       "status":  "published"
+                       "title":  "Distorted Reality Perception",
+                       "genre":  "Cinematic",
+                       "bpm":  87,
+                       "duration":  "1:44",
+                       "desc":  "A futuristic sci-fi dark track with a strong beat and an engaging bassline. Dark, ominous, and suspenseful.",
+                       "loopPrice":  9,
+                       "price":  9,
+                       "tags":  [
+                                    "Action",
+                                    "Menu",
+                                    "Horror",
+                                    "Retro",
+                                    "Level",
+                                    "Gameplay",
+                                    "Cyberpunk",
+                                    "Badass",
+                                    "Dark",
+                                    "Ominous",
+                                    "Dangerous",
+                                    "Mystery",
+                                    "Bad",
+                                    "Scary",
+                                    "Futuristic",
+                                    "Scifi",
+                                    "Science",
+                                    "Apocalyptic",
+                                    "Beat",
+                                    "Serious",
+                                    "Underscore",
+                                    "Future",
+                                    "Electronic",
+                                    "Techno",
+                                    "Cinematic"
+                                ]
+                   },
+                   {
+                       "id":  5,
+                       "title":  "Best Time Of The Day",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "2:18",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "atmospheric",
+                                    "bright",
+                                    "calm",
+                                    "casual",
+                                    "chillout",
+                                    "contemplative",
+                                    "dreamy",
+                                    "flowing",
+                                    "freedom",
+                                    "friendly",
+                                    "fun",
+                                    "groovy",
+                                    "heartwarming",
+                                    "hopeful",
+                                    "nostalgic",
+                                    "optimistic",
+                                    "positive",
+                                    "relaxed",
+                                    "relaxing",
+                                    "romantic",
+                                    "subtle",
+                                    "tender"
+                                ],
+                       "desc":  "A bit nostalgic and mellow chill tune with electronic sounds, reminiscent of lazy sunsets and good memories. Suitable for casual gaming.",
+                       "cover":  "tracks/best-time-of-the-day/cover.jpg",
+                       "demo":  "tracks/best-time-of-the-day/demo.mp3",
+                       "loopZip":  "tracks/best-time-of-the-day/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  6,
+                       "cover":  "tracks/blindfold-speed-racing/cover.jpg",
+                       "status":  "published",
+                       "demo":  "tracks/blindfold-speed-racing/demo.mp3",
+                       "loopZip":  "tracks/blindfold-speed-racing/loop.zip",
+                       "loopOnly":  true,
+                       "title":  "Blindfold Speed Racing",
+                       "genre":  "Chiptune",
+                       "bpm":  120,
+                       "duration":  "1:17",
+                       "desc":  "Jump in and let’s roll! This 8-bit-styled track is aggressive, upbeat, and downright insane. It’s bound to make you bob your head to the infectious beat. Licensed under Creative Commons",
+                       "loopPrice":  9,
+                       "price":  9,
+                       "tags":  [
+                                    "aggressive",
+                                    "bouncy",
+                                    "catchy",
+                                    "crazy",
+                                    "driving",
+                                    "energetic",
+                                    "evil",
+                                    "freaky",
+                                    "mad",
+                                    "upbeat",
+                                    "wicked",
+                                    "wild"
+                                ]
+                   },
+                   {
+                       "id":  7,
+                       "title":  "Palm Tree Getaway Island",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "2:27",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "bouncy",
+                                    "casual",
+                                    "catchy",
+                                    "confident",
+                                    "dreamy",
+                                    "energetic",
+                                    "exotic",
+                                    "freedom",
+                                    "friendly",
+                                    "happy",
+                                    "hopeful",
+                                    "joyful",
+                                    "jumpy",
+                                    "light",
+                                    "lively",
+                                    "nature",
+                                    "optimistic",
+                                    "peaceful",
+                                    "playful",
+                                    "positive",
+                                    "simple",
+                                    "travel",
+                                    "upbeat"
+                                ],
+                       "desc":  "A cheerful and uplifting theme with a hint of island vibes, offering a touch of excitement and laid-back charm. Perfect for a relaxed gaming experience.",
+                       "cover":  "tracks/palm-tree-getaway-island/cover.jpg",
+                       "demo":  "tracks/palm-tree-getaway-island/demo.mp3",
+                       "loopZip":  "tracks/palm-tree-getaway-island/loop.zip",
+                       "status":  "published",
+                       "packPrice":  12,
+                       "packZip":  "tracks/palm-tree-getaway-island/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Palm Tree Getaway Island - full no sfx.wav",
+                                                "duration":  "2:41"
+                                            },
+                                            {
+                                                "name":  "Palm Tree Getaway Island - full.wav",
+                                                "duration":  "2:41"
+                                            },
+                                            {
+                                                "name":  "Palm Tree Getaway Island - loop no sfx.wav",
+                                                "duration":  "2:27"
+                                            },
+                                            {
+                                                "name":  "Palm Tree Getaway Island - loop.wav",
+                                                "duration":  "2:27"
+                                            },
+                                            {
+                                                "name":  "Palm Tree Getaway Island - short loop1.wav",
+                                                "duration":  "1:13"
+                                            },
+                                            {
+                                                "name":  "Palm Tree Getaway Island - short loop2.wav",
+                                                "duration":  "1:08"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  8,
+                       "title":  "Against All Odds",
+                       "genre":  "Ambient",
+                       "bpm":  120,
+                       "duration":  "2:16",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "beautiful",
+                                    "calm",
+                                    "catchy",
+                                    "delicate",
+                                    "dreamy",
+                                    "emotional",
+                                    "friendly",
+                                    "heartwarming",
+                                    "love",
+                                    "magical",
+                                    "nostalgic",
+                                    "reflective",
+                                    "romantic",
+                                    "sad",
+                                    "sensitive",
+                                    "sentimental",
+                                    "serene",
+                                    "smooth",
+                                    "soft",
+                                    "tender",
+                                    "thoughtful",
+                                    "warm"
+                                ],
+                       "desc":  "A touching melody played with mellotron and synth bells, ideal for the credits scene. It’s filled with emotion and nostalgia and will surely make you pause and linger",
+                       "cover":  "tracks/against-all-odds/cover.jpg",
+                       "demo":  "tracks/against-all-odds/demo.mp3",
+                       "loopZip":  "tracks/against-all-odds/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  9,
+                       "title":  "Tiny World",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "2:24",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "breezy",
+                                    "bright",
+                                    "calm",
+                                    "cheerful",
+                                    "chillout",
+                                    "delicate",
+                                    "dreamy",
+                                    "fun",
+                                    "happy",
+                                    "heartwarming",
+                                    "hopeful",
+                                    "inspiring",
+                                    "joyful",
+                                    "light",
+                                    "magical",
+                                    "nature",
+                                    "nostalgic",
+                                    "peaceful",
+                                    "playful",
+                                    "positive",
+                                    "relaxed",
+                                    "soft",
+                                    "tranquil",
+                                    "uplifting",
+                                    "warm"
+                                ],
+                       "desc":  "A soothing and uplifting melody brimming with positive harmonies and delightful sounds. Perfect for map exploration and tranquil gameplay. Zip Contents: – Full vrs + sfx – Long loop + sfx – Short loop A, B",
+                       "cover":  "tracks/tiny-world/cover.jpg",
+                       "demo":  "tracks/tiny-world/demo.mp3",
+                       "loopZip":  "tracks/tiny-world/loop.zip",
+                       "status":  "published",
+                       "packPrice":  12,
+                       "packZip":  "tracks/tiny-world/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Tiny World - Full - no sfx.wav",
+                                                "duration":  "2:51"
+                                            },
+                                            {
+                                                "name":  "Tiny World - Full.wav",
+                                                "duration":  "2:51"
+                                            },
+                                            {
+                                                "name":  "Tiny World - loop - no sfx.wav",
+                                                "duration":  "2:24"
+                                            },
+                                            {
+                                                "name":  "Tiny World - loop - short loop A.wav",
+                                                "duration":  "1:04"
+                                            },
+                                            {
+                                                "name":  "Tiny World - loop - short loop B.wav",
+                                                "duration":  "1:04"
+                                            },
+                                            {
+                                                "name":  "Tiny World - loop.wav",
+                                                "duration":  "2:24"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  10,
+                       "title":  "The Wrong Party",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "1:10",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "bouncy",
+                                    "catchy",
+                                    "crazy",
+                                    "energetic",
+                                    "freaky",
+                                    "funky",
+                                    "futuristic",
+                                    "groovy",
+                                    "industrial",
+                                    "mechanical",
+                                    "silly",
+                                    "upbeat"
+                                ],
+                       "desc":  "An upbeat techno-funk track featuring electronic sounds, an energetic beat, and a memorable melody. Perfect for adding a touch of humor to scenes set in a futuristic setting.",
+                       "cover":  "tracks/the-wrong-party/cover.jpg",
+                       "demo":  "tracks/the-wrong-party/demo.mp3",
+                       "loopZip":  "tracks/the-wrong-party/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  11,
+                       "title":  "Building Cities",
+                       "genre":  "Chiptune",
+                       "bpm":  120,
+                       "duration":  "1:09",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "catchy",
+                                    "chase",
+                                    "cheerful",
+                                    "childish",
+                                    "cool",
+                                    "determine",
+                                    "fast",
+                                    "friendly",
+                                    "fun",
+                                    "joyful",
+                                    "light",
+                                    "playful"
+                                ],
+                       "desc":  "An uplifting little tune in an 8-bit style with fast melody lines and a groovy beat. Great for fast-moving gameplay. Pack Contents: – Full loopable version",
+                       "cover":  "tracks/building-cities/cover.jpg",
+                       "demo":  "tracks/building-cities/demo.mp3",
+                       "loopZip":  "tracks/building-cities/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  12,
+                       "title":  "All Is Quiet Under The Sea",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "2:49",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "bouncy",
+                                    "breezy",
+                                    "cool",
+                                    "dreamy",
+                                    "exotic",
+                                    "fun",
+                                    "hopeful",
+                                    "joyful",
+                                    "light",
+                                    "mellow",
+                                    "nostalgic",
+                                    "playful",
+                                    "positive",
+                                    "relaxing",
+                                    "simple",
+                                    "soft",
+                                    "subtle",
+                                    "sweet",
+                                    "travel",
+                                    "uplifting"
+                                ],
+                       "desc":  "An 8-bit flavored reggae theme with an island vibe. Suitable for casual gameplay and tropical scenery. Pack Contents: Full version Full version – no SFX Long loop Short loop",
+                       "cover":  "tracks/all-is-quiet-under-the-sea/cover.jpg",
+                       "demo":  "tracks/all-is-quiet-under-the-sea/demo.mp3",
+                       "loopZip":  "tracks/all-is-quiet-under-the-sea/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  13,
+                       "title":  "Welcome To The Black Market",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "1:31",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "bouncy",
+                                    "contemplative",
+                                    "dangerous",
+                                    "dark",
+                                    "determine",
+                                    "evil",
+                                    "groovy",
+                                    "middle east",
+                                    "mysterious",
+                                    "mystical",
+                                    "oriental",
+                                    "sarcastic",
+                                    "sneaky",
+                                    "Suspense",
+                                    "suspenseful",
+                                    "tension",
+                                    "upbeat",
+                                    "wicked"
+                                ],
+                       "desc":  "A Hip-Hop retro style beat, with Middle Eastern flavor. Dark, mischievous and fun. Versions included : – Loop",
+                       "cover":  "tracks/welcome-to-the-black-market/cover.jpg",
+                       "demo":  "tracks/welcome-to-the-black-market/demo.mp3",
+                       "loopZip":  "tracks/welcome-to-the-black-market/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  14,
+                       "title":  "Wonders Of The Lost World",
+                       "genre":  "Ambient",
+                       "bpm":  120,
+                       "duration":  "2:37",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "calm",
+                                    "chillout",
+                                    "dreamy",
+                                    "emotional",
+                                    "futuristic",
+                                    "hypnotic",
+                                    "magical",
+                                    "mellow",
+                                    "mysterious",
+                                    "peaceful",
+                                    "relaxing",
+                                    "searching",
+                                    "smooth",
+                                    "subtle",
+                                    "tranquil"
+                                ],
+                       "desc":  "A haunting and enchanting theme. Inspiring yet mysterious. Imagine alien worlds, distant enchanted forests and fields of glowing flowers, surrounded by dark trees. Package contents: – Full version – no SFX – Loop version – no sfx",
+                       "cover":  "tracks/wonders-of-the-lost-world/cover.jpg",
+                       "demo":  "tracks/wonders-of-the-lost-world/demo.mp3",
+                       "loopZip":  "tracks/wonders-of-the-lost-world/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true,
+                       "packContents":  [
+                                            {
+                                                "name":  "Wonders Of The Lost World - full no sfx.wav",
+                                                "duration":  "2:38"
+                                            },
+                                            {
+                                                "name":  "Wonders Of The Lost World - loop no sfx.wav",
+                                                "duration":  "2:37"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  15,
+                       "title":  "The Perfect Escape Plan",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "2:10",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "angry",
+                                    "chase",
+                                    "dangerous",
+                                    "dark",
+                                    "dramatic",
+                                    "evil",
+                                    "haunting",
+                                    "intense",
+                                    "mysterious",
+                                    "Suspense",
+                                    "suspenseful",
+                                    "tension",
+                                    "wicked"
+                                ],
+                       "desc":  "Dangerous and haunting. This theme is an evolving evil escape plan with catchy bass synth lines and powerful synth hooks. Perfect for action gameplay with some mystery elements. Package contents: – Full version no SFX – Full version – Loop version no SFX",
+                       "cover":  "tracks/the-perfect-escape-plan/cover.jpg",
+                       "demo":  "tracks/the-perfect-escape-plan/demo.mp3",
+                       "loopZip":  "tracks/the-perfect-escape-plan/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  16,
+                       "cover":  "tracks/that-wasn-t-a-chicken/cover.jpg",
+                       "status":  "published",
+                       "demo":  "tracks/that-wasn-t-a-chicken/demo.mp3",
+                       "loopZip":  "tracks/that-wasn-t-a-chicken/loop.zip",
+                       "loopOnly":  true,
+                       "title":  "That Wasn\u0027t A Chicken",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "1:20",
+                       "desc":  "A weird and whacky cute tune with a lead synth resembling a chicken. Fun and crazy. Suitable for humorous games. Package content: – Loop version",
+                       "loopPrice":  9,
+                       "price":  9,
+                       "tags":  [
+                                    "fun",
+                                    "crazy",
+                                    "energetic",
+                                    "happy",
+                                    "jumpy",
+                                    "cheerful",
+                                    "silly",
+                                    "childish",
+                                    "sarcastic",
+                                    "chaotic",
+                                    "funny",
+                                    "weird"
+                                ]
+                   },
+                   {
+                       "id":  17,
+                       "title":  "Deep Space Surrealism",
+                       "genre":  "Ambient",
+                       "bpm":  120,
+                       "duration":  "3:02",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "bittersweet",
+                                    "calm",
+                                    "chillout",
+                                    "crazy",
+                                    "dreamy",
+                                    "exotic",
+                                    "experimental",
+                                    "foreboding",
+                                    "groovy",
+                                    "hypnotic",
+                                    "mad",
+                                    "melancholic",
+                                    "middle east",
+                                    "mysterious",
+                                    "nostalgic",
+                                    "space",
+                                    "strange",
+                                    "weird"
+                                ],
+                       "desc":  "A bit strange and nostalgic, this tune is like a modern art painting, mixing in various styles and genres. Suitable for menu or credit themes. Featuring a Middle Eastern melody line. Package contents: – Loop version – Full version – No Drums version – Short loop version",
+                       "cover":  "tracks/deep-space-surrealism/cover.jpg",
+                       "demo":  "tracks/deep-space-surrealism/demo.mp3",
+                       "loopZip":  "tracks/deep-space-surrealism/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  18,
+                       "title":  "Our Dream House In The Sky",
+                       "genre":  "Electronic",
+                       "bpm":  120,
+                       "duration":  "2:35",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "atmospheric",
+                                    "bright",
+                                    "cheerful",
+                                    "dreamy",
+                                    "excited",
+                                    "friendly",
+                                    "happy",
+                                    "heartwarming",
+                                    "hopeful",
+                                    "inspiring",
+                                    "light",
+                                    "nostalgic",
+                                    "playful",
+                                    "simple",
+                                    "sweet",
+                                    "uplifting",
+                                    "warm"
+                                ],
+                       "desc":  "This tune has a dreamy vibe, filled with both joy and nostalgia. The melody really captures that sense of hope and positivity, and the sounds themselves are all soft and kind of magical. It’s actually the very first track from the “Tiny World” collection, and it’s all about creating this snug and comfy atmosphere with those gentle and pleasant sounds as your backdrop. it’s so catchy that it could totally work as an opening theme. Package contents: – Full version – 2 Long loops – 1 short loop",
+                       "cover":  "tracks/our-dream-house-in-the-sky/cover.jpg",
+                       "demo":  "tracks/our-dream-house-in-the-sky/demo.mp3",
+                       "loopZip":  "tracks/our-dream-house-in-the-sky/loop.zip",
+                       "status":  "published",
+                       "packPrice":  12,
+                       "packZip":  "tracks/our-dream-house-in-the-sky/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Our Dream House In The Sky - loop.wav",
+                                                "duration":  "2:35"
+                                            },
+                                            {
+                                                "name":  "Our Dream House In The Sky loop 2.wav",
+                                                "duration":  "2:07"
+                                            },
+                                            {
+                                                "name":  "Our Dream House In The Sky short loop.wav",
+                                                "duration":  "0:56"
+                                            },
+                                            {
+                                                "name":  "Our Dream House In The Sky.wav",
+                                                "duration":  "2:42"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  19,
+                       "title":  "Burning Tracks",
+                       "genre":  "Rock",
+                       "bpm":  120,
+                       "duration":  "2:30",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "aggressive",
+                                    "bouncy",
+                                    "cartoons",
+                                    "chase",
+                                    "computer",
+                                    "cool",
+                                    "determine",
+                                    "driving",
+                                    "energetic",
+                                    "excited",
+                                    "games",
+                                    "lively",
+                                    "strong",
+                                    "upbeat"
+                                ],
+                       "desc":  "An aggressive, energetic driving track with a bouncy beat — built for chase scenes, fast-paced gameplay, and cartoon action.",
+                       "cover":  "tracks/burning-tracks/cover.jpg",
+                       "demo":  "tracks/burning-tracks/demo.mp3",
+                       "loopZip":  "tracks/burning-tracks/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  20,
+                       "title":  "A Song For Naomi",
+                       "genre":  "Chiptune",
+                       "bpm":  120,
+                       "duration":  "2:44",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "8bit",
+                                    "beautiful",
+                                    "calm",
+                                    "contemplative",
+                                    "delicate",
+                                    "dreamy",
+                                    "hypnotic",
+                                    "love",
+                                    "magical",
+                                    "melancholic",
+                                    "mellow",
+                                    "nostalgic",
+                                    "slow",
+                                    "soft",
+                                    "soothing",
+                                    "warm",
+                                    "winter"
+                                ],
+                       "desc":  "This music is like a daydream, played on a music box-like instrument all by itself. It sounds a bit sad and reminds you of winter. Suitable for cut and ending scenes. Pack content: – Loop – No static version – Full version",
+                       "cover":  "tracks/a-song-for-naomi/cover.jpg",
+                       "demo":  "tracks/a-song-for-naomi/demo.mp3",
+                       "loopZip":  "tracks/a-song-for-naomi/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  21,
+                       "title":  "Suspicious Mushrooms",
+                       "genre":  "Chiptune",
+                       "bpm":  120,
+                       "duration":  "1:07",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "8bit",
+                                    "anxious",
+                                    "bouncy",
+                                    "catchy",
+                                    "chaotic",
+                                    "childish",
+                                    "comedy",
+                                    "crazy",
+                                    "dangerous",
+                                    "detective",
+                                    "electronic",
+                                    "energetic",
+                                    "foreboding",
+                                    "funky",
+                                    "game",
+                                    "gaming",
+                                    "haunting",
+                                    "jumpy",
+                                    "mysterious",
+                                    "mystical",
+                                    "night",
+                                    "nostalgic",
+                                    "playful",
+                                    "retro",
+                                    "smoky"
+                                ],
+                       "desc":  "A bit frantic and anxious. The track features a groovy and upbeat tempo with a soft synth, organ, and flute. Perfect for dark humoristic levels with a taste of mystery",
+                       "cover":  "tracks/suspicious-mushrooms/cover.jpg",
+                       "demo":  "tracks/suspicious-mushrooms/demo.mp3",
+                       "loopZip":  "tracks/suspicious-mushrooms/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  22,
+                       "title":  "Midnight Strawberries",
+                       "genre":  "Chiptune",
+                       "bpm":  120,
+                       "duration":  "1:12",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "8bit",
+                                    "beautiful",
+                                    "bouncy",
+                                    "camping",
+                                    "casual",
+                                    "catchy",
+                                    "cheerful",
+                                    "city",
+                                    "dreamy",
+                                    "electronic",
+                                    "flowing",
+                                    "friendly",
+                                    "game",
+                                    "heartwarming",
+                                    "hopeful",
+                                    "joyful",
+                                    "nature",
+                                    "night",
+                                    "nostalgic",
+                                    "playful",
+                                    "positive",
+                                    "relaxing",
+                                    "romance",
+                                    "smooth",
+                                    "subtle"
+                                ],
+                       "desc":  "A dreamy and pleasant theme with soft synth sounds and laid-back beats",
+                       "cover":  "tracks/midnight-strawberries/cover.jpg",
+                       "demo":  "tracks/midnight-strawberries/demo.mp3",
+                       "loopZip":  "tracks/midnight-strawberries/loop.zip",
+                       "status":  "published",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  23,
+                       "title":  "Counting Heartbeats",
+                       "genre":  "Cinematic",
+                       "bpm":  120,
+                       "duration":  "2:24",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Action",
+                                    "Menu",
+                                    "Level",
+                                    "Gameplay",
+                                    "Cyberpunk",
+                                    "Badass",
+                                    "Dark",
+                                    "Ominous",
+                                    "Dangerous",
+                                    "Mystery",
+                                    "Bad",
+                                    "Scary",
+                                    "Horror",
+                                    "Futuristic",
+                                    "Scifi",
+                                    "Science",
+                                    "Apocalyptic",
+                                    "Beat",
+                                    "Serious",
+                                    "Underscore",
+                                    "Future",
+                                    "Retro",
+                                    "Electronic",
+                                    "Techno",
+                                    "Melancholic",
+                                    "Cinematic"
+                                ],
+                       "desc":  "An ominous electronic tune with a melancholic vibe, forboding the apocalypse. Features various percussion, synths, and an electric guitar",
+                       "cover":  "tracks/counting-heartbeats/cover.jpg",
+                       "demo":  "tracks/counting-heartbeats/demo.mp3",
+                       "loopZip":  "tracks/counting-heartbeats/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-24T17:18:00.689Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/counting-heartbeats/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Counting Heartbeats - loop.wav",
+                                                "duration":  "2:24"
+                                            },
+                                            {
+                                                "name":  "Counting Heartbeats - short loop 2.wav",
+                                                "duration":  "1:36"
+                                            },
+                                            {
+                                                "name":  "Counting Heartbeats Full.wav",
+                                                "duration":  "2:57"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  24,
+                       "title":  "Leaving Earth",
+                       "genre":  "Cinematic",
+                       "bpm":  100,
+                       "duration":  "1:36",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Menu",
+                                    "Level",
+                                    "Gameplay",
+                                    "Cyberpunk",
+                                    "Badass",
+                                    "Dark",
+                                    "Ominous",
+                                    "Dangerous",
+                                    "Mystery",
+                                    "Bad",
+                                    "Scary",
+                                    "Horror",
+                                    "Futuristic",
+                                    "Scifi",
+                                    "Science",
+                                    "Apocalyptic",
+                                    "Action",
+                                    "Beat",
+                                    "Serious",
+                                    "Underscore",
+                                    "Future",
+                                    "Retro",
+                                    "Electronic",
+                                    "Techno",
+                                    "Melancholic",
+                                    "Cinematic"
+                                ],
+                       "desc":  "A melancholic synthwave music with a strong beat and a futuristic vibe to it. Featuring electric guitars and synths",
+                       "cover":  "tracks/leaving-earth/cover.jpg",
+                       "demo":  "tracks/leaving-earth/demo.mp3",
+                       "loopZip":  "tracks/leaving-earth/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-24T17:21:56.419Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/leaving-earth/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Leaving Earth - Full.wav",
+                                                "duration":  "2:48"
+                                            },
+                                            {
+                                                "name":  "Leaving Earth - short loop.wav",
+                                                "duration":  "1:36"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  25,
+                       "title":  "No Way Out",
+                       "genre":  "Cinematic",
+                       "bpm":  120,
+                       "duration":  "1:59",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Action",
+                                    "Menu",
+                                    "Level",
+                                    "Gameplay",
+                                    "Cyberpunk",
+                                    "Badass",
+                                    "Dark",
+                                    "Ominous",
+                                    "Dangerous",
+                                    "Mystery",
+                                    "Bad",
+                                    "Scary",
+                                    "Horror",
+                                    "Futuristic",
+                                    "Scifi",
+                                    "Science",
+                                    "Apocalyptic",
+                                    "Beat",
+                                    "Serious",
+                                    "Underscore",
+                                    "Future",
+                                    "Retro",
+                                    "Electronic",
+                                    "Techno",
+                                    "Melancholic",
+                                    "Cinematic"
+                                ],
+                       "desc":  "A futuristic electronic track with a cyberpunk vibe. Rhythmic and melancholic with a suspenseful vibe",
+                       "cover":  "tracks/no-way-out/cover.jpg",
+                       "demo":  "tracks/no-way-out/demo.mp3",
+                       "loopZip":  "tracks/no-way-out/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-24T17:23:55.019Z",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  26,
+                       "title":  "Must Be a Dream",
+                       "genre":  "Cinematic",
+                       "bpm":  120,
+                       "duration":  "2:01",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Action",
+                                    "Menu",
+                                    "Level",
+                                    "Gameplay",
+                                    "Cyberpunk",
+                                    "Badass",
+                                    "Dark",
+                                    "Ominous",
+                                    "Dangerous",
+                                    "Mystery",
+                                    "Bad",
+                                    "Scary",
+                                    "Horror",
+                                    "Futuristic",
+                                    "Scifi",
+                                    "Science",
+                                    "Apocalyptic",
+                                    "Beat",
+                                    "Serious",
+                                    "Underscore",
+                                    "Future",
+                                    "Retro",
+                                    "Electronic",
+                                    "Techno",
+                                    "Melancholic",
+                                    "Cinematic"
+                                ],
+                       "desc":  "A futuristic tune with a cyberpunk vibe. Upbeat, dark, and ominous.",
+                       "cover":  "tracks/must-be-a-dream/cover.jpg",
+                       "demo":  "tracks/must-be-a-dream/demo.mp3",
+                       "loopZip":  "tracks/must-be-a-dream/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-24T17:24:27.076Z",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  27,
+                       "title":  "Disturbance in the Atmosphere",
+                       "genre":  "Cinematic",
+                       "bpm":  120,
+                       "duration":  "1:45",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Action",
+                                    "Menu",
+                                    "Level",
+                                    "Gameplay",
+                                    "Cyberpunk",
+                                    "Badass",
+                                    "Dark",
+                                    "Ominous",
+                                    "Dangerous",
+                                    "Mystery",
+                                    "Bad",
+                                    "Scary",
+                                    "Horror",
+                                    "Futuristic",
+                                    "Scifi",
+                                    "Science",
+                                    "Apocalyptic",
+                                    "Beat",
+                                    "Serious",
+                                    "Underscore",
+                                    "Future",
+                                    "Retro",
+                                    "Electronic",
+                                    "Techno",
+                                    "Melancholic",
+                                    "Cinematic"
+                                ],
+                       "desc":  "A futuristic tune with a cyberpunk vibe. Upbeat, dark, and ominous.",
+                       "cover":  "tracks/disturbance-in-the-atmosphere/cover.jpg",
+                       "demo":  "tracks/disturbance-in-the-atmosphere/demo.mp3",
+                       "loopZip":  "tracks/disturbance-in-the-atmosphere/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-24T17:30:46.058Z",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  28,
+                       "title":  "Welcome to the Military Academy",
+                       "genre":  "Games",
+                       "bpm":  120,
+                       "duration":  "0:40",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Army",
+                                    "Marching",
+                                    "Band",
+                                    "Military",
+                                    "Comedy",
+                                    "Funny",
+                                    "Uplifting",
+                                    "Drums",
+                                    "Tuba",
+                                    "Whistle",
+                                    "Soldier",
+                                    "Training",
+                                    "Academy",
+                                    "School",
+                                    "Left",
+                                    "Right",
+                                    "Parade",
+                                    "Marine",
+                                    "USA",
+                                    "War",
+                                    "Snare",
+                                    "Proud",
+                                    "Athletic"
+                                ],
+                       "desc":  "A fun marching theme to match audiovisual projects related to police, army, training, and military schools. Militant and somewhat comic. Featuring whistles, marching band percussion and a tuba. Suitable for games, commercials, and film",
+                       "cover":  "tracks/welcome-to-the-military-academy/cover.jpg",
+                       "demo":  "tracks/welcome-to-the-military-academy/demo.mp3",
+                       "loopZip":  "tracks/welcome-to-the-military-academy/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T03:37:41.079Z",
+                       "loopOnly":  true
+                   },
+                   {
+                       "id":  29,
+                       "title":  "Under Investigation",
+                       "genre":  "Drama",
+                       "bpm":  70,
+                       "duration":  "0:55",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Sneaky",
+                                    "Spy",
+                                    "Funny",
+                                    "Careful",
+                                    "Delicate",
+                                    "Children",
+                                    "Comedy",
+                                    "Suspense",
+                                    "Drama",
+                                    "Humor",
+                                    "Cautious",
+                                    "Investigation",
+                                    "Fun",
+                                    "Spooky",
+                                    "Sophisticated",
+                                    "Complicated",
+                                    "Dramatic",
+                                    "Suspenseful",
+                                    "Mysterious",
+                                    "Crime"
+                                ],
+                       "desc":  "A suspenseful and intriguing tune with a pinch of humor. Featuring Upright piano and Fender Rhodes",
+                       "cover":  "tracks/under-investigation/cover.jpg",
+                       "demo":  "tracks/under-investigation/demo.mp3",
+                       "loopZip":  "tracks/under-investigation/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T03:41:40.056Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/under-investigation/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Under investigation 30sec.wav",
+                                                "duration":  "0:30"
+                                            },
+                                            {
+                                                "name":  "Under investigation 60sec.wav",
+                                                "duration":  "1:00"
+                                            },
+                                            {
+                                                "name":  "Under investigation drums\u0026piano.wav",
+                                                "duration":  "1:41"
+                                            },
+                                            {
+                                                "name":  "Under investigation full loopable.wav",
+                                                "duration":  "1:36"
+                                            },
+                                            {
+                                                "name":  "Under investigation full.wav",
+                                                "duration":  "1:41"
+                                            },
+                                            {
+                                                "name":  "Under investigation Long Loop 0_54.wav",
+                                                "duration":  "0:55"
+                                            },
+                                            {
+                                                "name":  "Under investigation loop A.wav",
+                                                "duration":  "0:14"
+                                            },
+                                            {
+                                                "name":  "Under investigation loop B.wav",
+                                                "duration":  "0:14"
+                                            },
+                                            {
+                                                "name":  "Under investigation loop C.wav",
+                                                "duration":  "0:27"
+                                            },
+                                            {
+                                                "name":  "Under investigation loop D.wav",
+                                                "duration":  "0:14"
+                                            },
+                                            {
+                                                "name":  "Under investigation no drums.wav",
+                                                "duration":  "1:41"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  30,
+                       "title":  "Trouble in Space",
+                       "genre":  "Comedy",
+                       "bpm":  100,
+                       "duration":  "0:48",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Anticipating",
+                                    "Comedy",
+                                    "Sci-Fi",
+                                    "Mystery",
+                                    "Childish",
+                                    "Funny",
+                                    "Cautious",
+                                    "Confused",
+                                    "Curious",
+                                    "Delicate",
+                                    "Dreamy",
+                                    "Alien",
+                                    "Eerie",
+                                    "Elegant",
+                                    "Enchanted",
+                                    "Haunting",
+                                    "Humble",
+                                    "Hypnotic",
+                                    "Inquisitive",
+                                    "Intelligent",
+                                    "Magical",
+                                    "Meaningful",
+                                    "Melancholic",
+                                    "Mysterious",
+                                    "Nervous",
+                                    "Quirky",
+                                    "Secretive",
+                                    "Sneaky",
+                                    "Sophisticated",
+                                    "Spacious",
+                                    "Strange",
+                                    "Suspicious",
+                                    "Suspenseful",
+                                    "Wondrous",
+                                    "Worried",
+                                    "Alone",
+                                    "Enigmatic",
+                                    "Euphoric",
+                                    "Ghostly",
+                                    "Hesitant"
+                                ],
+                       "desc":  "A funny tune with a worried spirit. A whistling synth melody tells a tale of an uneasy spacey situation. Featuring synths, organ, pizzicato strings. Perfect for cartoons and animation.",
+                       "cover":  "tracks/trouble-in-space/cover.jpg",
+                       "demo":  "tracks/trouble-in-space/demo.mp3",
+                       "loopZip":  "tracks/trouble-in-space/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T04:03:52.911Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/trouble-in-space/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Trouble in space 15sec.wav",
+                                                "duration":  "0:15"
+                                            },
+                                            {
+                                                "name":  "Trouble in space 30sec.wav",
+                                                "duration":  "0:30"
+                                            },
+                                            {
+                                                "name":  "Trouble in space 60sec.wav",
+                                                "duration":  "1:00"
+                                            },
+                                            {
+                                                "name":  "Trouble in space full loopable.wav",
+                                                "duration":  "1:41"
+                                            },
+                                            {
+                                                "name":  "Trouble in space full.wav",
+                                                "duration":  "1:42"
+                                            },
+                                            {
+                                                "name":  "Trouble in Space long loop.wav",
+                                                "duration":  "0:48"
+                                            },
+                                            {
+                                                "name":  "Trouble in space loop A.wav",
+                                                "duration":  "0:14"
+                                            },
+                                            {
+                                                "name":  "Trouble in space loop B.wav",
+                                                "duration":  "0:24"
+                                            },
+                                            {
+                                                "name":  "Trouble in space loop C.wav",
+                                                "duration":  "0:19"
+                                            },
+                                            {
+                                                "name":  "Trouble in space no drums.wav",
+                                                "duration":  "1:42"
+                                            },
+                                            {
+                                                "name":  "Trouble in space no synth.wav",
+                                                "duration":  "1:42"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  31,
+                       "title":  "Toxic Chemicals",
+                       "genre":  "Electronic",
+                       "bpm":  100,
+                       "duration":  "1:26",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Dirty",
+                                    "Filthy",
+                                    "Cool",
+                                    "Downtempo",
+                                    "Big Beat",
+                                    "Smooth",
+                                    "Crime",
+                                    "Gangsters",
+                                    "Modern",
+                                    "House",
+                                    "Gun",
+                                    "Criminals",
+                                    "Police",
+                                    "Electronic",
+                                    "Wicked",
+                                    "Vulgar",
+                                    "Tough",
+                                    "Street-Smart",
+                                    "Strange",
+                                    "Sinister",
+                                    "Scary",
+                                    "Raunchy",
+                                    "Pushy",
+                                    "Psychotic",
+                                    "Powerful",
+                                    "Ominous",
+                                    "Mysterious",
+                                    "Mischievous",
+                                    "Massive",
+                                    "Intricate"
+                                ],
+                       "desc":  "A cool downtempo electro-grime tune. Big beat with fat and dirty bass theme and atmospheric effects. Suitable for crime scenes",
+                       "cover":  "tracks/toxic-chemicals/cover.jpg",
+                       "demo":  "tracks/toxic-chemicals/demo.mp3",
+                       "loopZip":  "tracks/toxic-chemicals/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T04:05:21.757Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/toxic-chemicals/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Toxic Chemicals full.wav",
+                                                "duration":  "2:10"
+                                            },
+                                            {
+                                                "name":  "toxic chemicals long loop 01_26.wav",
+                                                "duration":  "1:26"
+                                            },
+                                            {
+                                                "name":  "Toxic Chemicals Loop 1.wav",
+                                                "duration":  "0:19"
+                                            },
+                                            {
+                                                "name":  "Toxic Chemicals Loop 2.wav",
+                                                "duration":  "0:19"
+                                            },
+                                            {
+                                                "name":  "Toxic Chemicals Loop 3.wav",
+                                                "duration":  "0:10"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  32,
+                       "title":  "Top Secret",
+                       "genre":  "Military",
+                       "bpm":  140,
+                       "duration":  "0:47",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Aggressive",
+                                    "Angry",
+                                    "Bold",
+                                    "Booming",
+                                    "Chaotic",
+                                    "Confrontational",
+                                    "Dangerous",
+                                    "Determined",
+                                    "Dramatic",
+                                    "Eerie",
+                                    "Cinematic",
+                                    "Orchestral",
+                                    "Epic",
+                                    "Escalating",
+                                    "Explosive",
+                                    "Fiery",
+                                    "Forceful",
+                                    "Frantic",
+                                    "Hard",
+                                    "Hectic",
+                                    "Manacing",
+                                    "Mysterious",
+                                    "Raw",
+                                    "Serious",
+                                    "Enigmatic",
+                                    "Spy",
+                                    "Suspense",
+                                    "Action",
+                                    "Thriller"
+                                ],
+                       "desc":  "A mesmerizing military suspense track. Full of tension, twists and raw power. Featuring orchestral percussion, strings, horns and field drums. Perfect for film, trailers and suspense scenes.",
+                       "cover":  "tracks/top-secret/cover.jpg",
+                       "demo":  "tracks/top-secret/demo.mp3",
+                       "loopZip":  "tracks/top-secret/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T04:09:23.275Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/top-secret/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Top secret full.wav",
+                                                "duration":  "1:36"
+                                            },
+                                            {
+                                                "name":  "top secret long loop.wav",
+                                                "duration":  "0:47"
+                                            },
+                                            {
+                                                "name":  "Top secret loop A.wav",
+                                                "duration":  "0:19"
+                                            },
+                                            {
+                                                "name":  "Top secret loop B.wav",
+                                                "duration":  "0:09"
+                                            },
+                                            {
+                                                "name":  "Top secret loop C.wav",
+                                                "duration":  "0:21"
+                                            },
+                                            {
+                                                "name":  "Top secret loopable.wav",
+                                                "duration":  "1:25"
+                                            },
+                                            {
+                                                "name":  "Top secret no drums.wav",
+                                                "duration":  "1:36"
+                                            },
+                                            {
+                                                "name":  "Top secret no underscore.wav",
+                                                "duration":  "1:36"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  33,
+                       "title":  "Zombie Apocalypse",
+                       "genre":  "Horror",
+                       "bpm":  160,
+                       "duration":  "1:30",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Horror",
+                                    "Apocalypse",
+                                    "Cinematic",
+                                    "Disaster",
+                                    "Action",
+                                    "Dramatic",
+                                    "Fast",
+                                    "Fear",
+                                    "Epic",
+                                    "Escape",
+                                    "Fight",
+                                    "Futuristic",
+                                    "Zombie",
+                                    "War",
+                                    "Scary",
+                                    "Techno",
+                                    "Danger",
+                                    "Dark",
+                                    "Evil",
+                                    "Suspense",
+                                    "Screech",
+                                    "Halloween",
+                                    "Creepy",
+                                    "Intense",
+                                    "Aggressive",
+                                    "Apocalyptic",
+                                    "Death",
+                                    "Blood",
+                                    "Chase"
+                                ],
+                       "desc":  "A fast-paced techno-styled horror musical piece. Featuring heavy drum beats and massive impacts with piano chords and a dark ambient lead synth. Suitable for thrillers, horror movies, and action scenes. Can be used in animations, films, and video games.",
+                       "cover":  "tracks/zombie-apocalypse/cover.jpg",
+                       "demo":  "tracks/zombie-apocalypse/demo.mp3",
+                       "loopZip":  "tracks/zombie-apocalypse/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T18:17:57.429Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/zombie-apocalypse/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Zombie Apocalypse Long Loop.wav",
+                                                "duration":  "1:30"
+                                            },
+                                            {
+                                                "name":  "Zombie Apocalypse.wav",
+                                                "duration":  "2:27"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  34,
+                       "title":  "Toy Thief",
+                       "genre":  "Comedy",
+                       "bpm":  65,
+                       "duration":  "0:44",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Sneaky",
+                                    "Spy",
+                                    "Funny",
+                                    "Creeps Up",
+                                    "Careful",
+                                    "Delicate",
+                                    "Cartoon",
+                                    "Children",
+                                    "Comedy",
+                                    "Video Game",
+                                    "Suspense",
+                                    "Drama",
+                                    "Dark Humor",
+                                    "Cautious",
+                                    "Investigation",
+                                    "Fun",
+                                    "Spooky",
+                                    "Classical",
+                                    "Orchestral",
+                                    "Ironic",
+                                    "Sophisticated",
+                                    "Complicated",
+                                    "Dramatic",
+                                    "Suspenseful",
+                                    "Mysterious",
+                                    "Fun"
+                                ],
+                       "desc":  "Cool as a cat and mysterious as a shadow man. This track is full of spice and fun instruments like finger snaps, xylophone, and jazzy organ. Great for comedies and cartoons.",
+                       "cover":  "tracks/toy-thief/cover.jpg",
+                       "demo":  "tracks/toy-thief/demo.mp3",
+                       "loopZip":  "tracks/toy-thief/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T18:21:07.856Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/toy-thief/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Toy thief full loopable.wav",
+                                                "duration":  "2:13"
+                                            },
+                                            {
+                                                "name":  "Toy thief full.wav",
+                                                "duration":  "2:17"
+                                            },
+                                            {
+                                                "name":  "Toy thief Long Loop 0_44.wav",
+                                                "duration":  "0:44"
+                                            },
+                                            {
+                                                "name":  "Toy thief loop A.wav",
+                                                "duration":  "0:15"
+                                            },
+                                            {
+                                                "name":  "Toy thief loop B.wav",
+                                                "duration":  "0:30"
+                                            },
+                                            {
+                                                "name":  "Toy thief loop C.wav",
+                                                "duration":  "0:15"
+                                            },
+                                            {
+                                                "name":  "Toy thief no drums.wav",
+                                                "duration":  "2:17"
+                                            },
+                                            {
+                                                "name":  "Toy thief piano \u0026 drums.wav",
+                                                "duration":  "2:17"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  35,
+                       "title":  "Today Is Your Lucky Day",
+                       "genre":  "Children",
+                       "bpm":  100,
+                       "duration":  "1:17",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Achievement",
+                                    "Atmospheric",
+                                    "Beautiful",
+                                    "Bright",
+                                    "Calm",
+                                    "Carefree",
+                                    "Cheerful",
+                                    "Childish",
+                                    "Cute",
+                                    "Delicate",
+                                    "Dreamy",
+                                    "Energetic",
+                                    "Excited",
+                                    "Fresh",
+                                    "Friendly",
+                                    "Game",
+                                    "Humorous",
+                                    "Inspirational",
+                                    "Interesting",
+                                    "Jolly",
+                                    "Joyful",
+                                    "Jumpy",
+                                    "Light",
+                                    "Lively",
+                                    "Optimistic",
+                                    "Outgoing",
+                                    "Playful",
+                                    "Quirky",
+                                    "Rhythmic",
+                                    "Soft",
+                                    "Spacious",
+                                    "Summery",
+                                    "Uplifting",
+                                    "Witty",
+                                    "Warm"
+                                ],
+                       "desc":  "This is a video game music loop. A very happy and positive track. Uplifting and cheerful. Full of good spirit and optimism. Featuring electric piano, xylophone, guitar, celeste, and 808 drums. Music has a lot of space, and settles well in the background. The tune is similar to games like: animal crossing, stardew valley, magicians quest, fantasy life, wandering willows, rune factory, shepherds crossing, castaway paradise, harvest moon, viva pinata, happy street and more of that genre. Suitable for games, animations, and children related productions.",
+                       "cover":  "tracks/today-is-your-lucky-day/cover.jpg",
+                       "demo":  "tracks/today-is-your-lucky-day/demo.mp3",
+                       "loopZip":  "tracks/today-is-your-lucky-day/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T18:22:46.660Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/today-is-your-lucky-day/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Today Is Your Lucky Day full.wav",
+                                                "duration":  "1:17"
+                                            },
+                                            {
+                                                "name":  "Today Is Your Lucky Day Long Loop.wav",
+                                                "duration":  "1:17"
+                                            },
+                                            {
+                                                "name":  "Today Is Your Lucky Day loop A.wav",
+                                                "duration":  "0:10"
+                                            },
+                                            {
+                                                "name":  "Today Is Your Lucky Day loop B.wav",
+                                                "duration":  "0:10"
+                                            },
+                                            {
+                                                "name":  "Today Is Your Lucky Day loop C.wav",
+                                                "duration":  "0:24"
+                                            },
+                                            {
+                                                "name":  "Today Is Your Lucky Day loop D.wav",
+                                                "duration":  "0:24"
+                                            },
+                                            {
+                                                "name":  "Today Is Your Lucky Day no drums.wav",
+                                                "duration":  "1:17"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  36,
+                       "title":  "Sunny Island Pirates",
+                       "genre":  "Children",
+                       "bpm":  180,
+                       "duration":  "1:09",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Beach",
+                                    "Sunshine",
+                                    "Sunny",
+                                    "Tropical",
+                                    "Animation",
+                                    "Adventurous",
+                                    "Ethnic",
+                                    "Cheerful",
+                                    "Childish",
+                                    "Cool",
+                                    "Fun",
+                                    "Funny",
+                                    "Game",
+                                    "Happy",
+                                    "Humorous",
+                                    "Jolly",
+                                    "Joyful",
+                                    "Jumpy",
+                                    "Light",
+                                    "Lively",
+                                    "Playful",
+                                    "Positive",
+                                    "Quirky",
+                                    "Uplifting",
+                                    "Jungle",
+                                    "Forest",
+                                    "Island",
+                                    "Pirates",
+                                    "Fantasy",
+                                    "Ship",
+                                    "Sea",
+                                    "Comic",
+                                    "Paradise",
+                                    "Caribbean",
+                                    "Cuban",
+                                    "Latin",
+                                    "Sailing",
+                                    "Travel",
+                                    "Vacation",
+                                    "Video Game"
+                                ],
+                       "desc":  "This track is pure tropical bliss. A real audio adventure full of fun, storytelling and ethnic island spirit. It has motifs from pirate and adventure songs packed in a colorful and an uplifting theme. It feels like a glimpse into a picturesque island full of coconut trees, perfect beaches, and lush green forests. Featuring a marimba, a steel drum, various percussion, piccolo flute, an accordion and a harpsichord. Suitable for games, animations, and travel videos.",
+                       "cover":  "tracks/sunny-island-pirates/cover.jpg",
+                       "demo":  "tracks/sunny-island-pirates/demo.mp3",
+                       "loopZip":  "tracks/sunny-island-pirates/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T19:15:47.467Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/sunny-island-pirates/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Sunny Island Pirates alt version.wav",
+                                                "duration":  "2:05"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Pirates full.wav",
+                                                "duration":  "2:05"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Pirates Long Loop.wav",
+                                                "duration":  "1:09"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Pirates loop A.wav",
+                                                "duration":  "0:27"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Pirates loop B.wav",
+                                                "duration":  "0:32"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Pirates without percussion.wav",
+                                                "duration":  "2:05"
+                                            }
+                                        ]
+                   },
+                   {
+                       "id":  37,
+                       "title":  "Sunny Island Adventure",
+                       "genre":  "Games",
+                       "bpm":  150,
+                       "duration":  "1:04",
+                       "price":  9,
+                       "loopPrice":  9,
+                       "tags":  [
+                                    "Sunny",
+                                    "Tropical",
+                                    "Animation",
+                                    "Adventurous",
+                                    "Carefree",
+                                    "Casual",
+                                    "Cheeky",
+                                    "Cheerful",
+                                    "Childish",
+                                    "Cool",
+                                    "Fun",
+                                    "Funny",
+                                    "Game",
+                                    "Happy",
+                                    "Humorous",
+                                    "Jolly",
+                                    "Joyful",
+                                    "Jumpy",
+                                    "Light",
+                                    "Lively",
+                                    "Playful",
+                                    "Positive",
+                                    "Quirky",
+                                    "Uplifting",
+                                    "Caveman",
+                                    "Prehistoric",
+                                    "Jungle",
+                                    "Forest",
+                                    "Rpg"
+                                ],
+                       "desc":  "A funny, bubbly and summery tune with a good sense of humor, jumpy melody and good vibes. Has a strong tropical feeling to it. Featuring flute, clarinet, xylophone, ukulele, harp, and percussion. Suitable for video games, cartoons and children related productions. Picture a small colorful island with lush coconut palm trees, clean yellow sand and colorful cartoon animals walking around.",
+                       "cover":  "tracks/sunny-island-adventure/cover.jpg",
+                       "demo":  "tracks/sunny-island-adventure/demo.mp3",
+                       "loopZip":  "tracks/sunny-island-adventure/loop.zip",
+                       "status":  "published",
+                       "publishedAt":  "2026-07-26T19:22:55.338Z",
+                       "packPrice":  12,
+                       "packZip":  "tracks/sunny-island-adventure/pack.zip",
+                       "packContents":  [
+                                            {
+                                                "name":  "Sunny Island Adventure full.wav",
+                                                "duration":  "1:38"
+                                            },
+                                            {
+                                                "name":  "sunny island adventure long loop.wav",
+                                                "duration":  "1:04"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Adventure loop A.wav",
+                                                "duration":  "0:32"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Adventure loop B.wav",
+                                                "duration":  "0:32"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Adventure loop C.wav",
+                                                "duration":  "0:19"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Adventure no percussion.wav",
+                                                "duration":  "1:38"
+                                            },
+                                            {
+                                                "name":  "Sunny Island Adventure underscore.wav",
+                                                "duration":  "1:38"
+                                            }
+                                        ]
                    }
                ]
 }
-

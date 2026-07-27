@@ -115,7 +115,7 @@ Write-Host "  loop.zip  $([math]::Round((Get-Item (Join-Path $trackDir 'loop.zip
 if ($hasPack) {
   Write-Host "  pack.zip  $([math]::Round((Get-Item (Join-Path $trackDir 'pack.zip')).Length/1MB,2)) MB"
 } else {
-  Write-Host "  pack.zip  (not included — loop-only track)"
+  Write-Host "  pack.zip  (not included - loop-only track)"
 }
 Write-Host "  cover.jpg  $([math]::Round((Get-Item (Join-Path $trackDir 'cover.jpg')).Length/1KB,0)) KB"
 Write-Host "Updated $catalogPath and $metaPath"
