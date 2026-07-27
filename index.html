@@ -588,7 +588,7 @@
     .overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 24px; }
     .overlay.active { display: flex; }
     .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 100%; max-width: 440px; }
-    .modal-header { display: flex; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; padding: 20px 24px; border-bottom: 1px solid var(--border); }
     .modal-body { padding: 24px; }
     .checkout-item { display: flex; gap: 14px; padding: 16px; background: var(--surface-2); border-radius: var(--radius); margin-bottom: 24px; }
     .checkout-thumb { width: 56px; height: 56px; border-radius: 8px; overflow: hidden; }
@@ -689,25 +689,54 @@
       .bp-actions { grid-column: 4 / 6; grid-row: 1; justify-self: end; }
       .bp-buy { padding: 7px 12px; font-size: 12px; }
       .bp-waveform-wrap { grid-column: 1 / -1; grid-row: 2; height: 44px; }
+      .overlay {
+        align-items: flex-start;
+        padding: max(12px, env(safe-area-inset-top, 0px)) 12px max(12px, env(safe-area-inset-bottom, 0px));
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .overlay .modal {
+        max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 24px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .overlay .modal-body {
+        overflow-y: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        -webkit-overflow-scrolling: touch;
+      }
     }
     @media (hover: none) and (pointer: coarse) {
-      .track-row-icon { border-color: var(--border); }
+      .track-row-icon { border-color: var(--border); background: var(--surface-2); }
+      .track-row-actions .track-row-icon:last-child {
+        color: var(--text);
+        border-color: rgba(94,234,212,0.35);
+        background: var(--accent-dim);
+      }
+      .track-row-actions .track-row-icon:last-child.in-cart { color: var(--accent); }
     }
     @media (max-width: 520px) {
       .contact-form .form-row { grid-template-columns: 1fr; }
       .account-link { max-width: 84px; padding: 8px 10px; }
       .account-link span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .track-row {
-        grid-template-columns: 44px 1fr auto;
-        grid-template-rows: auto auto;
-        gap: 8px 10px; padding: 12px;
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+        grid-template-rows: auto auto auto;
+        gap: 6px 10px; padding: 12px;
       }
-      .track-row-thumb-wrap { width: 44px; height: 44px; grid-row: 1 / 3; }
+      .track-row-thumb-wrap { width: 44px; height: 44px; grid-row: 1 / 4; }
       .track-row-play { width: 26px; height: 26px; }
-      .track-row-info { grid-column: 2; }
-      .track-row-duration { grid-column: 3; grid-row: 1; }
-      .track-row-wave { grid-column: 2 / 4; grid-row: 2; }
-      .track-row-actions { grid-column: 3; grid-row: 1; }
+      .track-row-info { grid-column: 2; grid-row: 1; min-width: 0; }
+      .track-row-duration { grid-column: 2; grid-row: 2; text-align: left; font-size: 11px; }
+      .track-row-wave { grid-column: 2 / 4; grid-row: 3; height: 36px; }
+      .track-row-actions {
+        grid-column: 3; grid-row: 1 / 4; align-self: center;
+        flex-direction: column; gap: 6px; position: relative; z-index: 2;
+      }
+      .track-row-icon { width: 40px; height: 40px; flex-shrink: 0; }
     }
   </style>
 </head>
@@ -1467,6 +1496,11 @@
     const demoBlobCache = new Map();
     const waveformPeaksCache = new Map();
     const waveformLoadPromises = new Map();
+    let listWaveformObserver = null;
+    const WAVEFORM_LOAD_CONCURRENCY = 2;
+    const WAVEFORM_CACHE_PREFIX = 'gms_wf_';
+    let waveformLoadQueue = [];
+    let waveformLoadActive = 0;
     let sharedAudioContext = null;
     const DEMO_DATAURL_MAX = 4 * 1024 * 1024;
     let cart = [];
@@ -1991,7 +2025,7 @@
       document.getElementById('bpMeta').textContent = `${t.genre}${t.demoName ? ' · ' + t.demoName : ''}`;
       waveformData = getWaveformBars(t.id, waveformBarCount());
       buildBottomWaveform();
-      loadWaveformForTrack(t).then(() => {
+      loadWaveformForTrack(t, true).then(() => {
         if (playingTrackId !== t.id) return;
         waveformData = getWaveformBars(t.id, waveformBarCount());
         buildBottomWaveform();
@@ -2124,12 +2158,25 @@
       return null;
     }
 
-    function computeWaveformPeaks(audioBuffer, peakCount = 512) {
+    function isMobileViewport() {
+      return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function waveformPeakCount() {
+      return isMobileViewport() ? 256 : 512;
+    }
+
+    function listWaveformBarCount() {
+      return isMobileViewport() ? 48 : 72;
+    }
+
+    function computeWaveformPeaks(audioBuffer, peakCount) {
+      const count = peakCount ?? waveformPeakCount();
       const channels = audioBuffer.numberOfChannels;
       const length = audioBuffer.length;
-      const blockSize = Math.max(1, Math.floor(length / peakCount));
-      const peaks = new Float32Array(peakCount);
-      for (let i = 0; i < peakCount; i++) {
+      const blockSize = Math.max(1, Math.floor(length / count));
+      const peaks = new Float32Array(count);
+      for (let i = 0; i < count; i++) {
         const start = i * blockSize;
         const end = Math.min(start + blockSize, length);
         let max = 0;
@@ -2141,9 +2188,9 @@
         peaks[i] = max;
       }
       let globalMax = 0;
-      for (let i = 0; i < peakCount; i++) globalMax = Math.max(globalMax, peaks[i]);
+      for (let i = 0; i < count; i++) globalMax = Math.max(globalMax, peaks[i]);
       if (globalMax > 0) {
-        for (let i = 0; i < peakCount; i++) peaks[i] /= globalMax;
+        for (let i = 0; i < count; i++) peaks[i] /= globalMax;
       }
       return peaks;
     }
@@ -2173,6 +2220,7 @@
     function invalidateWaveform(trackId) {
       waveformPeaksCache.delete(trackId);
       waveformLoadPromises.delete(trackId);
+      try { sessionStorage.removeItem(WAVEFORM_CACHE_PREFIX + trackId); } catch {}
     }
 
     function refreshWaveformUI(trackId) {
@@ -2189,39 +2237,141 @@
       }
     }
 
-    async function loadWaveformForTrack(track) {
-      if (!track?.id || waveformPeaksCache.has(track.id)) return;
+    function waveformCacheKey(track) {
+      return `${track.id}:${track.demoUrl || track.demoName || track.demoDataUrl || ''}`;
+    }
+
+    function loadPeaksFromSessionCache(track, cacheKey) {
+      try {
+        const raw = sessionStorage.getItem(WAVEFORM_CACHE_PREFIX + track.id);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed.key !== cacheKey || !Array.isArray(parsed.peaks)) return null;
+        return new Float32Array(parsed.peaks);
+      } catch {
+        return null;
+      }
+    }
+
+    function savePeaksToSessionCache(track, cacheKey, peaks) {
+      try {
+        sessionStorage.setItem(WAVEFORM_CACHE_PREFIX + track.id, JSON.stringify({
+          key: cacheKey,
+          peaks: Array.from(peaks),
+        }));
+      } catch {
+        /* sessionStorage full or unavailable */
+      }
+    }
+
+    function hydrateWaveformFromCache(track) {
+      if (!track?.id || waveformPeaksCache.has(track.id)) return true;
+      const cacheKey = waveformCacheKey(track);
+      const cached = loadPeaksFromSessionCache(track, cacheKey);
+      if (!cached) return false;
+      waveformPeaksCache.set(track.id, cached);
+      refreshWaveformUI(track.id);
+      return true;
+    }
+
+    async function loadWaveformForTrackNow(track) {
+      const demo = await loadDemoBlob(track);
+      const arrayBuffer = await demoToArrayBuffer(demo);
+      if (!arrayBuffer?.byteLength) return;
+
+      const ctx = getSharedAudioContext();
+      if (!ctx) return;
+      if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
+
+      const audioBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+      const peaks = computeWaveformPeaks(audioBuffer, waveformPeakCount());
+      waveformPeaksCache.set(track.id, peaks);
+      savePeaksToSessionCache(track, waveformCacheKey(track), peaks);
+      refreshWaveformUI(track.id);
+    }
+
+    function drainWaveformLoadQueue() {
+      while (waveformLoadActive < WAVEFORM_LOAD_CONCURRENCY && waveformLoadQueue.length) {
+        const job = waveformLoadQueue.shift();
+        waveformLoadActive++;
+        loadWaveformForTrackNow(job.track)
+          .then(() => job.resolve())
+          .catch(err => {
+            console.warn('Waveform analysis failed for track', job.track.id, err);
+            job.resolve();
+          })
+          .finally(() => {
+            waveformLoadActive--;
+            drainWaveformLoadQueue();
+          });
+      }
+    }
+
+    function scheduleWaveformLoad(track, priority = false) {
+      if (!track?.id) return Promise.resolve();
+      if (waveformPeaksCache.has(track.id)) return Promise.resolve();
+      if (hydrateWaveformFromCache(track)) return Promise.resolve();
       if (waveformLoadPromises.has(track.id)) return waveformLoadPromises.get(track.id);
 
-      const promise = (async () => {
-        try {
-          const demo = await loadDemoBlob(track);
-          const arrayBuffer = await demoToArrayBuffer(demo);
-          if (!arrayBuffer?.byteLength) return;
-
-          const ctx = getSharedAudioContext();
-          if (!ctx) return;
-          if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
-
-          const audioBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
-          waveformPeaksCache.set(track.id, computeWaveformPeaks(audioBuffer));
-          refreshWaveformUI(track.id);
-        } catch (err) {
-          console.warn('Waveform analysis failed for track', track.id, err);
-        } finally {
-          waveformLoadPromises.delete(track.id);
-        }
-      })();
-
+      const promise = new Promise(resolve => {
+        const job = { track, resolve };
+        if (priority) waveformLoadQueue.unshift(job);
+        else waveformLoadQueue.push(job);
+        drainWaveformLoadQueue();
+      });
       waveformLoadPromises.set(track.id, promise);
+      promise.finally(() => waveformLoadPromises.delete(track.id));
       return promise;
     }
 
-    async function warmWaveforms() {
-      await Promise.all(
-        getPublishedTracks().map(t => loadWaveformForTrack(t).catch(() => null))
-      );
-      renderTracks();
+    function loadWaveformForTrack(track, priority = false) {
+      return scheduleWaveformLoad(track, priority);
+    }
+
+    function ensureListWaveformObserver() {
+      if (listWaveformObserver) return listWaveformObserver;
+      if (!('IntersectionObserver' in window)) return null;
+      listWaveformObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const trackId = parseInt(entry.target.dataset.trackId, 10);
+          const track = tracks.find(t => t.id === trackId);
+          if (track) scheduleWaveformLoad(track);
+          listWaveformObserver.unobserve(entry.target);
+        });
+      }, { rootMargin: '160px 0px', threshold: 0 });
+      return listWaveformObserver;
+    }
+
+    function preloadVisiblePageWaveforms() {
+      document.querySelectorAll('.track-row-wave[data-track-id]').forEach(el => {
+        const trackId = parseInt(el.dataset.trackId, 10);
+        if (waveformPeaksCache.has(trackId)) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < -160 || rect.top > window.innerHeight + 160) return;
+        const track = tracks.find(t => t.id === trackId);
+        if (track) scheduleWaveformLoad(track);
+      });
+    }
+
+    function observeListWaveforms() {
+      const observer = ensureListWaveformObserver();
+      if (observer) {
+        document.querySelectorAll('.track-row-wave[data-track-id]').forEach(el => {
+          const trackId = parseInt(el.dataset.trackId, 10);
+          if (waveformPeaksCache.has(trackId)) return;
+          observer.observe(el);
+        });
+      }
+      preloadVisiblePageWaveforms();
+    }
+
+    function warmWaveforms() {
+      observeListWaveforms();
+      if (playingTrackId) {
+        const t = tracks.find(tr => tr.id === playingTrackId);
+        if (t) scheduleWaveformLoad(t, true);
+      }
     }
 
     function getDemoSrcSync(track) {
@@ -2315,6 +2465,7 @@
       for (const t of tracks) {
         if (!demoBlobCache.has(t.id) && (t.hasDemo || t.demoName || t.demoUrl || t.demoDataUrl)) {
           await loadDemoBlob(t).catch(() => null);
+          await new Promise(resolve => setTimeout(resolve, 0));
         }
       }
     }
@@ -4624,8 +4775,9 @@
 
     function renderFilterTabs() { /* browse filters removed — search handles tags/genres */ }
 
-    function listWaveformHtml(trackId, bars = 72) {
-      const data = getWaveformBars(trackId, bars);
+    function listWaveformHtml(trackId, bars) {
+      const count = bars ?? listWaveformBarCount();
+      const data = getWaveformBars(trackId, count);
       return data.map(h => `<div class="list-bar" style="height:${h}%"></div>`).join('');
     }
 
@@ -4754,7 +4906,7 @@
       ).join('');
       updateDetailWaveform();
       const trackId = currentTrack.id;
-      loadWaveformForTrack(currentTrack).then(() => {
+      loadWaveformForTrack(currentTrack, true).then(() => {
         if (!currentTrack || currentTrack.id !== trackId) return;
         detailWaveformData = getWaveformBars(trackId, detailWaveBarCount());
         scroll.innerHTML = detailWaveformData.map(h =>
@@ -5009,11 +5161,13 @@
         </article>`;
       }).join('');
 
+      pageList.forEach(t => hydrateWaveformFromCache(t));
       updateListWaveforms();
       updateCartUI();
       updateFavouritesUI();
       updateSearchClearUI();
       updateCatalogSortUI();
+      observeListWaveforms();
     }
 
     function onSearchInput() {
@@ -5241,7 +5395,9 @@
     function waveformBarCount() {
       const wrap = document.getElementById('bpWaveWrap');
       const w = wrap?.clientWidth || 640;
-      return Math.max(96, Math.min(220, Math.floor((w - 16) / 2)));
+      const maxBars = isMobileViewport() ? 160 : 220;
+      const minBars = isMobileViewport() ? 72 : 96;
+      return Math.max(minBars, Math.min(maxBars, Math.floor((w - 16) / 2)));
     }
 
     function startTrackPlayback(id, t) {
@@ -6617,7 +6773,8 @@
       } catch (err) {
         console.warn('Catalog load failed:', err);
       }
-      warmDemoCache().then(() => warmWaveforms());
+      warmWaveforms();
+      warmDemoCache();
     }
 
     if (document.readyState === 'loading') {
