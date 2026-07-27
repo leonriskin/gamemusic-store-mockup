@@ -230,10 +230,6 @@
                                                 "duration":  "2:41"
                                             },
                                             {
-                                                "name":  "Palm Tree Getaway Island - full.wav",
-                                                "duration":  "2:41"
-                                            },
-                                            {
                                                 "name":  "Palm Tree Getaway Island - loop no sfx.wav",
                                                 "duration":  "2:27"
                                             },
@@ -325,7 +321,7 @@
                                     "uplifting",
                                     "warm"
                                 ],
-                       "desc":  "A soothing and uplifting melody brimming with positive harmonies and delightful sounds. Perfect for map exploration and tranquil gameplay. Zip Contents: – Full vrs + sfx – Long loop + sfx – Short loop A, B",
+                       "desc":  "A soothing and uplifting melody brimming with positive harmonies and delightful sounds. Perfect for map exploration and tranquil gameplay. Zip Contents: – Full version – no SFX – Long loop + sfx – Short loop A, B",
                        "cover":  "tracks/tiny-world/cover.jpg",
                        "demo":  "tracks/tiny-world/demo.mp3",
                        "loopZip":  "tracks/tiny-world/loop.zip",
@@ -335,10 +331,6 @@
                        "packContents":  [
                                             {
                                                 "name":  "Tiny World - Full - no sfx.wav",
-                                                "duration":  "2:51"
-                                            },
-                                            {
-                                                "name":  "Tiny World - Full.wav",
                                                 "duration":  "2:51"
                                             },
                                             {
