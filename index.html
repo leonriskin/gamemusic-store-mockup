@@ -41,8 +41,18 @@
     .nav-toggle:hover { color: var(--text); background: var(--surface); }
     .nav { display: flex; align-items: center; gap: 20px; }
     .header-actions { display: flex; align-items: center; gap: 10px; }
-    .cart-btn { position: relative; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-muted); }
+    .cart-btn { position: relative; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-muted); overflow: visible; z-index: 0; }
     .cart-btn:hover { color: var(--text); background: var(--surface); }
+    .cart-btn.cart-has-items { color: var(--accent); border-color: rgba(94,234,212,0.25); }
+    .cart-btn.cart-has-items::after {
+      content: ''; position: absolute; inset: 0; border-radius: 10px; pointer-events: none; z-index: -1;
+      animation: cart-radiant-pulse 10s ease-out infinite;
+    }
+    @keyframes cart-radiant-pulse {
+      0%, 88%, 100% { opacity: 0; transform: scale(1); box-shadow: 0 0 0 0 rgba(94,234,212,0); }
+      4% { opacity: 0.85; transform: scale(1); box-shadow: 0 0 0 0 rgba(94,234,212,0.5); }
+      10% { opacity: 0; transform: scale(1.45); box-shadow: 0 0 0 18px rgba(94,234,212,0); }
+    }
     .fav-btn { position: relative; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border); display: grid; place-items: center; color: var(--text-muted); }
     .fav-btn:hover { color: #f87171; background: var(--surface); }
     .fav-btn.active { color: #f87171; border-color: rgba(248,113,113,0.35); background: rgba(248,113,113,0.1); }
@@ -759,8 +769,8 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <span class="cart-badge" id="favBadge">0</span>
       </button>
-      <button class="cart-btn" onclick="openCart()" title="Cart">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h14l-1.5 7H8L6 6z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+      <button class="cart-btn" id="cartBtn" onclick="openCart()" title="Cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 7.5V6a4.5 4.5 0 0 1 9 0v1.5"/><path d="M5 7.5h14l-1.25 12.5H6.25L5 7.5z"/><circle cx="17.5" cy="5.5" r="3.25"/><path d="M17.5 4.25v2.5M16.25 5.5h2.5"/></svg>
         <span class="cart-badge" id="cartBadge">0</span>
       </button>
       <a href="#" class="account-link" id="accountLink" onclick="openAccount(); return false;"><span>Sign in</span></a>
@@ -3460,7 +3470,7 @@
     }
 
     const OWNED_CHECKMARK_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 2.5L16 9"/></svg>';
-    const CART_ICON_SVG = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6h14l-1.5 7H8L6 6z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>';
+    const CART_ICON_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 7.5V6a4.5 4.5 0 0 1 9 0v1.5"/><path d="M5 7.5h14l-1.25 12.5H6.25L5 7.5z"/><circle cx="17.5" cy="5.5" r="3.25"/><path d="M17.5 4.25v2.5M16.25 5.5h2.5"/></svg>';
 
     function trackCartButtonHtml(t) {
       const owned = getOwnedTier(t.id);
@@ -3769,9 +3779,15 @@
 
     function updateCartUI() {
       const badge = document.getElementById('cartBadge');
-      if (!badge) return;
-      badge.textContent = cart.length;
-      badge.classList.toggle('visible', cart.length > 0);
+      const cartBtn = document.getElementById('cartBtn');
+      if (badge) {
+        badge.textContent = cart.length;
+        badge.classList.toggle('visible', cart.length > 0);
+      }
+      if (cartBtn) {
+        cartBtn.classList.toggle('cart-has-items', cart.length > 0);
+      }
+      if (!badge && !cartBtn) return;
       const btn = document.getElementById('bpBuyBtn');
       if (btn && playingTrackId) {
         const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(playingTrackId));
