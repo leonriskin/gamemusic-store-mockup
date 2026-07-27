@@ -428,11 +428,17 @@
     /* Bottom player — full-width waveform (no scroll) */
     .bottom-player { position: fixed; bottom: 0; left: 0; right: 0; height: var(--player-h); background: var(--surface); border-top: 1px solid var(--border); z-index: 150; display: none; align-items: center; gap: 14px; padding: 0 16px; }
     .bottom-player.visible { display: flex; }
-    .bp-art { width: 52px; height: 52px; border-radius: 8px; overflow: hidden; flex-shrink: 0; cursor: pointer; }
+    .bp-art-wrap { flex-shrink: 0; }
+    .bp-art-wrap.playing::before,
+    .bp-art-wrap.paused::before { background: rgba(0,0,0,0.28); }
+    .bp-art-wrap.playing .track-row-play,
+    .bp-art-wrap.paused .track-row-play { opacity: 1; }
+    .bp-art-wrap.playing .track-row-play { background: var(--accent); color: #0c0d10; }
+    .bp-art-wrap.paused .track-row-play { background: rgba(0,0,0,0.68); color: #fff; }
+    .bp-art { width: 100%; height: 100%; }
     .bp-info { width: 160px; flex-shrink: 0; min-width: 0; }
     .bp-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
     .bp-meta { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .bp-play { width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: #0c0d10; display: grid; place-items: center; flex-shrink: 0; }
     .bp-loop {
       width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center;
       color: var(--text-muted); flex-shrink: 0; border: 1px solid transparent;
@@ -678,14 +684,13 @@
       .license-layout { padding: 32px 16px calc(100px + env(safe-area-inset-bottom, 0px)); }
       .footer { padding: 32px 16px; flex-direction: column; align-items: flex-start; }
       .bottom-player {
-        display: grid; grid-template-columns: auto auto 1fr auto auto; grid-template-rows: auto auto;
+        display: grid; grid-template-columns: auto 1fr auto auto; grid-template-rows: auto auto;
         gap: 8px 10px; align-items: center;
         height: auto; min-height: var(--player-h);
         padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
       }
-      .bp-art { grid-column: 1; grid-row: 1; width: 44px; height: 44px; }
-      .bp-play { grid-column: 2; grid-row: 1; width: 36px; height: 36px; }
-      .bp-loop { grid-column: 3; grid-row: 1; justify-self: start; }
+      .bp-art-wrap { grid-column: 1; grid-row: 1; width: 44px; height: 44px; }
+      .bp-loop { grid-column: 2; grid-row: 1; justify-self: start; }
       .bp-time { display: none; }
       .bp-actions { grid-column: 4 / 6; grid-row: 1; justify-self: end; }
       .bp-buy { padding: 7px 12px; font-size: 12px; }
@@ -1383,12 +1388,16 @@
 
   <!-- BOTTOM PLAYER -->
   <div class="bottom-player" id="bottomPlayer">
-    <div class="bp-art" id="bpArt" onclick="openTrack(playingTrackId)"></div>
+    <div class="bp-art-wrap track-row-thumb-wrap" id="bpArtWrap" onclick="handleTrackRowPlayback(playingTrackId, event)">
+      <div class="bp-art track-row-thumb" id="bpArt"></div>
+      <button type="button" class="track-row-play" id="bpArtPlay" tabindex="-1" aria-hidden="true" title="Play">
+        <svg id="bpPlayIcon" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
     <div class="bp-info">
       <div class="bp-title" id="bpTitle" onclick="openTrack(playingTrackId)"></div>
       <div class="bp-meta" id="bpMeta"></div>
     </div>
-    <button class="bp-play" onclick="togglePlay()"><svg id="bpPlayIcon" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <button type="button" class="bp-loop" id="bpLoopBtn" onclick="togglePlaybackLoop()" title="Loop preview off" aria-pressed="false" aria-label="Loop preview">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
     </button>
@@ -5680,10 +5689,18 @@
         const bars = document.querySelectorAll('.bp-bar');
         const idx = Math.floor(bars.length * progress);
         bars.forEach((b,i) => b.classList.toggle('played', i <= idx));
+        const playingNow = isActuallyPlaying();
+        const bpArtWrap = document.getElementById('bpArtWrap');
+        if (bpArtWrap) {
+          bpArtWrap.classList.toggle('playing', playingNow);
+          bpArtWrap.classList.toggle('paused', !playingNow);
+        }
+        const bpArtPlay = document.getElementById('bpArtPlay');
         const bpPlayIcon = document.getElementById('bpPlayIcon');
+        if (bpArtPlay) bpArtPlay.title = playingNow ? 'Pause' : 'Play';
         if (bpPlayIcon) {
-          bpPlayIcon.innerHTML = isActuallyPlaying()
-            ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'
+          bpPlayIcon.innerHTML = playingNow
+            ? '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>'
             : '<path d="M8 5v14l11-7z"/>';
         }
         updateListWaveforms();
