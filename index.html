@@ -1495,6 +1495,7 @@
     let audioDuration = 0;
     const demoBlobCache = new Map();
     const waveformPeaksCache = new Map();
+    const waveformDurationCache = new Map();
     const waveformLoadPromises = new Map();
     let listWaveformObserver = null;
     const WAVEFORM_LOAD_CONCURRENCY = 2;
@@ -1745,6 +1746,30 @@
       return p < 0 ? p + 1 : p;
     }
 
+    function refreshAudioDurationFromElement(audio, track) {
+      const candidates = [];
+      if (audio?.duration && isFinite(audio.duration) && audio.duration > 0) candidates.push(audio.duration);
+      if (audioDuration && isFinite(audioDuration) && audioDuration > 0) candidates.push(audioDuration);
+      if (track?.id) {
+        const wfDur = waveformDurationCache.get(track.id);
+        if (wfDur && isFinite(wfDur) && wfDur > 0) candidates.push(wfDur);
+      }
+      if (track?.duration) {
+        const catalogSec = durationToSec(track.duration);
+        if (catalogSec > 0) candidates.push(catalogSec);
+      }
+      if (!candidates.length) return audioDuration || 0;
+      audioDuration = Math.max(...candidates);
+      return audioDuration;
+    }
+
+    function syncPlayProgressFromAudio(audio) {
+      const t = tracks.find(tr => tr.id === playingTrackId);
+      const totalSec = getPlaybackTotalSec(t);
+      if (!totalSec || !audio?.src) return;
+      playProgress = Math.min(1, audio.currentTime / totalSec);
+    }
+
     function getLoopWrapLeadSec(duration) {
       if (!duration || !isFinite(duration)) return LOOP_WRAP_LEAD_MIN_SEC;
       return Math.min(LOOP_WRAP_LEAD_MAX_SEC, Math.max(LOOP_WRAP_LEAD_MIN_SEC, duration * 0.008));
@@ -1843,9 +1868,11 @@
 
     function wrapDemoAudioLoop() {
       const audio = demoAudio;
-      if (!audio?.src || !audio.duration || !isFinite(audio.duration)) return false;
-      const lead = getLoopWrapLeadSec(audio.duration);
-      if (audio.currentTime < audio.duration - lead) return false;
+      const t = tracks.find(tr => tr.id === playingTrackId);
+      const totalSec = getPlaybackTotalSec(t);
+      if (!audio?.src || !totalSec) return false;
+      const lead = getLoopWrapLeadSec(totalSec);
+      if (audio.currentTime < totalSec - lead) return false;
       playProgress = 0;
       updateBottomPlayer();
       const gen = ++seekGeneration;
@@ -1867,15 +1894,16 @@
       stopAudioProgressLoop();
       const tick = () => {
         const audio = demoAudio;
-        if (!isPlaying || playInterval || !audio?.src || !audio.duration || !isFinite(audio.duration)) {
+        const t = tracks.find(tr => tr.id === playingTrackId);
+        const totalSec = getPlaybackTotalSec(t);
+        if (!isPlaying || playInterval || !audio?.src || !totalSec) {
           progressRafId = null;
           return;
         }
         if (!suppressTimeupdate) {
           if (!(playbackLoop && wrapDemoAudioLoop())) {
-            playProgress = audio.currentTime / audio.duration;
+            syncPlayProgressFromAudio(audio);
           }
-          audioDuration = audio.duration;
         }
         updateBottomPlayer();
         progressRafId = requestAnimationFrame(tick);
@@ -1887,13 +1915,22 @@
       if (!demoAudio) {
         demoAudio = document.getElementById('demoAudio');
         demoAudio.addEventListener('timeupdate', () => {
-          if (suppressTimeupdate || progressRafId || !demoAudio.duration) return;
+          if (suppressTimeupdate || progressRafId) return;
           if (playbackLoop && wrapDemoAudioLoop()) {
             updateBottomPlayer();
             return;
           }
-          playProgress = demoAudio.currentTime / demoAudio.duration;
-          audioDuration = demoAudio.duration;
+          syncPlayProgressFromAudio(demoAudio);
+          updateBottomPlayer();
+        });
+        demoAudio.addEventListener('durationchange', () => {
+          const t = tracks.find(tr => tr.id === playingTrackId);
+          if (!t || !demoAudio.duration || !isFinite(demoAudio.duration)) return;
+          refreshAudioDurationFromElement(demoAudio, t);
+          if (demoAudio.duration > durationToSec(t.duration) + 0.5) {
+            applyDemoDurationToTrack(t, demoAudio.duration);
+          }
+          syncPlayProgressFromAudio(demoAudio);
           updateBottomPlayer();
         });
         demoAudio.addEventListener('ended', () => {
@@ -2219,6 +2256,7 @@
 
     function invalidateWaveform(trackId) {
       waveformPeaksCache.delete(trackId);
+      waveformDurationCache.delete(trackId);
       waveformLoadPromises.delete(trackId);
       try { sessionStorage.removeItem(WAVEFORM_CACHE_PREFIX + trackId); } catch {}
     }
@@ -2286,7 +2324,19 @@
       const audioBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
       const peaks = computeWaveformPeaks(audioBuffer, waveformPeakCount());
       waveformPeaksCache.set(track.id, peaks);
+      if (audioBuffer.duration && isFinite(audioBuffer.duration)) {
+        waveformDurationCache.set(track.id, audioBuffer.duration);
+      }
       savePeaksToSessionCache(track, waveformCacheKey(track), peaks);
+      if (audioBuffer.duration > durationToSec(track.duration) + 0.5) {
+        applyDemoDurationToTrack(track, audioBuffer.duration);
+      }
+      if (playingTrackId === track.id) {
+        const audio = getDemoAudio();
+        refreshAudioDurationFromElement(audio, track);
+        syncPlayProgressFromAudio(audio);
+        updateBottomPlayer();
+      }
       refreshWaveformUI(track.id);
     }
 
@@ -2415,8 +2465,9 @@
       audio.addEventListener('loadedmetadata', () => {
         if (normalizeTrackId(playingTrackId) !== trackId) return;
         if (audio.duration && isFinite(audio.duration)) {
-          audioDuration = audio.duration;
+          refreshAudioDurationFromElement(audio, t);
           applyDemoDurationToTrack(t, audio.duration);
+          syncPlayProgressFromAudio(audio);
         }
         flushPendingSeeks(t);
         updateBottomPlayer();
@@ -4821,8 +4872,15 @@
 
     function getPlaybackTotalSec(t) {
       const audio = getDemoAudio();
-      if (audio?.src && audio.duration && isFinite(audio.duration)) return audio.duration;
+      if (audio?.src) {
+        const dur = refreshAudioDurationFromElement(audio, t);
+        if (dur) return dur;
+      }
       if (audioDuration && isFinite(audioDuration)) return audioDuration;
+      if (t?.id) {
+        const wfDur = waveformDurationCache.get(t.id);
+        if (wfDur && isFinite(wfDur)) return wfDur;
+      }
       return t ? durationToSec(t.duration) : 0;
     }
 
@@ -4922,13 +4980,18 @@
       const active = playingTrackId === currentTrack.id;
       player.classList.toggle('playing', active && isPlaying);
       const bars = player.querySelectorAll('.detail-bar');
-      const idx = active ? Math.floor(bars.length * displayPlayProgress()) : -1;
+      const totalSec = active ? getPlaybackTotalSec(currentTrack) : durationToSec(currentTrack.duration);
+      const audio = getDemoAudio();
+      const currentSec = (active && !suppressTimeupdate && audio?.src && isFinite(audio.currentTime))
+        ? Math.min(totalSec || audio.currentTime, audio.currentTime)
+        : displayPlayProgress() * (totalSec || 0);
+      const progress = totalSec ? Math.min(1, currentSec / totalSec) : displayPlayProgress();
+      const idx = active ? Math.floor(bars.length * progress) : -1;
       bars.forEach((bar, i) => bar.classList.toggle('played', active && i <= idx));
       const timeEl = document.getElementById('detailWaveTime');
       if (timeEl) {
-        const totalSec = active ? getPlaybackTotalSec(currentTrack) : durationToSec(currentTrack.duration);
-        const totalLabel = active && audioDuration ? formatTime(audioDuration) : (currentTrack.duration || formatTime(totalSec));
-        const currentLabel = active ? formatTime(displayPlayProgress() * totalSec) : '0:00';
+        const totalLabel = totalSec ? formatTime(totalSec) : (currentTrack.duration || '0:00');
+        const currentLabel = active ? formatTime(currentSec) : '0:00';
         timeEl.textContent = `${currentLabel} / ${totalLabel}`;
       }
     }
@@ -5576,11 +5639,16 @@
       const t = tracks.find(tr => tr.id === playingTrackId);
       if (t) {
         const totalSec = getPlaybackTotalSec(t);
-        const totalLabel = audioDuration ? formatTime(audioDuration) : t.duration;
+        const totalLabel = totalSec ? formatTime(totalSec) : t.duration;
+        const audio = getDemoAudio();
+        const currentSec = (!suppressTimeupdate && audio?.src && isFinite(audio.currentTime))
+          ? Math.min(totalSec || audio.currentTime, audio.currentTime)
+          : displayPlayProgress() * (totalSec || 0);
+        const progress = totalSec ? Math.min(1, currentSec / totalSec) : displayPlayProgress();
         const bpTime = document.getElementById('bpTime');
-        if (bpTime) bpTime.textContent = `${formatTime(displayPlayProgress() * totalSec)} / ${totalLabel}`;
+        if (bpTime) bpTime.textContent = `${formatTime(currentSec)} / ${totalLabel}`;
         const bars = document.querySelectorAll('.bp-bar');
-        const idx = Math.floor(bars.length * displayPlayProgress());
+        const idx = Math.floor(bars.length * progress);
         bars.forEach((b,i) => b.classList.toggle('played', i <= idx));
         const bpPlayIcon = document.getElementById('bpPlayIcon');
         if (bpPlayIcon) {
