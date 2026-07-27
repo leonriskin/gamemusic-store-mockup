@@ -1515,6 +1515,7 @@
     const WAVEFORM_CACHE_PREFIX = 'gms_wf_';
     let waveformLoadQueue = [];
     let waveformLoadActive = 0;
+    let catalogReady = false;
     let sharedAudioContext = null;
     const DEMO_DATAURL_MAX = 4 * 1024 * 1024;
     let cart = [];
@@ -2168,10 +2169,14 @@
     async function loadDemoBlob(track) {
       if (demoBlobCache.has(track.id)) return demoBlobCache.get(track.id);
       if (track.hasDemo || track.demoName) {
-        const blob = await loadFile(fileKey(track.id, 'demo'));
-        if (blob) {
-          demoBlobCache.set(track.id, blob);
-          return blob;
+        try {
+          const blob = await loadFile(fileKey(track.id, 'demo'));
+          if (blob) {
+            demoBlobCache.set(track.id, blob);
+            return blob;
+          }
+        } catch (err) {
+          console.warn('IndexedDB demo read failed for track', track.id, err);
         }
       }
       if (track.demoUrl) {
@@ -2262,30 +2267,45 @@
     }
 
     function getWaveformBars(trackId, bars = 160) {
-      const peaks = waveformPeaksCache.get(trackId);
+      const id = normalizeTrackId(trackId);
+      const peaks = waveformPeaksCache.get(id);
       if (peaks) return peaksToBarHeights(peaks, bars);
       return placeholderWaveformBars(bars);
     }
 
     function invalidateWaveform(trackId) {
-      waveformPeaksCache.delete(trackId);
-      waveformDurationCache.delete(trackId);
-      waveformLoadPromises.delete(trackId);
-      try { sessionStorage.removeItem(WAVEFORM_CACHE_PREFIX + trackId); } catch {}
+      const id = normalizeTrackId(trackId);
+      waveformPeaksCache.delete(id);
+      waveformDurationCache.delete(id);
+      waveformLoadPromises.delete(id);
+      try { sessionStorage.removeItem(WAVEFORM_CACHE_PREFIX + id); } catch {}
     }
 
     function refreshWaveformUI(trackId) {
-      if (playingTrackId === trackId) {
-        waveformData = getWaveformBars(trackId, waveformBarCount());
+      const id = normalizeTrackId(trackId);
+      if (playingTrackId === id) {
+        waveformData = getWaveformBars(id, waveformBarCount());
         buildBottomWaveform();
-        if (isDetailPageActive() && currentTrack?.id === trackId) buildDetailWaveform();
+        if (isDetailPageActive() && currentTrack?.id === id) buildDetailWaveform();
       }
-      const row = document.querySelector(`.track-row[data-id="${trackId}"]`);
+      const row = document.querySelector(`.track-row[data-id="${id}"]`);
       const waveEl = row?.querySelector('.track-row-wave');
       if (waveEl) {
-        waveEl.innerHTML = listWaveformHtml(trackId);
+        waveEl.innerHTML = listWaveformHtml(id);
         updateListWaveforms();
       }
+    }
+
+    function resolveTrackForWaveform(track) {
+      if (!track?.id) return track;
+      const id = normalizeTrackId(track.id);
+      return tracks.find(t => normalizeTrackId(t.id) === id) || track;
+    }
+
+    function resetPendingWaveformLoads() {
+      waveformLoadQueue = [];
+      waveformLoadPromises.clear();
+      waveformLoadActive = 0;
     }
 
     function waveformCacheKey(track) {
@@ -2316,17 +2336,25 @@
     }
 
     function hydrateWaveformFromCache(track) {
+      track = resolveTrackForWaveform(track);
       if (!track?.id) return false;
-      if (waveformPeaksCache.has(track.id)) return true;
+      const id = normalizeTrackId(track.id);
+      if (waveformPeaksCache.has(id)) {
+        refreshWaveformUI(id);
+        return true;
+      }
       const cacheKey = waveformCacheKey(track);
       const cached = loadPeaksFromSessionCache(track, cacheKey);
       if (!cached) return false;
-      waveformPeaksCache.set(track.id, cached);
-      refreshWaveformUI(track.id);
+      waveformPeaksCache.set(id, cached);
+      refreshWaveformUI(id);
       return true;
     }
 
     async function loadWaveformForTrackNow(track) {
+      track = resolveTrackForWaveform(track);
+      if (!track?.id) return false;
+      const id = normalizeTrackId(track.id);
       const demo = await loadDemoBlob(track);
       const arrayBuffer = await demoToArrayBuffer(demo);
       if (!arrayBuffer?.byteLength) return false;
@@ -2337,21 +2365,21 @@
 
       const audioBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
       const peaks = computeWaveformPeaks(audioBuffer, waveformPeakCount());
-      waveformPeaksCache.set(track.id, peaks);
+      waveformPeaksCache.set(id, peaks);
       if (audioBuffer.duration && isFinite(audioBuffer.duration)) {
-        waveformDurationCache.set(track.id, audioBuffer.duration);
+        waveformDurationCache.set(id, audioBuffer.duration);
       }
       savePeaksToSessionCache(track, waveformCacheKey(track), peaks);
       if (audioBuffer.duration > durationToSec(track.duration) + 0.5) {
         applyDemoDurationToTrack(track, audioBuffer.duration);
       }
-      if (playingTrackId === track.id) {
+      if (normalizeTrackId(playingTrackId) === id) {
         const audio = getDemoAudio();
         refreshAudioDurationFromElement(audio, track);
         syncPlayProgressFromAudio(audio);
         updateBottomPlayer();
       }
-      refreshWaveformUI(track.id);
+      refreshWaveformUI(id);
       return true;
     }
 
@@ -2373,10 +2401,15 @@
     }
 
     function scheduleWaveformLoad(track, priority = false) {
+      track = resolveTrackForWaveform(track);
       if (!track?.id) return Promise.resolve();
-      if (waveformPeaksCache.has(track.id)) return Promise.resolve();
+      const id = normalizeTrackId(track.id);
+      if (waveformPeaksCache.has(id)) {
+        refreshWaveformUI(id);
+        return Promise.resolve();
+      }
       if (hydrateWaveformFromCache(track)) return Promise.resolve();
-      if (waveformLoadPromises.has(track.id)) return waveformLoadPromises.get(track.id);
+      if (waveformLoadPromises.has(id)) return waveformLoadPromises.get(id);
 
       const promise = new Promise(resolve => {
         const job = { track, resolve };
@@ -2384,8 +2417,8 @@
         else waveformLoadQueue.push(job);
         drainWaveformLoadQueue();
       });
-      waveformLoadPromises.set(track.id, promise);
-      promise.finally(() => waveformLoadPromises.delete(track.id));
+      waveformLoadPromises.set(id, promise);
+      promise.finally(() => waveformLoadPromises.delete(id));
       return promise;
     }
 
@@ -2394,11 +2427,25 @@
     }
 
     function schedulePageWaveforms(pageTracks) {
-      if (!pageTracks?.length) return;
+      if (!catalogReady || !pageTracks?.length) return;
       pageTracks.forEach((track, index) => {
-        if (!track?.id || waveformPeaksCache.has(track.id)) return;
+        if (!track?.id) return;
         scheduleWaveformLoad(track, index < 3);
       });
+    }
+
+    async function loadPageWaveformsSequential(pageTracks) {
+      if (!catalogReady || !pageTracks?.length) return;
+      for (const track of pageTracks) {
+        if (!track?.id) continue;
+        const id = normalizeTrackId(track.id);
+        if (waveformPeaksCache.has(id)) {
+          refreshWaveformUI(id);
+          continue;
+        }
+        await scheduleWaveformLoad(track, true);
+        refreshWaveformUI(id);
+      }
     }
 
     function unobserveListWaveformEl(el) {
@@ -2460,10 +2507,13 @@
     }
 
     function warmWaveforms() {
+      if (!catalogReady) return;
       const list = getBrowseTrackList();
       const pageStart = catalogPage * CATALOG_PAGE_SIZE;
-      schedulePageWaveforms(list.slice(pageStart, pageStart + CATALOG_PAGE_SIZE));
+      const pageList = list.slice(pageStart, pageStart + CATALOG_PAGE_SIZE);
+      schedulePageWaveforms(pageList);
       observeListWaveforms();
+      loadPageWaveformsSequential(pageList);
       if (playingTrackId) {
         const t = tracks.find(tr => tr.id === playingTrackId);
         if (t) scheduleWaveformLoad(t, true);
@@ -5288,13 +5338,16 @@
       }).join('');
 
       pageList.forEach(t => hydrateWaveformFromCache(t));
-      schedulePageWaveforms(pageList);
       updateListWaveforms();
       updateCartUI();
       updateFavouritesUI();
       updateSearchClearUI();
       updateCatalogSortUI();
-      observeListWaveforms();
+      if (catalogReady) {
+        schedulePageWaveforms(pageList);
+        observeListWaveforms();
+        loadPageWaveformsSequential(pageList);
+      }
     }
 
     function onSearchInput() {
@@ -6912,7 +6965,11 @@
       try {
         await loadTrackMeta();
         applyMetaToAllTracks();
-        await loadStaticCatalog();
+        const catalogLoaded = await loadStaticCatalog();
+        if (catalogLoaded) {
+          resetPendingWaveformLoads();
+          catalogReady = true;
+        }
         if (await syncAllTrackDurationsFromDemos()) {
           renderFilterTabs();
         }
