@@ -7,8 +7,12 @@
 #
 # Quick toggle:
 #   Construction → keep this line active:
-#     /*    /under-construction.html    200
+#     /*    /under-construction.html    200!
 #   Live site    → comment it out:
-#     # /*    /under-construction.html    200
+#     # /*    /under-construction.html    200!
+#
+# Why 200! (forced rewrite): Netlify serves existing files (e.g. index.html)
+# before a plain 200 rewrite. The trailing ! forces the rewrite so every path,
+# including /, serves under-construction.html instead of the live site.
 
-/*    /under-construction.html    200
+/*    /under-construction.html    200!
