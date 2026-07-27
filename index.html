@@ -2316,7 +2316,8 @@
     }
 
     function hydrateWaveformFromCache(track) {
-      if (!track?.id || waveformPeaksCache.has(track.id)) return true;
+      if (!track?.id) return false;
+      if (waveformPeaksCache.has(track.id)) return true;
       const cacheKey = waveformCacheKey(track);
       const cached = loadPeaksFromSessionCache(track, cacheKey);
       if (!cached) return false;
@@ -2328,10 +2329,10 @@
     async function loadWaveformForTrackNow(track) {
       const demo = await loadDemoBlob(track);
       const arrayBuffer = await demoToArrayBuffer(demo);
-      if (!arrayBuffer?.byteLength) return;
+      if (!arrayBuffer?.byteLength) return false;
 
       const ctx = getSharedAudioContext();
-      if (!ctx) return;
+      if (!ctx) return false;
       if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
 
       const audioBuffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
@@ -2351,6 +2352,7 @@
         updateBottomPlayer();
       }
       refreshWaveformUI(track.id);
+      return true;
     }
 
     function drainWaveformLoadQueue() {
@@ -2391,6 +2393,18 @@
       return scheduleWaveformLoad(track, priority);
     }
 
+    function schedulePageWaveforms(pageTracks) {
+      if (!pageTracks?.length) return;
+      pageTracks.forEach((track, index) => {
+        if (!track?.id || waveformPeaksCache.has(track.id)) return;
+        scheduleWaveformLoad(track, index < 3);
+      });
+    }
+
+    function unobserveListWaveformEl(el) {
+      if (listWaveformObserver && el) listWaveformObserver.unobserve(el);
+    }
+
     function ensureListWaveformObserver() {
       if (listWaveformObserver) return listWaveformObserver;
       if (!('IntersectionObserver' in window)) return null;
@@ -2398,9 +2412,15 @@
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           const trackId = parseInt(entry.target.dataset.trackId, 10);
+          if (waveformPeaksCache.has(trackId)) {
+            unobserveListWaveformEl(entry.target);
+            return;
+          }
           const track = tracks.find(t => t.id === trackId);
-          if (track) scheduleWaveformLoad(track);
-          listWaveformObserver.unobserve(entry.target);
+          if (!track) return;
+          scheduleWaveformLoad(track).then(() => {
+            if (waveformPeaksCache.has(trackId)) unobserveListWaveformEl(entry.target);
+          });
         });
       }, { rootMargin: '160px 0px', threshold: 0 });
       return listWaveformObserver;
@@ -2409,7 +2429,10 @@
     function preloadVisiblePageWaveforms() {
       document.querySelectorAll('.track-row-wave[data-track-id]').forEach(el => {
         const trackId = parseInt(el.dataset.trackId, 10);
-        if (waveformPeaksCache.has(trackId)) return;
+        if (waveformPeaksCache.has(trackId)) {
+          unobserveListWaveformEl(el);
+          return;
+        }
         const rect = el.getBoundingClientRect();
         if (rect.bottom < -160 || rect.top > window.innerHeight + 160) return;
         const track = tracks.find(t => t.id === trackId);
@@ -2418,18 +2441,28 @@
     }
 
     function observeListWaveforms() {
-      const observer = ensureListWaveformObserver();
-      if (observer) {
-        document.querySelectorAll('.track-row-wave[data-track-id]').forEach(el => {
-          const trackId = parseInt(el.dataset.trackId, 10);
-          if (waveformPeaksCache.has(trackId)) return;
-          observer.observe(el);
-        });
-      }
-      preloadVisiblePageWaveforms();
+      const run = () => {
+        const observer = ensureListWaveformObserver();
+        if (observer) {
+          document.querySelectorAll('.track-row-wave[data-track-id]').forEach(el => {
+            const trackId = parseInt(el.dataset.trackId, 10);
+            if (waveformPeaksCache.has(trackId)) {
+              unobserveListWaveformEl(el);
+              return;
+            }
+            observer.observe(el);
+          });
+        }
+        preloadVisiblePageWaveforms();
+      };
+      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(run);
+      else run();
     }
 
     function warmWaveforms() {
+      const list = getBrowseTrackList();
+      const pageStart = catalogPage * CATALOG_PAGE_SIZE;
+      schedulePageWaveforms(list.slice(pageStart, pageStart + CATALOG_PAGE_SIZE));
       observeListWaveforms();
       if (playingTrackId) {
         const t = tracks.find(tr => tr.id === playingTrackId);
@@ -5255,6 +5288,7 @@
       }).join('');
 
       pageList.forEach(t => hydrateWaveformFromCache(t));
+      schedulePageWaveforms(pageList);
       updateListWaveforms();
       updateCartUI();
       updateFavouritesUI();
@@ -6888,8 +6922,8 @@
       } catch (err) {
         console.warn('Catalog load failed:', err);
       }
+      await warmDemoCache();
       warmWaveforms();
-      warmDemoCache();
     }
 
     if (document.readyState === 'loading') {
