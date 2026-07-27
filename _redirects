@@ -1,0 +1,14 @@
+# Riskin Tracks — site mode toggle
+#
+# CONSTRUCTION MODE (current): redirect all paths to the under-construction page.
+# LIVE MODE: comment out or delete the /* line below, then commit and deploy.
+#
+# Local dev (localhost) is unaffected — Netlify applies _redirects on deploy only.
+#
+# Quick toggle:
+#   Construction → keep this line active:
+#     /*    /under-construction.html    200
+#   Live site    → comment it out:
+#     # /*    /under-construction.html    200
+
+/*    /under-construction.html    200
