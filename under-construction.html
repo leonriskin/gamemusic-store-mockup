@@ -16,6 +16,8 @@
       --text-muted: #8b92a8;
       --accent: #5eead4;
       --accent-dim: rgba(94,234,212,0.12);
+      --accent-hover: #7af0dc;
+      --danger: #f87171;
       --font: "DM Sans", system-ui, sans-serif;
       --serif: "Instrument Serif", Georgia, serif;
     }
@@ -52,10 +54,14 @@
       width: 100%;
     }
 
-    .logo {
-      display: inline-block;
-      margin-bottom: 48px;
-      line-height: 0;
+    .page-content {
+      text-align: center;
+    }
+
+    .page-content > .logo {
+      display: block;
+      text-align: left;
+      margin-bottom: clamp(28px, 6vw, 40px);
     }
 
     .logo img {
@@ -80,20 +86,92 @@
       margin-bottom: 24px;
     }
 
-    h1 {
-      font-family: var(--serif);
-      font-size: clamp(36px, 7vw, 52px);
-      font-weight: 400;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    p {
+    .lead {
       font-size: 16px;
       line-height: 1.6;
       color: var(--text-muted);
       max-width: 420px;
       margin: 0 auto;
+    }
+
+    .waitlist {
+      margin: 28px auto 0;
+      max-width: 460px;
+      text-align: left;
+    }
+
+    .waitlist-row {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .waitlist input[type="email"] {
+      flex: 1;
+      min-width: 0;
+      padding: 18px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .waitlist input[type="email"]::placeholder {
+      color: var(--text-muted);
+      opacity: 0.75;
+    }
+
+    .waitlist input[type="email"]:focus {
+      outline: none;
+      border-color: rgba(94,234,212,0.4);
+    }
+
+    .waitlist-btn {
+      flex-shrink: 0;
+      padding: 18px 20px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #0c0d10;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .waitlist-btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .waitlist-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .waitlist-status {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      min-height: 20px;
+      text-align: center;
+    }
+
+    .waitlist-status.success { color: var(--accent); }
+    .waitlist-status.error { color: var(--danger); }
+
+    .founders-note {
+      margin: 14px auto 0;
+      max-width: 460px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      opacity: 0.85;
+      text-align: center;
     }
 
     .divider {
@@ -108,24 +186,315 @@
       color: var(--text-muted);
       opacity: 0.7;
     }
+
+    .meanwhile {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(18px, 3.5vw, 22px);
+      color: var(--text);
+      opacity: 0.85;
+      margin-bottom: 24px;
+    }
+
+    .mini-player {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      text-align: left;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .mini-player.is-playing {
+      border-color: rgba(94,234,212,0.22);
+      box-shadow: 0 0 0 1px rgba(94,234,212,0.06);
+    }
+
+    .player-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      color: var(--accent);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .player-btn:hover {
+      background: rgba(94,234,212,0.2);
+    }
+
+    .player-btn:active {
+      transform: scale(0.96);
+    }
+
+    .player-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .player-btn .icon-pause {
+      display: none;
+    }
+
+    .mini-player.is-playing .player-btn .icon-play {
+      display: none;
+    }
+
+    .mini-player.is-playing .player-btn .icon-pause {
+      display: block;
+    }
+
+    .player-cover {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .player-meta {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .player-title {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-duration {
+      display: block;
+      margin-top: 2px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .social {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .social a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .social a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .waitlist-row {
+        flex-direction: column;
+      }
+      .waitlist-btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <main class="page">
-    <a class="logo" href="/" aria-label="Riskin Tracks">
-      <img src="assets/riskin-tracks-logo-header.png?v=1" width="1341" height="352" alt="Riskin Tracks" decoding="async" />
-    </a>
+    <div class="page-content">
+      <a class="logo" href="/" aria-label="Riskin Tracks">
+        <img src="assets/riskin-tracks-logo-header.png?v=1" width="1341" height="352" alt="Riskin Tracks" decoding="async" />
+      </a>
 
-    <div class="badge">Under construction</div>
+      <div class="badge">Under construction</div>
 
-    <h1>Coming soon</h1>
-    <p>
-      We're building something new — a curated music store for indie game developers.
-      Check back soon.
-    </p>
+      <p class="lead">
+        A curated store for indie developers — loops, tracks, and packs from Leon Riskin,
+        ready to drop into your game.
+      </p>
 
-    <div class="divider"></div>
-    <p class="tagline">Music for indie games</p>
+      <form class="waitlist" id="waitlistForm" novalidate>
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <div class="waitlist-row">
+          <label class="visually-hidden" for="waitlistEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Email</label>
+          <input
+            id="waitlistEmail"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            placeholder="you@studio.com"
+            inputmode="email"
+          />
+          <button type="submit" class="waitlist-btn" id="waitlistBtn">Join — get the Founders Loop Pack</button>
+        </div>
+        <p class="waitlist-status" id="waitlistStatus" role="status"></p>
+        <p class="founders-note">
+          Early signups get the free Founders Loop Pack and early access when we open.
+        </p>
+      </form>
+
+      <div class="divider"></div>
+
+      <p class="meanwhile">meanwhile, enjoy some midnight strawberries</p>
+
+      <div class="mini-player" id="miniPlayer">
+        <button type="button" class="player-btn" id="playerBtn" aria-label="Play Midnight Strawberries">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <img class="player-cover" id="playerCover" src="" width="48" height="48" alt="Midnight Strawberries cover art" decoding="async" />
+        <div class="player-meta">
+          <span class="player-title">Midnight Strawberries</span>
+          <span class="player-duration">1:12</span>
+        </div>
+        <audio id="demoAudio" preload="none" loop></audio>
+      </div>
+
+      <p class="social">
+        Teasers on X · <a href="https://x.com/Leon_Riskin" target="_blank" rel="noopener noreferrer">@Leon_Riskin</a>
+      </p>
+
+      <div class="divider"></div>
+      <p class="tagline">Music for indie games</p>
+    </div>
   </main>
+
+  <script>
+    (function () {
+      const TRACK_SLUG = 'midnight-strawberries';
+      const R2_ASSET_BASE = 'https://pub-45a1df6488174a1a84baf1ed003ac6dd.r2.dev';
+      const WAITLIST_ENDPOINT = '/.netlify/functions/waitlist';
+      const IS_LOCAL_HOST = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      const IS_STATIC_DEV_SERVER = IS_LOCAL_HOST && location.port === '8765';
+
+      function isLocalDev() {
+        const h = location.hostname;
+        if (h === 'localhost' || h === '127.0.0.1') return true;
+        if (location.protocol === 'file:') return true;
+        return false;
+      }
+
+      function resolveAssetUrl(path) {
+        if (!path || /^https?:\/\//i.test(path)) return path;
+        if (isLocalDev()) return path;
+        const rel = path.replace(/^\.\//, '').replace(/^\//, '');
+        return `${R2_ASSET_BASE}/${rel}`;
+      }
+
+      const demoPath = `tracks/${TRACK_SLUG}/demo.mp3`;
+      const coverPath = `tracks/${TRACK_SLUG}/cover.jpg`;
+
+      const player = document.getElementById('miniPlayer');
+      const btn = document.getElementById('playerBtn');
+      const audio = document.getElementById('demoAudio');
+      const cover = document.getElementById('playerCover');
+
+      audio.src = resolveAssetUrl(demoPath);
+      cover.src = resolveAssetUrl(coverPath);
+
+      function setPlaying(playing) {
+        player.classList.toggle('is-playing', playing);
+        btn.setAttribute('aria-label', playing ? 'Pause Midnight Strawberries' : 'Play Midnight Strawberries');
+      }
+
+      btn.addEventListener('click', function () {
+        if (audio.paused) {
+          audio.play().catch(function () {});
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener('play', function () { setPlaying(true); });
+      audio.addEventListener('pause', function () { setPlaying(false); });
+
+      // --- Waitlist ---
+      const form = document.getElementById('waitlistForm');
+      const submitBtn = document.getElementById('waitlistBtn');
+      const statusEl = document.getElementById('waitlistStatus');
+      const emailInput = document.getElementById('waitlistEmail');
+
+      function staticServerMessage() {
+        return 'Waitlist signup only works with npm run dev at http://localhost:8888 (Netlify functions).';
+      }
+
+      function formatError(res, data, fallback) {
+        if (IS_STATIC_DEV_SERVER || (IS_LOCAL_HOST && res && res.status === 404)) {
+          return staticServerMessage();
+        }
+        const parts = [data.error || fallback];
+        if (IS_LOCAL_HOST && data.detail) parts.push(String(data.detail));
+        return parts.filter(Boolean).join(' — ');
+      }
+
+      if (IS_STATIC_DEV_SERVER) {
+        statusEl.textContent = staticServerMessage();
+        statusEl.className = 'waitlist-status error';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        if (!email) {
+          statusEl.textContent = 'Enter your email to join.';
+          statusEl.className = 'waitlist-status error';
+          emailInput.focus();
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Joining…';
+        statusEl.textContent = '';
+        statusEl.className = 'waitlist-status';
+
+        fetch(WAITLIST_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            email: email,
+            _honey: form._honey?.value || '',
+          }),
+        })
+          .then(async function (res) {
+            const data = await res.json().catch(function () { return {}; });
+            if (!res.ok) throw new Error(formatError(res, data, 'Signup failed'));
+            return data;
+          })
+          .then(function () {
+            statusEl.textContent = 'You\'re on the list. Check your inbox for the Founders welcome email.';
+            statusEl.className = 'waitlist-status success';
+            form.reset();
+          })
+          .catch(function (err) {
+            var msg = err.message || 'Could not join right now. Please try again in a moment.';
+            if (IS_STATIC_DEV_SERVER && (msg === 'Failed to fetch' || msg === 'Signup failed')) {
+              msg = staticServerMessage();
+            }
+            statusEl.textContent = msg;
+            statusEl.className = 'waitlist-status error';
+          })
+          .finally(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Join — get the Founders Loop Pack';
+          });
+      });
+    })();
+  </script>
 </body>
 </html>

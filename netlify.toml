@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  command = "node scripts/prepare-redirects.mjs"
+
+[functions]
+  included_files = ["tracks/catalog.json", "data/newsletter-history.json", "data/newsletter-schedule.json"]
+
+[dev]
+  publish = "."
+  functions = "netlify/functions"
+  port = 8888

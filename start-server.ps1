@@ -6,6 +6,13 @@ $url = "http://localhost:$port/"
 
 Write-Host "Open $url in your browser"
 Write-Host "Press Ctrl+C to stop"
+Write-Host ""
+Write-Host "Note: Contact form email needs Netlify Functions — use npm run dev and http://localhost:8888/"
+
+function Write-JsonFileNoBom($filePath, $jsonText) {
+  $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+  [System.IO.File]::WriteAllText($filePath, $jsonText, $utf8NoBom)
+}
 
 function Send-StaticFile($ctx, $file) {
   $bytes = [IO.File]::ReadAllBytes($file)
@@ -144,7 +151,7 @@ function Start-PowerShellServer {
           if ($payload.price) { $entry | Add-Member -NotePropertyName price -NotePropertyValue $payload.price -Force }
           if ($payload.tags) { $entry | Add-Member -NotePropertyName tags -NotePropertyValue $payload.tags -Force }
           $entry.PSObject.Properties.Remove('zip')
-          ($catalog | ConvertTo-Json -Depth 8) | Set-Content $catalogPath -Encoding UTF8
+          Write-JsonFileNoBom $catalogPath ($catalog | ConvertTo-Json -Depth 8)
           $ctx.Response.StatusCode = 200
           $ctx.Response.ContentType = 'text/plain; charset=utf-8'
           $ok = [Text.Encoding]::UTF8.GetBytes('OK')
@@ -173,7 +180,7 @@ function Start-PowerShellServer {
           $catalog = Get-Content $catalogPath -Raw | ConvertFrom-Json
           $targetId = [int]$payload.id
           $catalog.tracks = @($catalog.tracks | Where-Object { [int]$_.id -ne $targetId })
-          ($catalog | ConvertTo-Json -Depth 8) | Set-Content $catalogPath -Encoding UTF8
+          Write-JsonFileNoBom $catalogPath ($catalog | ConvertTo-Json -Depth 8)
           $ctx.Response.StatusCode = 200
           $ctx.Response.ContentType = 'text/plain; charset=utf-8'
           $ok = [Text.Encoding]::UTF8.GetBytes('OK')

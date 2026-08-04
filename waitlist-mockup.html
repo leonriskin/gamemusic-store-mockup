@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waitlist process mockup — Riskin Tracks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0d10;
+      --surface: #14161c;
+      --surface-2: #1a1d26;
+      --border: rgba(255,255,255,0.08);
+      --text: #f2f3f7;
+      --text-muted: #8b92a8;
+      --accent: #5eead4;
+      --accent-dim: rgba(94,234,212,0.12);
+      --font: "DM Sans", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 24px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 40% at 20% -10%, rgba(94,234,212,0.07), transparent),
+        radial-gradient(ellipse 50% 35% at 90% 80%, rgba(245,158,108,0.05), transparent);
+      pointer-events: none;
+    }
+    .wrap {
+      position: relative;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .intro {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-bottom: 36px;
+    }
+    .intro a { color: var(--accent); }
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      padding: 0 0 28px;
+      position: relative;
+    }
+    .step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      left: 23px;
+      top: 40px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      border: 1px solid rgba(94,234,212,0.28);
+      background: var(--accent-dim);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .step-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      text-align: left;
+    }
+    .step-body h2 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step-body p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+    .step-body .meta {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      opacity: 0.85;
+    }
+    .step-body code {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+    .email-preview {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 10px;
+      background: #f4f5f8;
+      color: #1a1c22;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .email-preview strong { display: block; font-size: 15px; margin-bottom: 8px; font-family: Georgia, serif; }
+    .email-preview .muted { color: #5b6275; }
+    .email-preview .code-chip {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #e5e7ef;
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+    }
+    .actions {
+      margin-top: 36px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .actions a {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .actions .primary {
+      background: var(--accent);
+      color: #0c0d10;
+    }
+    .actions .ghost {
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: var(--surface);
+    }
+    .note {
+      margin-top: 28px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Local mockup · not deployed</p>
+    <h1>Waitlist → newsletter process</h1>
+    <p class="intro">
+      Storyboard of what happens when someone joins from the under-construction page.
+      Live form: <a href="/under-construction.html">under-construction.html</a>
+      (requires <code style="color:var(--accent)">npm run dev</code>).
+    </p>
+
+    <div class="flow">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h2>Visit construction page</h2>
+          <p>
+            Indie developer lands on Riskin Tracks while the store is gated.
+            Sees benefit headline, Midnight Strawberries player, and email-only signup.
+          </p>
+          <p class="meta">URL · <code>/under-construction.html</code></p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h2>Signup</h2>
+          <p>
+            Enters studio email → CTA “Join — get the Founders Loop Pack”.
+            Form POSTs to the waitlist function (honeypot + rate limit).
+          </p>
+          <p class="meta">Endpoint · <code>POST /.netlify/functions/waitlist</code></p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h2>Welcome email</h2>
+          <p>
+            Resend sends a welcome message. Contact is added to the audience/segment
+            when <code>WAITLIST_AUDIENCE_ID</code> is set; otherwise email still goes out.
+          </p>
+          <div class="email-preview">
+            <strong>You're on the Riskin Tracks waitlist.</strong>
+            <span class="muted">
+              Thanks for joining. Founders Loop Pack + early access when we open.
+              Personal-use discount placeholder:
+            </span>
+            <div class="code-chip">FOUNDERS25</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h2>Later: newsletter / new tracks</h2>
+          <p>
+            You broadcast from Resend (or another list tool) when new tracks publish —
+            “3 new tracks this week”, launch day, pack drops. Same audience as waitlist.
+          </p>
+          <p class="meta">Manual broadcast · not automated in this mockup</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h2>Discount code at launch</h2>
+          <p>
+            Personal-use code from welcome email (default <code>FOUNDERS25</code> via
+            <code>WAITLIST_DISCOUNT_CODE</code>) redeemable when checkout goes live —
+            wire into pricing later; placeholder for now.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="primary" href="/under-construction.html">Open construction page</a>
+      <a class="ghost" href="/">Open full store (local)</a>
+    </div>
+
+    <p class="note">
+      Env needed for a real send: <code style="color:var(--accent)">RESEND_API_KEY</code>,
+      optional <code style="color:var(--accent)">WAITLIST_FROM</code>,
+      <code style="color:var(--accent)">WAITLIST_AUDIENCE_ID</code>,
+      <code style="color:var(--accent)">WAITLIST_DISCOUNT_CODE</code>.
+      See <code style="color:var(--accent)">.env.example</code>. Do not deploy this flow until you’re ready.
+    </p>
+  </div>
+</body>
+</html>

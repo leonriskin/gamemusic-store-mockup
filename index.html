@@ -215,7 +215,7 @@
     .catalog-page-info { font-size: 13px; color: var(--text-muted); min-width: 7rem; text-align: center; }
     .track-list { display: flex; flex-direction: column; gap: 2px; }
     .track-row {
-      display: grid; grid-template-columns: 52px minmax(140px, 1.1fr) minmax(120px, 2fr) 52px minmax(100px, 1.2fr) auto;
+      display: grid; grid-template-columns: 52px minmax(140px, 1.1fr) minmax(120px, 2fr) 52px minmax(100px, 1.2fr) 198px;
       align-items: center; gap: 14px; padding: 10px 14px; border-radius: var(--radius);
       background: var(--surface); border: 1px solid transparent; transition: background 0.12s, border-color 0.12s;
     }
@@ -261,8 +261,16 @@
     .track-row-tags { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 11px; color: var(--text-muted); }
     .track-row-tags-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .track-row-tags-more { flex-shrink: 0; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--border); font-size: 10px; color: var(--text-muted); }
-    .track-row-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-    .track-row-actions .track-row-badges { margin-right: 2px; }
+    .track-row-actions {
+      display: grid;
+      grid-template-columns: 34px 84px 34px 34px;
+      align-items: center;
+      justify-items: center;
+      column-gap: 6px;
+      width: 198px;
+      flex-shrink: 0;
+    }
+    .track-row-actions .track-row-badges { margin-right: 0; width: 100%; justify-content: center; }
     .track-row-icon {
       width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center;
       color: var(--text-muted); border: 1px solid transparent;
@@ -274,11 +282,17 @@
     .track-row-icon.owned:hover { color: #86efac; background: rgba(74, 222, 128, 0.08); border-color: rgba(74, 222, 128, 0.25); }
     .track-row-icon.owned-upgrade { color: var(--warm); cursor: pointer; }
     .track-row-icon.owned-upgrade:hover { color: #fdba74; background: rgba(245, 158, 108, 0.08); border-color: rgba(245, 158, 108, 0.25); }
+    .track-row-icon.demo-dl { color: var(--text-muted); }
+    .track-row-icon.demo-dl:hover { color: var(--accent); border-color: rgba(94,234,212,0.28); background: var(--accent-dim); }
+    .track-row-icon.demo-dl-spacer { visibility: hidden; pointer-events: none; border-color: transparent; }
     .track-row-new { flex-shrink: 0; padding: 2px 6px; border-radius: 4px; background: var(--warm); color: #0c0d10; font-size: 9px; font-weight: 800; letter-spacing: 0.05em; }
     .track-row-badges { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
     .tier-badge {
       flex-shrink: 0; padding: 2px 6px; border-radius: 999px;
       font-size: 9px; font-weight: 700; letter-spacing: 0.02em; line-height: 1.2; white-space: nowrap;
+    }
+    .track-row-badges .tier-badge {
+      min-width: 84px; text-align: center; box-sizing: border-box;
     }
     .tier-badge.loop-only { background: rgba(255,255,255,0.06); color: var(--text-muted); border: 1px solid var(--border); }
     .tier-badge.has-pack { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(94,234,212,0.22); }
@@ -487,9 +501,19 @@
     .admin-track-search { padding: 12px 16px; border-bottom: 1px solid var(--border); }
     .admin-track-search .form-input { padding: 8px 12px; font-size: 13px; }
     .admin-track-list { max-height: 600px; overflow-y: auto; }
-    .admin-track-row { display: flex; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .admin-track-row { display: flex; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
     .admin-track-row:hover, .admin-track-row.selected { background: var(--surface-2); }
-    .admin-track-thumb { width: 40px; height: 40px; border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+    .admin-track-row.playing { background: rgba(94,234,212,0.06); }
+    .admin-track-thumb.track-row-thumb-wrap { width: 40px; height: 40px; border-radius: 6px; }
+    .admin-track-row .track-row-play { width: 24px; height: 24px; opacity: 0.9; }
+    .admin-track-row:hover .track-row-play,
+    .admin-track-row.playing .track-row-play,
+    .admin-track-row.paused .track-row-play { opacity: 1; }
+    .admin-track-row.playing .admin-track-thumb::before,
+    .admin-track-row.paused .admin-track-thumb::before { background: rgba(0,0,0,0.28); }
+    .admin-track-row.playing .track-row-play { background: var(--accent); color: #0c0d10; }
+    .admin-track-row.paused .track-row-play { background: rgba(0,0,0,0.68); color: #fff; }
+    .admin-track-row-body { min-width: 0; flex: 1; }
     .admin-track-row-title { font-size: 14px; font-weight: 600; }
     .admin-track-row-meta { font-size: 12px; color: var(--text-muted); }
 
@@ -603,6 +627,75 @@
     .history-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; }
     .draft-badge { font-size: 10px; padding: 2px 8px; background: rgba(245,158,108,0.15); color: var(--warm); border-radius: 999px; margin-left: 8px; }
     .admin-track-row.draft { opacity: 0.7; }
+
+    /* Newsletter admin */
+    .newsletter-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+    .newsletter-layout.newsletter-full-preview .newsletter-compose-col { display: none; }
+    .newsletter-layout.newsletter-full-preview { grid-template-columns: 1fr; }
+    .newsletter-layout.newsletter-full-preview .newsletter-preview-frame {
+      height: calc(100vh - 220px); max-height: none; min-height: 560px;
+    }
+    .newsletter-preview-frame {
+      width: 100%; min-height: 520px; height: calc(100vh - 280px); max-height: 720px;
+      border: 0; background: #0c0d10; border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .newsletter-preview-toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .newsletter-preview-toolbar .newsletter-preview-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .newsletter-picker { max-height: 220px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+    .newsletter-picker-row {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      border-bottom: 1px solid var(--border); cursor: pointer; font-size: 13px;
+    }
+    .newsletter-picker-row:last-child { border-bottom: none; }
+    .newsletter-picker-row:hover { background: var(--surface-2); }
+    .newsletter-picker-row.selected { background: var(--accent-dim); }
+    .newsletter-picker-row img { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+    .newsletter-picker-row input { accent-color: var(--accent); }
+    .newsletter-section-toggles { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .newsletter-section-toggle {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px;
+      font-size: 13px; font-weight: 500; color: var(--text-muted); border: 1px solid var(--border);
+      cursor: pointer; user-select: none; background: transparent;
+    }
+    .newsletter-section-toggle input { accent-color: var(--accent); margin: 0; }
+    .newsletter-section-toggle.active { background: var(--surface-2); color: var(--text); border-color: rgba(94,234,212,0.3); }
+    .newsletter-section-hint { font-size: 11px; color: var(--text-muted); margin: 0 0 16px; }
+    .newsletter-core-block {
+      margin: 4px 0 8px; padding: 14px 14px 4px;
+      border: 1px solid var(--border); border-radius: 10px; background: rgba(94,234,212,0.04);
+    }
+    .newsletter-core-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--accent); margin: 0 0 10px;
+    }
+    .newsletter-optional-block {
+      margin: 8px 0 4px; padding-top: 16px; border-top: 1px solid var(--border);
+    }
+    .newsletter-fields { display: none; margin-top: 10px; padding: 12px 12px 4px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); }
+    .newsletter-fields.active { display: block; }
+    .newsletter-history-list, .newsletter-schedule-list { max-height: 280px; overflow-y: auto; }
+    .newsletter-history-item, .newsletter-schedule-item {
+      display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 12px 16px;
+      border-bottom: 1px solid var(--border); font-size: 13px; align-items: start;
+    }
+    .newsletter-history-item:last-child, .newsletter-schedule-item:last-child { border-bottom: none; }
+    .newsletter-history-meta { color: var(--text-muted); font-size: 12px; }
+    .newsletter-schedule-item .btn { font-size: 12px; padding: 6px 10px; }
+    .newsletter-status { font-size: 13px; margin-top: 12px; min-height: 1.2em; color: var(--text-muted); }
+    .newsletter-status.error { color: #f87171; }
+    .newsletter-status.ok { color: var(--accent); }
+    .newsletter-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .newsletter-actions .btn { flex: 0 1 auto; }
+    .newsletter-schedule-box {
+      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);
+    }
+    .newsletter-tz-label { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+    @media (max-width: 960px) {
+      .newsletter-layout { grid-template-columns: 1fr; }
+      .newsletter-preview-frame { height: 420px; max-height: none; }
+    }
     .overlay {
       display: none;
       position: fixed;
@@ -694,7 +787,7 @@
     .footer-links { display: flex; gap: 24px; }
 
     @media (max-width: 1100px) {
-      .track-row { grid-template-columns: 48px minmax(120px, 1fr) minmax(80px, 1.5fr) 48px minmax(80px, 1fr) auto; gap: 10px; }
+      .track-row { grid-template-columns: 48px minmax(120px, 1fr) minmax(80px, 1.5fr) 48px minmax(80px, 1fr) 198px; gap: 10px; }
       .track-row-thumb-wrap { width: 48px; height: 48px; }
     }
     @media (max-width: 900px) {
@@ -775,10 +868,17 @@
       .track-row-wave { grid-column: 2 / 4; grid-row: 3; height: 36px; }
       .track-row-actions {
         grid-column: 3; grid-row: 1 / 4; align-self: center;
-        flex-direction: column; gap: 6px; position: relative; z-index: 2;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        width: auto;
+        row-gap: 6px;
+        column-gap: 0;
+        position: relative; z-index: 2;
       }
-      .track-row-actions .track-row-badges { margin-right: 0; margin-bottom: 2px; }
+      .track-row-actions .track-row-badges { margin-right: 0; margin-bottom: 2px; width: auto; }
+      .track-row-badges .tier-badge { min-width: 0; }
       .track-row-icon { width: 40px; height: 40px; flex-shrink: 0; }
+      .track-row-icon.demo-dl-spacer { display: none; }
     }
   </style>
 </head>
@@ -987,8 +1087,8 @@
           <li>✓ Instant download after purchase</li>
         </ul>
         <button type="button" class="btn btn-ghost btn-lg detail-fav-btn" id="detailFavBtn" onclick="toggleFavourite(currentTrack?.id)">Add to favourites</button>
-        <button type="button" class="btn btn-ghost btn-lg" id="detailDemoBtn" style="width:100%;margin-bottom:8px" onclick="requestDemoDownload(currentTrack?.id)">Sign up to download demo</button>
-        <p class="demo-hint" id="detailDemoHint">Create a free account to download preview MP3 files.</p>
+        <button type="button" class="btn btn-ghost btn-lg" id="detailDemoBtn" style="width:100%;margin-bottom:8px" onclick="requestDemoDownload(currentTrack?.id)">Download demo MP3</button>
+        <p class="demo-hint" id="detailDemoHint">Free preview MP3 for offline listening — no account required.</p>
         <button class="btn btn-primary btn-lg" id="detailAddCartBtn" onclick="addToCart(currentTrack?.id); openCart()">Add to cart</button>
         <button class="btn btn-ghost btn-lg" style="margin-top:10px;width:100%" id="detailBuyBtn" onclick="buyNow()">Buy now</button>
         <p class="secure-note">Secure checkout via Stripe or PayPal</p>
@@ -1012,6 +1112,7 @@
         <button class="admin-tab active" onclick="showAdminTab('tracks')">Tracks</button>
         <button class="admin-tab" onclick="showAdminTab('taxonomy')">Tags, Genres & Characteristics</button>
         <button class="admin-tab" onclick="showAdminTab('users')">Users</button>
+        <button class="admin-tab" onclick="showAdminTab('newsletter')">Newsletter</button>
       </div>
 
       <div class="admin-grid">
@@ -1152,6 +1253,7 @@
         <button class="admin-tab" onclick="showAdminTab('tracks')">Tracks</button>
         <button class="admin-tab active" onclick="showAdminTab('taxonomy')">Tags, Genres & Characteristics</button>
         <button class="admin-tab" onclick="showAdminTab('users')">Users</button>
+        <button class="admin-tab" onclick="showAdminTab('newsletter')">Newsletter</button>
       </div>
 
       <div class="taxonomy-grid">
@@ -1200,6 +1302,7 @@
         <button class="admin-tab" onclick="showAdminTab('tracks')">Tracks</button>
         <button class="admin-tab" onclick="showAdminTab('taxonomy')">Tags, Genres & Characteristics</button>
         <button class="admin-tab active" onclick="showAdminTab('users')">Users</button>
+        <button class="admin-tab" onclick="showAdminTab('newsletter')">Newsletter</button>
       </div>
 
       <div class="users-stats">
@@ -1223,6 +1326,163 @@
           <span>Email</span><span>Joined</span><span>Purchases</span><span>Demos</span><span>Favourites</span>
         </div>
         <div id="adminUserList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN: NEWSLETTER -->
+  <div id="page-admin-newsletter" class="page">
+    <div class="admin-layout">
+      <div class="admin-header">
+        <div>
+          <h1>Newsletter</h1>
+          <p>Compose a New tracks email, optionally add announcement or discount, preview the exact HTML, schedule, and send via Resend. Local / Netlify Dev only.</p>
+        </div>
+        <button class="btn btn-ghost" onclick="showPage('browse')">Back to store</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab" onclick="showAdminTab('tracks')">Tracks</button>
+        <button class="admin-tab" onclick="showAdminTab('taxonomy')">Tags, Genres & Characteristics</button>
+        <button class="admin-tab" onclick="showAdminTab('users')">Users</button>
+        <button class="admin-tab active" onclick="showAdminTab('newsletter')">Newsletter</button>
+      </div>
+
+      <div class="newsletter-layout" id="nlLayout">
+        <div class="admin-panel newsletter-compose-col">
+          <div class="admin-panel-head">New tracks</div>
+          <div class="admin-form" style="max-height:none">
+            <div class="form-group">
+              <label for="nlSubject">Subject</label>
+              <input class="form-input" id="nlSubject" type="text" placeholder="New tracks this week" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label for="nlHeadline">Headline</label>
+              <input class="form-input" id="nlHeadline" type="text" placeholder="Fresh scores for your next build" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label for="nlIntro">Intro (optional)</label>
+              <textarea class="form-textarea" id="nlIntro" placeholder="A short line above the content…"></textarea>
+            </div>
+
+            <div class="newsletter-core-block" id="nlFieldsTracks">
+              <p class="newsletter-core-label">Tracks</p>
+              <div class="form-group">
+                <label>Pick 1–3 tracks</label>
+                <div class="admin-track-search" style="padding:0 0 10px;border:none">
+                  <input class="form-input" id="nlTrackSearch" type="search" placeholder="Filter catalog…" autocomplete="off" oninput="renderNewsletterTrackPicker(); scheduleNewsletterPreview()" />
+                </div>
+                <div class="newsletter-picker" id="nlTrackPicker"></div>
+                <p style="font-size:11px;color:var(--text-muted);margin-top:8px">Blurbs default from each track description — edit below before send.</p>
+              </div>
+              <div id="nlTrackBlurbs"></div>
+            </div>
+
+            <div class="newsletter-optional-block">
+              <label>Optional inclusions</label>
+              <div class="newsletter-section-toggles" role="group" aria-label="Optional newsletter inclusions">
+                <label class="newsletter-section-toggle" id="nlToggleAnnouncement">
+                  <input type="checkbox" id="nlSectionAnnouncement" onchange="toggleNewsletterOptional('announcement', this.checked)" />
+                  Announcement
+                </label>
+                <label class="newsletter-section-toggle" id="nlToggleDiscount">
+                  <input type="checkbox" id="nlSectionDiscount" onchange="toggleNewsletterOptional('discount', this.checked)" />
+                  Discount / coupon
+                </label>
+              </div>
+              <p class="newsletter-section-hint">Email order: announcement (if on) → tracks → discount (if on). Send needs at least one of tracks, announcement, or discount filled.</p>
+
+              <div id="nlFieldsAnnouncement" class="newsletter-fields">
+                <div class="form-group">
+                  <label for="nlAnnounceBody">Announcement</label>
+                  <textarea class="form-textarea" id="nlAnnounceBody" style="min-height:120px" placeholder="We're launching soon…"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="nlAnnounceCta">CTA label (optional)</label>
+                    <input class="form-input" id="nlAnnounceCta" type="text" placeholder="Visit the site" autocomplete="off" />
+                  </div>
+                  <div class="form-group">
+                    <label for="nlAnnounceUrl">CTA URL</label>
+                    <input class="form-input" id="nlAnnounceUrl" type="url" placeholder="https://riskintracks.com/" autocomplete="off" />
+                  </div>
+                </div>
+              </div>
+
+              <div id="nlFieldsDiscount" class="newsletter-fields">
+                <div class="form-group">
+                  <label for="nlDiscountCode">Coupon code</label>
+                  <input class="form-input" id="nlDiscountCode" type="text" placeholder="FOUNDERS20" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label for="nlDiscountDesc">Amount / description</label>
+                  <input class="form-input" id="nlDiscountDesc" type="text" placeholder="20% off your first purchase" autocomplete="off" />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="nlDiscountExpiry">Expiry</label>
+                    <input class="form-input" id="nlDiscountExpiry" type="text" placeholder="Sep 30, 2026" autocomplete="off" />
+                  </div>
+                  <div class="form-group">
+                    <label for="nlDiscountCta">CTA label</label>
+                    <input class="form-input" id="nlDiscountCta" type="text" value="Claim offer" autocomplete="off" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="nlDiscountUrl">CTA URL</label>
+                  <input class="form-input" id="nlDiscountUrl" type="url" placeholder="https://riskintracks.com/" autocomplete="off" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="nlTestEmail">Test send to one email (optional)</label>
+              <input class="form-input" id="nlTestEmail" type="email" placeholder="you@example.com — skips waitlist broadcast" autocomplete="off" />
+            </div>
+
+            <div class="newsletter-schedule-box">
+              <div class="form-group">
+                <label for="nlScheduleAt">Schedule send (optional)</label>
+                <input class="form-input" id="nlScheduleAt" type="datetime-local" />
+                <p class="newsletter-tz-label" id="nlTimezoneLabel">Local timezone</p>
+              </div>
+            </div>
+
+            <div class="newsletter-actions">
+              <button type="button" class="btn btn-ghost" id="nlScheduleBtn" onclick="scheduleNewsletter()">Schedule</button>
+              <button type="button" class="btn btn-primary" id="nlSendBtn" onclick="sendNewsletter()">Send to all waitlist subscribers</button>
+            </div>
+            <p class="newsletter-section-hint" style="margin-top:10px">Broadcast goes to every contact in the Resend audience (<code>WAITLIST_AUDIENCE_ID</code>). Leave test email empty for that; fill it to send only to yourself.</p>
+            <div class="newsletter-status" id="nlStatus"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="admin-panel" style="margin-bottom:28px">
+            <div class="admin-panel-head newsletter-preview-toolbar">
+              <span>Preview <span style="font-weight:400;color:var(--text-muted)">· actual email HTML</span></span>
+              <span class="newsletter-preview-actions">
+                <button type="button" class="btn btn-ghost" id="nlPreviewBackBtn" onclick="newsletterPreviewBack()">Back</button>
+                <button type="button" class="btn btn-ghost" onclick="previewNewsletter()">Refresh</button>
+                <button type="button" class="btn btn-ghost" id="nlPreviewExpandBtn" onclick="toggleNewsletterFullPreview()">Expand</button>
+              </span>
+            </div>
+            <iframe id="nlPreviewFrame" class="newsletter-preview-frame" title="Newsletter preview"></iframe>
+          </div>
+          <div class="admin-panel newsletter-compose-col" style="margin-bottom:28px">
+            <div class="admin-panel-head">Scheduled</div>
+            <div class="newsletter-schedule-list" id="nlScheduleList">
+              <div class="newsletter-schedule-item"><span class="newsletter-history-meta">No scheduled sends.</span></div>
+            </div>
+            <p class="newsletter-section-hint" style="padding:0 16px 14px">Local: due jobs fire while this page is open (poll ~20s). Production needs a Netlify scheduled function / cron for offline delivery.</p>
+          </div>
+          <div class="admin-panel newsletter-compose-col">
+            <div class="admin-panel-head">History</div>
+            <div class="newsletter-history-list" id="nlHistoryList">
+              <div class="newsletter-history-item"><span class="newsletter-history-meta">No sends yet.</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1277,7 +1537,7 @@
       <p id="accountEmail"></p>
       <div class="account-section">
         <h2>Demo previews</h2>
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">Download demo MP3 files from any track page while signed in.</p>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">Demo MP3s you downloaded while signed in appear here. Guests can download demos without an account.</p>
         <div id="demoDownloadHistory"></div>
       </div>
       <div class="account-section" id="upgradeSection" style="display:none">
@@ -1406,7 +1666,7 @@
         <div class="stripe-field"><label>Email</label><input class="stripe-input" id="authEmail" type="email" /></div>
         <div class="stripe-field"><label>Password</label><input class="stripe-input" id="authPassword" type="password" /></div>
         <p id="authError" style="color:#f87171;font-size:13px;margin-bottom:12px;display:none"></p>
-        <p id="authSignupHint" style="font-size:13px;color:var(--text-muted);margin-bottom:16px;display:none">Free accounts can download demo MP3 previews from any track.</p>
+        <p id="authSignupHint" style="font-size:13px;color:var(--text-muted);margin-bottom:16px;display:none">Save favourites and keep purchase history across devices. Demo MP3s are free to download without an account.</p>
         <button class="btn btn-primary btn-lg" style="width:100%" onclick="submitAuth()">Continue</button>
       </div>
     </div>
@@ -1600,6 +1860,7 @@
     let audioObjectUrl = null;
     let audioDuration = 0;
     const demoBlobCache = new Map();
+    const demoLoadPromises = new Map();
     const waveformPeaksCache = new Map();
     const waveformDurationCache = new Map();
     const waveformLoadPromises = new Map();
@@ -1608,6 +1869,10 @@
     const WAVEFORM_CACHE_PREFIX = 'gms_wf_';
     let waveformLoadQueue = [];
     let waveformLoadActive = 0;
+    let waveformLoadsPaused = false;
+    let waveformDecodeWorker = null;
+    let waveformDecodeReqId = 0;
+    const waveformDecodePending = new Map();
     let catalogReady = false;
     let sharedAudioContext = null;
     let audioContextReady = false;
@@ -2181,15 +2446,21 @@
       document.getElementById('bpArt').innerHTML = artHtml(t);
       document.getElementById('bpTitle').textContent = t.title;
       document.getElementById('bpMeta').textContent = `${t.genre}${t.demoName ? ' · ' + t.demoName : ''}`;
-      waveformData = getWaveformBars(t.id, waveformBarCount());
-      buildBottomWaveform();
-      loadWaveformForTrack(t, true).then(() => {
-        if (playingTrackId !== t.id) return;
-        waveformData = getWaveformBars(t.id, waveformBarCount());
-        buildBottomWaveform();
-      });
       document.getElementById('bottomPlayer').classList.add('visible');
       document.body.classList.add('player-open');
+      // Defer waveform DOM so audio.play() can run inside the user gesture first.
+      const trackId = normalizeTrackId(t.id);
+      setTimeout(() => {
+        if (normalizeTrackId(playingTrackId) !== trackId) return;
+        waveformData = getWaveformBars(t.id, waveformBarCount());
+        buildBottomWaveform();
+        if (waveformLoadsPaused) return;
+        loadWaveformForTrack(t, true).then(() => {
+          if (normalizeTrackId(playingTrackId) !== trackId) return;
+          waveformData = getWaveformBars(t.id, waveformBarCount());
+          buildBottomWaveform();
+        });
+      }, 0);
     }
 
     function hideBottomPlayerBar() {
@@ -2274,42 +2545,129 @@
     }
 
     async function loadDemoBlob(track) {
-      if (demoBlobCache.has(track.id)) return demoBlobCache.get(track.id);
-      if (track.hasDemo || track.demoName) {
-        try {
-          const blob = await loadFile(fileKey(track.id, 'demo'));
-          if (blob) {
-            demoBlobCache.set(track.id, blob);
-            return blob;
+      if (!track?.id) return null;
+      const id = normalizeTrackId(track.id);
+      if (demoBlobCache.has(id)) return demoBlobCache.get(id);
+      if (demoLoadPromises.has(id)) return demoLoadPromises.get(id);
+
+      const promise = (async () => {
+        if (track.hasDemo || track.demoName) {
+          try {
+            const blob = await loadFile(fileKey(id, 'demo'));
+            if (blob) {
+              demoBlobCache.set(id, blob);
+              return blob;
+            }
+          } catch (err) {
+            console.warn('IndexedDB demo read failed for track', id, err);
           }
-        } catch (err) {
-          console.warn('IndexedDB demo read failed for track', track.id, err);
         }
-      }
-      const demoFetchUrl = trackDemoFetchUrl(track);
-      if (demoFetchUrl) {
-        try {
-          const res = await fetch(demoFetchUrl);
-          if (res.ok) {
-            const blob = await res.blob();
-            demoBlobCache.set(track.id, blob);
-            return blob;
+        const demoFetchUrl = trackDemoFetchUrl(track);
+        if (demoFetchUrl) {
+          try {
+            const res = await fetch(demoFetchUrl);
+            if (res.ok) {
+              const blob = await res.blob();
+              demoBlobCache.set(id, blob);
+              return blob;
+            }
+            console.warn('Demo fetch failed:', demoFetchUrl, res.status);
+          } catch (err) {
+            console.warn('Demo fetch failed:', demoFetchUrl, err);
           }
-          console.warn('Demo fetch failed:', demoFetchUrl, res.status);
-        } catch (err) {
-          console.warn('Demo fetch failed:', demoFetchUrl, err);
         }
+        if (track.demoDataUrl) {
+          demoBlobCache.set(id, track.demoDataUrl);
+          return track.demoDataUrl;
+        }
+        return null;
+      })();
+
+      demoLoadPromises.set(id, promise);
+      try {
+        return await promise;
+      } finally {
+        demoLoadPromises.delete(id);
       }
-      if (track.demoDataUrl) return track.demoDataUrl;
-      return null;
     }
 
     function getSharedAudioContext() {
       return sharedAudioContext;
     }
 
+    function getWaveformDecodeWorker() {
+      if (waveformDecodeWorker) return waveformDecodeWorker;
+      if (typeof Worker === 'undefined') return null;
+      const code = `
+        self.onmessage = async (e) => {
+          const { reqId, buffer, peakCount } = e.data;
+          try {
+            const OfflineCtx = self.OfflineAudioContext || self.webkitOfflineAudioContext;
+            if (!OfflineCtx) throw new Error('No OfflineAudioContext in worker');
+            const offline = new OfflineCtx(1, 44100 * 600, 44100);
+            const audioBuffer = await offline.decodeAudioData(buffer);
+            const count = peakCount || 512;
+            const channels = audioBuffer.numberOfChannels;
+            const length = audioBuffer.length;
+            const blockSize = Math.max(1, Math.floor(length / count));
+            const peaks = new Float32Array(count);
+            for (let i = 0; i < count; i++) {
+              const start = i * blockSize;
+              const end = Math.min(start + blockSize, length);
+              let max = 0;
+              for (let j = start; j < end; j++) {
+                for (let ch = 0; ch < channels; ch++) {
+                  const v = Math.abs(audioBuffer.getChannelData(ch)[j]);
+                  if (v > max) max = v;
+                }
+              }
+              peaks[i] = max;
+            }
+            let globalMax = 0;
+            for (let i = 0; i < count; i++) if (peaks[i] > globalMax) globalMax = peaks[i];
+            if (globalMax > 0) for (let i = 0; i < count; i++) peaks[i] /= globalMax;
+            self.postMessage({ reqId, peaks, duration: audioBuffer.duration }, [peaks.buffer]);
+          } catch (err) {
+            self.postMessage({ reqId, error: String(err && err.message || err) });
+          }
+        };
+      `;
+      try {
+        const blob = new Blob([code], { type: 'application/javascript' });
+        waveformDecodeWorker = new Worker(URL.createObjectURL(blob));
+        waveformDecodeWorker.onmessage = (ev) => {
+          const { reqId } = ev.data || {};
+          const pending = waveformDecodePending.get(reqId);
+          if (!pending) return;
+          waveformDecodePending.delete(reqId);
+          if (ev.data.error) pending.reject(new Error(ev.data.error));
+          else pending.resolve({ peaks: ev.data.peaks, duration: ev.data.duration });
+        };
+        waveformDecodeWorker.onerror = () => { waveformDecodeWorker = null; };
+        return waveformDecodeWorker;
+      } catch {
+        return null;
+      }
+    }
+
+    function decodeWaveformPeaksInWorker(arrayBuffer, peakCount) {
+      const worker = getWaveformDecodeWorker();
+      if (!worker) return Promise.reject(new Error('No waveform worker'));
+      const reqId = ++waveformDecodeReqId;
+      return new Promise((resolve, reject) => {
+        waveformDecodePending.set(reqId, { resolve, reject });
+        try {
+          worker.postMessage({ reqId, buffer: arrayBuffer, peakCount }, [arrayBuffer]);
+        } catch (err) {
+          waveformDecodePending.delete(reqId);
+          reject(err);
+        }
+      });
+    }
+
     /** Decode demo audio for waveform peaks — OfflineAudioContext needs no user gesture. */
     async function decodeWaveformArrayBuffer(arrayBuffer) {
+      await new Promise(resolve => setTimeout(resolve, 0));
       const copy = arrayBuffer.slice(0);
       const OfflineCtx = window.OfflineAudioContext || window.webkitOfflineAudioContext;
       if (OfflineCtx) {
@@ -2352,8 +2710,12 @@
         audioContextUnlockPromise = null;
         return null;
       });
+      // Defer waveform retries so unlock during cart/nav clicks does not start a
+      // decode storm on the same turn as navigation / upcoming play gestures.
       audioContextUnlockPromise.then(() => {
-        retryVisibleWaveformsAfterUnlock();
+        const run = () => retryVisibleWaveformsAfterUnlock();
+        if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 2500 });
+        else setTimeout(run, 100);
       });
       return audioContextUnlockPromise;
     }
@@ -2544,20 +2906,31 @@
         return false;
       }
 
-      const audioBuffer = await decodeWaveformArrayBuffer(arrayBuffer);
-      if (!audioBuffer) {
-        console.warn('[waveform] decode failed for track', id);
-        return false;
+      let peaks = null;
+      let duration = null;
+      try {
+        // Decode off the main thread so cart/detail play clicks are not blocked.
+        const result = await decodeWaveformPeaksInWorker(arrayBuffer.slice(0), waveformPeakCount());
+        peaks = result.peaks instanceof Float32Array ? result.peaks : new Float32Array(result.peaks);
+        duration = result.duration;
+      } catch (workerErr) {
+        const audioBuffer = await decodeWaveformArrayBuffer(arrayBuffer);
+        if (!audioBuffer) {
+          console.warn('[waveform] decode failed for track', id, workerErr);
+          return false;
+        }
+        peaks = computeWaveformPeaks(audioBuffer, waveformPeakCount());
+        duration = audioBuffer.duration;
       }
-      const peaks = computeWaveformPeaks(audioBuffer, waveformPeakCount());
+
       waveformPeaksCache.set(id, peaks);
-      if (audioBuffer.duration && isFinite(audioBuffer.duration)) {
-        waveformDurationCache.set(id, audioBuffer.duration);
+      if (duration && isFinite(duration)) {
+        waveformDurationCache.set(id, duration);
+        if (duration > durationToSec(track.duration) + 0.5) {
+          applyDemoDurationToTrack(track, duration);
+        }
       }
       savePeaksToSessionCache(track, waveformCacheKey(track), peaks);
-      if (audioBuffer.duration > durationToSec(track.duration) + 0.5) {
-        applyDemoDurationToTrack(track, audioBuffer.duration);
-      }
       if (normalizeTrackId(playingTrackId) === id) {
         const audio = getDemoAudio();
         refreshAudioDurationFromElement(audio, track);
@@ -2566,13 +2939,24 @@
       }
       refreshWaveformUI(id);
       if (isLocalDev()) {
-        console.log('[waveform] decoded track', id, peaks.length, 'peaks', audioBuffer.duration.toFixed(1) + 's');
+        console.log('[waveform] decoded track', id, peaks.length, 'peaks', duration ? duration.toFixed(1) + 's' : '');
       }
       return true;
     }
 
+    function pauseWaveformLoads() {
+      waveformLoadsPaused = true;
+    }
+
+    function resumeWaveformLoadsSoon() {
+      setTimeout(() => {
+        waveformLoadsPaused = false;
+        drainWaveformLoadQueue();
+      }, 600);
+    }
+
     function drainWaveformLoadQueue() {
-      while (waveformLoadActive < WAVEFORM_LOAD_CONCURRENCY && waveformLoadQueue.length) {
+      while (!waveformLoadsPaused && waveformLoadActive < WAVEFORM_LOAD_CONCURRENCY && waveformLoadQueue.length) {
         const job = waveformLoadQueue.shift();
         waveformLoadActive++;
         loadWaveformForTrackNow(job.track)
@@ -2596,7 +2980,8 @@
           })
           .finally(() => {
             waveformLoadActive--;
-            drainWaveformLoadQueue();
+            // Yield between jobs so play/cart clicks are not stuck behind back-to-back decodes.
+            setTimeout(() => drainWaveformLoadQueue(), 0);
           });
       }
     }
@@ -2634,21 +3019,23 @@
     }
 
     function retryVisibleWaveformsAfterUnlock() {
-      drainWaveformLoadQueue();
       if (!catalogReady) return;
+      // OfflineAudioContext handles waveform decode without a running AudioContext.
+      // Only nudge tracks that still lack peaks and are not already loading — never
+      // delete in-flight promises (that re-decoded the whole page on first unlock).
       getCurrentPageTracks().forEach(track => {
         if (!track?.id) return;
         const id = normalizeTrackId(track.id);
-        if (waveformPeaksCache.has(id)) return;
-        waveformLoadPromises.delete(id);
-        scheduleWaveformLoad(track, true);
+        if (waveformPeaksCache.has(id) || waveformLoadPromises.has(id)) return;
+        scheduleWaveformLoad(track, false);
       });
-      preloadVisiblePageWaveforms();
       if (playingTrackId) {
         const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(playingTrackId));
         if (t) {
-          waveformLoadPromises.delete(normalizeTrackId(t.id));
-          scheduleWaveformLoad(t, true);
+          const id = normalizeTrackId(t.id);
+          if (!waveformPeaksCache.has(id) && !waveformLoadPromises.has(id)) {
+            scheduleWaveformLoad(t, true);
+          }
         }
       }
     }
@@ -2743,7 +3130,6 @@
       const pageList = getCurrentPageTracks();
       schedulePageWaveforms(pageList);
       observeListWaveforms();
-      loadPageWaveformsSequential(pageList);
       if (playingTrackId) {
         const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(playingTrackId));
         if (t) scheduleWaveformLoad(t, true);
@@ -2751,12 +3137,15 @@
     }
 
     function getDemoSrcSync(track) {
-      if (demoBlobCache.has(track.id)) {
+      const id = normalizeTrackId(track?.id);
+      if (demoBlobCache.has(id)) {
         revokeAudioUrl();
-        audioObjectUrl = URL.createObjectURL(demoBlobCache.get(track.id));
+        const cached = demoBlobCache.get(id);
+        if (typeof cached === 'string') return cached;
+        audioObjectUrl = URL.createObjectURL(cached);
         return audioObjectUrl;
       }
-      if (track.demoDataUrl) return track.demoDataUrl;
+      if (track?.demoDataUrl) return track.demoDataUrl;
       return null;
     }
 
@@ -2779,7 +3168,7 @@
     }
 
     function playDemoSrc(src, t, opts = {}) {
-      const trackId = t.id;
+      const trackId = normalizeTrackId(t.id);
       if (normalizeTrackId(playingTrackId) !== trackId) return;
       const audio = getDemoAudio();
       clearVolumeFadeTimer();
@@ -2805,6 +3194,7 @@
         if (!playPromise) return;
         playPromise.then(() => {
           if (playGen !== playbackGeneration || normalizeTrackId(playingTrackId) !== trackId) {
+            resumeWaveformLoadsSoon();
             return;
           }
           isPlaying = true;
@@ -2816,8 +3206,12 @@
           startAudioProgressLoop();
           updateBottomPlayer();
           refreshTrackRowPlayState();
+          resumeWaveformLoadsSoon();
         }).catch(err => {
-          if (playGen !== playbackGeneration || normalizeTrackId(playingTrackId) !== trackId) return;
+          if (playGen !== playbackGeneration || normalizeTrackId(playingTrackId) !== trackId) {
+            resumeWaveformLoadsSoon();
+            return;
+          }
           if (retry < 2 && err?.name === 'AbortError') {
             tryPlay(retry + 1);
             return;
@@ -2833,6 +3227,7 @@
           startSimulatedPlayback();
           updateBottomPlayer();
           refreshTrackRowPlayState();
+          resumeWaveformLoadsSoon();
         });
       };
       tryPlay();
@@ -3057,17 +3452,12 @@
         alert('No demo file available for this track.');
         return;
       }
-      if (!currentUser) {
-        pendingDemoDownload = trackId;
-        openAuth('signup');
-        return;
-      }
       downloadDemo(trackId);
     }
 
     async function downloadDemo(trackId) {
       const t = tracks.find(tr => tr.id === trackId);
-      if (!t || !currentUser) return;
+      if (!t) return;
       const demoName = t.demoName || `${t.title.replace(/\s+/g, '_')}_demo.mp3`;
       let blob = await loadDemoBlob(t);
       if (!blob) {
@@ -3085,7 +3475,7 @@
       a.download = demoName;
       a.click();
       URL.revokeObjectURL(url);
-      renderAccount();
+      if (currentUser) renderAccount();
     }
 
     function updateDetailDemoBtn() {
@@ -3099,13 +3489,8 @@
         return;
       }
       btn.style.display = 'block';
-      if (currentUser) {
-        btn.textContent = 'Download demo MP3';
-        hint.textContent = 'Preview file for offline listening — included with your free account.';
-      } else {
-        btn.textContent = 'Sign up to download demo';
-        hint.textContent = 'Create a free account to download preview MP3 files.';
-      }
+      btn.textContent = 'Download demo MP3';
+      hint.textContent = 'Free preview MP3 for offline listening — no account required.';
     }
 
     function finishAuthSuccess() {
@@ -3716,6 +4101,18 @@
 
     const OWNED_CHECKMARK_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 2.5L16 9"/></svg>';
     const CART_ICON_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2h3l2.4 12.2c.2.9.95 1.6 1.85 1.6h9.5c.9 0 1.65-.7 1.85-1.6L21 8H7"/><circle cx="9.5" cy="20.5" r="1.75"/><circle cx="17.5" cy="20.5" r="1.75"/></svg>';
+    const DEMO_DL_ICON_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>';
+
+    function trackHasDemoFile(t) {
+      return !!(t && (t.hasDemo || t.demoName || t.demoDataUrl || t.demoUrl));
+    }
+
+    function trackDemoDownloadButtonHtml(t) {
+      if (!trackHasDemoFile(t)) {
+        return `<span class="track-row-icon demo-dl-spacer" aria-hidden="true">${DEMO_DL_ICON_SVG}</span>`;
+      }
+      return `<button type="button" class="track-row-icon demo-dl" title="Download demo MP3" aria-label="Download demo MP3" onclick="event.stopPropagation(); requestDemoDownload(${t.id})">${DEMO_DL_ICON_SVG}</button>`;
+    }
 
     function trackCartButtonHtml(t) {
       const owned = getOwnedTier(t.id);
@@ -3769,6 +4166,8 @@
       }
       updateCartUI();
       updateDetailPurchaseUI();
+      // Prefetch demo so cart → detail → play can start inside the click gesture.
+      loadDemoBlob(t).catch(() => null);
       try {
         renderTracks();
       } catch (err) {
@@ -4067,10 +4466,24 @@
       document.getElementById('cartOverlay').classList.add('active');
       renderCart();
       updatePlaybackForContext();
+      cart.forEach(item => {
+        const c = normalizeCartItem(item);
+        const t = tracks.find(tr => normalizeTrackId(tr.id) === c.trackId);
+        if (t) loadDemoBlob(t).catch(() => null);
+      });
     }
 
     function closeCart() {
       document.getElementById('cartOverlay').classList.remove('active');
+      updatePlaybackForContext();
+    }
+
+    function openTrackFromCart(id) {
+      document.getElementById('cartOverlay').classList.remove('active');
+      const t = tracks.find(tr => normalizeTrackId(tr.id) === normalizeTrackId(id));
+      if (t) loadDemoBlob(t).catch(() => null);
+      openTrack(id);
+      // Ensure ducking/overlay gating is cleared after detail is shown (cart was blocking).
       updatePlaybackForContext();
     }
 
@@ -4091,9 +4504,9 @@
         const price = tierPrice(t, c.tier);
         return `
           <div class="cart-row">
-            <div class="cart-row-thumb" onclick="closeCart(); openTrack(${t.id})">${artHtml(t)}</div>
+            <div class="cart-row-thumb" onclick="openTrackFromCart(${t.id})">${artHtml(t)}</div>
             <div class="cart-row-info">
-              <div class="cart-row-title" onclick="closeCart(); openTrack(${t.id})">${t.title}</div>
+              <div class="cart-row-title" onclick="openTrackFromCart(${t.id})">${t.title}</div>
               ${cartTierOptionsHtml(t, c.tier)}
               <div class="cart-row-price" style="margin-top:8px">${formatMoney(price)}</div>
             </div>
@@ -5491,9 +5904,10 @@
     }
 
     function artHtml(t) {
-      const src = t?.artwork || t?.cover;
-      if (src) {
-        const safe = String(src).replace(/"/g, '&quot;');
+      // Prefer generated data-URL art only — never catalog cover.jpg (persist strips data: URLs).
+      const src = t?.artwork;
+      if (typeof src === 'string' && src.startsWith('data:')) {
+        const safe = src.replace(/"/g, '&quot;');
         return `<img class="art-fill" src="${safe}" alt="" loading="lazy"/>`;
       }
       const h = ((t?.id || 1) * 47) % 360;
@@ -5732,6 +6146,33 @@
     function refreshTrackRowPlayState() {
       updateListWaveforms();
       updateDetailPlayBtn();
+      updateAdminTrackPlayState();
+    }
+
+    function updateAdminTrackPlayState() {
+      document.querySelectorAll('.admin-track-row[data-id]').forEach(row => {
+        const id = normalizeTrackId(parseInt(row.dataset.id, 10));
+        const active = normalizeTrackId(playingTrackId) === id;
+        const playingNow = active && isActuallyPlaying();
+        row.classList.toggle('playing', playingNow);
+        row.classList.toggle('paused', active && !playingNow);
+        const playBtn = row.querySelector('.track-row-play');
+        if (playBtn) {
+          playBtn.title = playingNow ? 'Pause' : 'Play';
+          playBtn.innerHTML = playingNow
+            ? '<svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>'
+            : '<svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+        }
+      });
+    }
+
+    function handleAdminCatalogPlay(id, event) {
+      event?.stopPropagation?.();
+      event?.preventDefault?.();
+      if (normalizeTrackId(editingId) !== normalizeTrackId(id)) {
+        editTrack(id);
+      }
+      handleTrackRowPlayback(id, event);
     }
 
     function renderFilterTabs() { /* browse filters removed — search handles tags/genres */ }
@@ -5859,11 +6300,12 @@
       return Math.max(48, Math.min(220, Math.floor((w - 16) / 2)));
     }
 
-    function buildDetailWaveform() {
-      if (!currentTrack) return;
+    function buildDetailWaveform(attempt = 0) {
+      if (!currentTrack || !isDetailPageActive()) return;
       const wrap = document.getElementById('detailWaveWrap');
       if (wrap && wrap.clientWidth < 24) {
-        requestAnimationFrame(buildDetailWaveform);
+        // Avoid an infinite rAF spin when the detail wave has no layout yet.
+        if (attempt < 40) requestAnimationFrame(() => buildDetailWaveform(attempt + 1));
         return;
       }
       detailWaveformData = getWaveformBars(currentTrack.id, detailWaveBarCount());
@@ -6125,6 +6567,7 @@
           <div class="track-row-duration">${t.duration || '—'}</div>
           <div class="track-row-tags">${formatTrackTagLine(t)}</div>
           <div class="track-row-actions">
+            ${trackDemoDownloadButtonHtml(t)}
             <span class="track-row-badges">${trackTierBadgeHtml(t)}</span>
             <button type="button" class="track-row-icon${isFavourite(t.id) ? ' favourited' : ''}" title="Favourite" onclick="event.stopPropagation(); toggleFavourite(${t.id})">${favHeartSvg(isFavourite(t.id))}</button>
             ${trackCartButtonHtml(t)}
@@ -6141,7 +6584,6 @@
       if (catalogReady) {
         schedulePageWaveforms(pageList);
         observeListWaveforms();
-        loadPageWaveformsSequential(pageList);
       }
     }
 
@@ -6215,13 +6657,18 @@
         renderEmotionSliders('trackEmotionSliders', defaultEmotions(), 'onTrackEmotionChange');
       }
       if (name === 'admin-users') renderAdminUsers();
+      if (name === 'admin-newsletter') initNewsletterAdmin();
       if (name === 'account') renderAccount();
       if (name !== 'detail') window.scrollTo(0, 0);
       updatePlaybackForContext();
     }
 
     function showAdminTab(tab) {
-      const page = tab === 'tracks' ? 'admin-tracks' : tab === 'users' ? 'admin-users' : 'admin-taxonomy';
+      const page =
+        tab === 'tracks' ? 'admin-tracks'
+        : tab === 'users' ? 'admin-users'
+        : tab === 'newsletter' ? 'admin-newsletter'
+        : 'admin-taxonomy';
       showPage(page);
     }
 
@@ -6249,6 +6696,8 @@
       updateDetailDemoBtn();
       updateDetailPlayBtn();
       showPage('detail');
+      // Prefetch demo so detail play can use a sync blob URL inside the click gesture.
+      loadDemoBlob(currentTrack).catch(() => null);
       requestAnimationFrame(() => requestAnimationFrame(() => buildDetailWaveform()));
     }
 
@@ -6270,12 +6719,11 @@
 
     function playDetailTrack() {
       if (!currentTrack?.id) return;
+      // Same path as browse-row play so unlock + demo start stay in the user gesture.
+      pauseWaveformLoads();
       userInitiatedPlayback = true;
-      if (normalizeTrackId(playingTrackId) === normalizeTrackId(currentTrack.id) && isActuallyPlaying()) {
-        pausePlay();
-      } else {
-        playTrack(currentTrack.id, { force: true });
-      }
+      unlockAudioContext();
+      playTrackFromRow(currentTrack.id);
     }
 
     function durationToSec(d) { const [m,s] = (d||'2:30').split(':').map(Number); return m*60+s; }
@@ -6367,12 +6815,16 @@
       updateBottomPlayer();
     }
 
+    let persistDurationTimer = null;
     function applyDemoDurationToTrack(track, sec) {
       if (!track || !sec || !isFinite(sec)) return;
       const label = formatTime(sec);
       if (track.duration === label) return;
       track.duration = label;
-      persist();
+      // Debounce: waveform decode can update many track durations in a burst; syncing
+      // localStorage on each one blocks the main thread (cart → detail play lag).
+      clearTimeout(persistDurationTimer);
+      persistDurationTimer = setTimeout(() => persist(), 400);
       updateTrackDurationInUI(track.id, label);
     }
 
@@ -6396,6 +6848,7 @@
       const now = performance.now();
       if (now - rowPlaybackGuardAt < ROW_PLAYBACK_DEBOUNCE_MS) return;
       rowPlaybackGuardAt = now;
+      pauseWaveformLoads();
       userInitiatedPlayback = true;
       unlockAudioContext();
       playTrackFromRow(id);
@@ -6411,6 +6864,7 @@
       if (sameTrack) {
         if (actuallyPlaying) {
           pausePlay();
+          resumeWaveformLoadsSoon();
           return;
         }
         const t = tracks.find(tr => normalizeTrackId(tr.id) === id);
@@ -6420,17 +6874,23 @@
           return;
         }
         resumePlay();
+        resumeWaveformLoadsSoon();
         return;
       }
       const t = tracks.find(tr => normalizeTrackId(tr.id) === id);
       if (!t) return;
-      if (t.status !== 'draft') incrementTrackStat(id, 'views');
+      // openTrack already counted a view when landing on detail; avoid a second
+      // synchronous localStorage persist on the play gesture.
+      if (t.status !== 'draft' && !(isDetailPageActive() && normalizeTrackId(currentTrack?.id) === id)) {
+        incrementTrackStat(id, 'views');
+      }
       clearVolumeFadeTimer();
       volumeDucked = false;
       switchTrackPlayback(id, t);
     }
 
     function switchTrackPlayback(id, t) {
+      pauseWaveformLoads();
       bumpPlaybackGeneration();
       resetPlaybackSeekState();
       releaseScrubCaptures();
@@ -6441,41 +6901,56 @@
       currentTrack = t;
       playProgress = 0;
       isPlaying = false;
-      showBottomPlayerForTrack(t);
-      updateCartUI();
 
+      // Start audio before bottom-player DOM work so play() stays in the user gesture
+      // (cart → detail play was losing the gesture to waveform/player UI updates).
       const src = getDemoSrcSync(t);
       if (src) {
         playDemoSrc(src, t, { userGesture: true });
+        showBottomPlayerForTrack(t);
+        updateCartUI();
       } else if (t.hasDemo || t.demoName || t.demoDataUrl || t.demoUrl) {
+        showBottomPlayerForTrack(t);
+        updateCartUI();
         document.getElementById('bpMeta').textContent = `${t.genre} · loading demo…`;
         loadDemoBlob(t).then(blob => {
-          if (normalizeTrackId(playingTrackId) !== id) return;
+          if (normalizeTrackId(playingTrackId) !== id) {
+            resumeWaveformLoadsSoon();
+            return;
+          }
           if (!blob) {
             document.getElementById('bpMeta').textContent = `${t.genre} · no audio found — re-upload MP3 in Admin`;
             startSimulatedPlayback();
             updateBottomPlayer();
             refreshTrackRowPlayState();
             userInitiatedPlayback = false;
+            resumeWaveformLoadsSoon();
             return;
           }
           const asyncSrc = typeof blob === 'string' ? blob : URL.createObjectURL(blob);
           if (typeof blob !== 'string') audioObjectUrl = asyncSrc;
           playDemoSrc(asyncSrc, t, { userGesture: userInitiatedPlayback });
         }).catch(() => {
-          if (normalizeTrackId(playingTrackId) !== id) return;
+          if (normalizeTrackId(playingTrackId) !== id) {
+            resumeWaveformLoadsSoon();
+            return;
+          }
           document.getElementById('bpMeta').textContent = `${t.genre} · load failed — re-upload MP3`;
           startSimulatedPlayback();
           updateBottomPlayer();
           refreshTrackRowPlayState();
           userInitiatedPlayback = false;
+          resumeWaveformLoadsSoon();
         });
       } else {
+        showBottomPlayerForTrack(t);
+        updateCartUI();
         document.getElementById('bpMeta').textContent = `${t.genre} · no demo uploaded`;
         startSimulatedPlayback();
         updateBottomPlayer();
         refreshTrackRowPlayState();
         userInitiatedPlayback = false;
+        resumeWaveformLoadsSoon();
       }
     }
 
@@ -7187,14 +7662,25 @@
         const term = adminTrackSearch.trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
         list.innerHTML = `<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px">No tracks match “${term}”.</div>`;
       } else {
-        list.innerHTML = visible.map(t => `
-          <div class="admin-track-row${editingId===t.id?' selected':''}${t.status==='draft'?' draft':''}" onclick="editTrack(${t.id})">
-            <div class="admin-track-thumb">${artHtml(t)}</div>
-            <div><div class="admin-track-row-title">${t.title}${t.status==='draft'?' <span class="draft-badge">Draft</span>':''}${isTrackNew(t)?' <span class="draft-badge" style="background:rgba(245,158,108,0.25);color:var(--warm)">NEW</span>':''}${t.metaSource==='spreadsheet'?' <span class="draft-badge" style="background:rgba(94,234,212,0.15);color:var(--accent)">META</span>':''}</div><div class="admin-track-row-meta">${t.genre} · ${trackHasPack(t) ? `$${getLoopPrice(t)} loop / $${getPackPrice(t)} pack` : `$${getLoopPrice(t)} loop only`}${t.demoName?' · mp3 ✓':''}${t.hasLoopZip||t.loopZipName?' · loop ✓':''}${trackHasPack(t)?' · pack ✓':''} · ${t.views||0} views · ${t.purchases||0} sold</div></div>
-          </div>
-        `).join('');
+        list.innerHTML = visible.map(t => {
+          const active = normalizeTrackId(playingTrackId) === normalizeTrackId(t.id);
+          const playingNow = active && isActuallyPlaying();
+          return `
+          <div class="admin-track-row${editingId===t.id?' selected':''}${t.status==='draft'?' draft':''}${playingNow?' playing':''}${active && !playingNow?' paused':''}" data-id="${t.id}" onclick="editTrack(${t.id})">
+            <div class="admin-track-thumb track-row-thumb-wrap" onclick="handleAdminCatalogPlay(${t.id}, event)">
+              <div class="track-row-thumb">${artHtml(t)}</div>
+              <button type="button" class="track-row-play" tabindex="-1" aria-hidden="true" title="${playingNow ? 'Pause' : 'Play'}">
+                <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">${playingNow
+                  ? '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>'
+                  : '<path d="M8 5v14l11-7z"/>'}</svg>
+              </button>
+            </div>
+            <div class="admin-track-row-body"><div class="admin-track-row-title">${t.title}${t.status==='draft'?' <span class="draft-badge">Draft</span>':''}${isTrackNew(t)?' <span class="draft-badge" style="background:rgba(245,158,108,0.25);color:var(--warm)">NEW</span>':''}${t.metaSource==='spreadsheet'?' <span class="draft-badge" style="background:rgba(94,234,212,0.15);color:var(--accent)">META</span>':''}</div><div class="admin-track-row-meta">${t.genre} · ${trackHasPack(t) ? `$${getLoopPrice(t)} loop / $${getPackPrice(t)} pack` : `$${getLoopPrice(t)} loop only`}${t.demoName?' · mp3 ✓':''}${t.hasLoopZip||t.loopZipName?' · loop ✓':''}${trackHasPack(t)?' · pack ✓':''} · ${t.views||0} views · ${t.purchases||0} sold</div></div>
+          </div>`;
+        }).join('');
       }
       list.innerHTML += `<div class="admin-track-row" onclick="resetForm()" style="justify-content:center;color:var(--accent);font-weight:600;font-size:13px">+ Add new track</div>`;
+      updateAdminTrackPlayState();
     }
 
     function handleFile(e, type) {
@@ -7630,8 +8116,756 @@
     }
 
     const CONTACT_ENDPOINT = '/.netlify/functions/contact';
+    const NEWSLETTER_SEND_ENDPOINT = '/.netlify/functions/newsletter-send';
+    const NEWSLETTER_HISTORY_ENDPOINT = '/.netlify/functions/newsletter-history';
+    const NEWSLETTER_SCHEDULE_ENDPOINT = '/.netlify/functions/newsletter-schedule';
+    const NEWSLETTER_HISTORY_KEY = 'gms_newsletter_history';
+    const NEWSLETTER_SCHEDULE_KEY = 'gms_newsletter_schedule';
+    const NEWSLETTER_SECTION_ORDER = ['announcement', 'tracks', 'discount'];
+    const NEWSLETTER_SEND_BTN_LABEL = 'Send to all waitlist subscribers';
     const IS_LOCAL_HOST = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
     const IS_STATIC_DEV_SERVER = IS_LOCAL_HOST && location.port === '8765';
+
+    const R2_PUBLIC_BASE_DEFAULT = 'https://pub-45a1df6488174a1a84baf1ed003ac6dd.r2.dev';
+    let newsletterOptional = { announcement: false, discount: false };
+    let newsletterSelectedIds = [];
+    let newsletterPreviewTimer = null;
+    let newsletterSchedulePollTimer = null;
+    let newsletterScheduleBusy = false;
+    let newsletterFullPreview = false;
+
+    function newsletterR2Base() {
+      return (typeof R2_ASSET_BASE === 'string' && R2_ASSET_BASE) ? R2_ASSET_BASE.replace(/\/$/, '') : R2_PUBLIC_BASE_DEFAULT;
+    }
+
+    function newsletterAdminHeaders() {
+      const headers = { 'Content-Type': 'application/json' };
+      try {
+        const secret = (localStorage.getItem('gms_admin_newsletter_secret') || '').trim();
+        if (secret) headers['X-Admin-Newsletter-Secret'] = secret;
+      } catch { /* ignore */ }
+      return headers;
+    }
+
+    function setNewsletterStatus(msg, kind) {
+      const el = document.getElementById('nlStatus');
+      if (!el) return;
+      el.textContent = msg || '';
+      el.className = 'newsletter-status' + (kind ? ' ' + kind : '');
+    }
+
+    function newsletterLocalTimezone() {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone || 'local';
+      } catch {
+        return 'local';
+      }
+    }
+
+    function updateNewsletterTimezoneLabel() {
+      const el = document.getElementById('nlTimezoneLabel');
+      if (!el) return;
+      const tz = newsletterLocalTimezone();
+      const offsetMin = -new Date().getTimezoneOffset();
+      const sign = offsetMin >= 0 ? '+' : '-';
+      const abs = Math.abs(offsetMin);
+      const hh = String(Math.floor(abs / 60)).padStart(2, '0');
+      const mm = String(abs % 60).padStart(2, '0');
+      el.textContent = `Times use your local timezone: ${tz} (UTC${sign}${hh}:${mm})`;
+    }
+
+    function getSelectedNewsletterSections() {
+      const fromUi = [];
+      if (document.getElementById('nlSectionAnnouncement')?.checked || newsletterOptional.announcement) {
+        fromUi.push('announcement');
+      }
+      if (newsletterSelectedIds.length) fromUi.push('tracks');
+      if (document.getElementById('nlSectionDiscount')?.checked || newsletterOptional.discount) {
+        fromUi.push('discount');
+      }
+      return NEWSLETTER_SECTION_ORDER.filter(s => fromUi.includes(s));
+    }
+
+    function syncNewsletterOptionalUI() {
+      const map = {
+        announcement: ['nlSectionAnnouncement', 'nlToggleAnnouncement', 'nlFieldsAnnouncement'],
+        discount: ['nlSectionDiscount', 'nlToggleDiscount', 'nlFieldsDiscount'],
+      };
+      ['announcement', 'discount'].forEach(section => {
+        const [inputId, toggleId, fieldsId] = map[section];
+        const on = Boolean(newsletterOptional[section]);
+        const input = document.getElementById(inputId);
+        if (input) input.checked = on;
+        document.getElementById(toggleId)?.classList.toggle('active', on);
+        document.getElementById(fieldsId)?.classList.toggle('active', on);
+      });
+    }
+
+    function toggleNewsletterOptional(section, checked) {
+      if (section !== 'announcement' && section !== 'discount') return;
+      newsletterOptional[section] = Boolean(checked);
+      syncNewsletterOptionalUI();
+      setNewsletterStatus('');
+      scheduleNewsletterPreview();
+    }
+
+    function newsletterComposeHasContent() {
+      const sections = getSelectedNewsletterSections();
+      if (sections.includes('tracks') && newsletterSelectedIds.length) return true;
+      if (sections.includes('announcement')) {
+        const body = (document.getElementById('nlAnnounceBody')?.value || '').trim();
+        if (body) return true;
+      }
+      if (sections.includes('discount')) {
+        const code = (document.getElementById('nlDiscountCode')?.value || '').trim();
+        const desc = (document.getElementById('nlDiscountDesc')?.value || '').trim();
+        if (code && desc) return true;
+      }
+      return false;
+    }
+
+    function validateNewsletterCompose() {
+      const subject = (document.getElementById('nlSubject')?.value || '').trim();
+      if (!subject) return 'Subject is required.';
+      if (!newsletterComposeHasContent()) {
+        return 'Add at least one track, or turn on announcement/discount and fill those fields.';
+      }
+      const sections = getSelectedNewsletterSections();
+      if (sections.includes('tracks') && !newsletterSelectedIds.length) {
+        return 'Pick 1–3 tracks for the New tracks section.';
+      }
+      if (sections.includes('tracks') && newsletterSelectedIds.length > 3) {
+        return 'Pick at most 3 tracks.';
+      }
+      if (sections.includes('announcement')) {
+        const body = (document.getElementById('nlAnnounceBody')?.value || '').trim();
+        if (!body) return 'Announcement body is required when Announcement is on.';
+      }
+      if (sections.includes('discount')) {
+        const code = (document.getElementById('nlDiscountCode')?.value || '').trim();
+        const desc = (document.getElementById('nlDiscountDesc')?.value || '').trim();
+        if (!code) return 'Coupon code is required when Discount is on.';
+        if (!desc) return 'Discount description is required when Discount is on.';
+      }
+      return null;
+    }
+
+    function newsletterTrackCoverUrl(track) {
+      const cover = track.cover || '';
+      if (/^https?:\/\//i.test(cover)) return cover;
+      const slug = trackSlug(track);
+      if (cover) {
+        const rel = cover.replace(/^\.\//, '').replace(/^\//, '');
+        return `${newsletterR2Base()}/${rel}`;
+      }
+      return `${newsletterR2Base()}/tracks/${slug}/cover.jpg`;
+    }
+
+    function newsletterListenUrl(track) {
+      const slug = trackSlug(track);
+      return `${newsletterR2Base()}/tracks/${slug}/demo.mp3`;
+    }
+
+    function renderNewsletterTrackPicker() {
+      const wrap = document.getElementById('nlTrackPicker');
+      if (!wrap) return;
+      const q = (document.getElementById('nlTrackSearch')?.value || '').trim().toLowerCase();
+      const list = getPublishedTracks()
+        .filter(t => !q || (t.title || '').toLowerCase().includes(q) || (t.genre || '').toLowerCase().includes(q))
+        .slice(0, 80);
+      if (!list.length) {
+        wrap.innerHTML = '<div class="newsletter-picker-row"><span class="newsletter-history-meta">No tracks match.</span></div>';
+        return;
+      }
+      wrap.innerHTML = list.map(t => {
+        const selected = newsletterSelectedIds.includes(t.id);
+        const cover = newsletterTrackCoverUrl(t);
+        return `<label class="newsletter-picker-row${selected ? ' selected' : ''}">
+          <input type="checkbox" ${selected ? 'checked' : ''} onchange="toggleNewsletterTrack(${t.id}, this.checked)" />
+          <img src="${cover}" alt="" loading="lazy" onerror="this.style.visibility='hidden'" />
+          <span><strong>${escapeHtmlLite(t.title)}</strong><br /><span class="newsletter-history-meta">${escapeHtmlLite(t.genre || '')}</span></span>
+        </label>`;
+      }).join('');
+      renderNewsletterTrackBlurbs();
+    }
+
+    function escapeHtmlLite(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function toggleNewsletterTrack(id, checked) {
+      if (checked) {
+        if (newsletterSelectedIds.includes(id)) return;
+        if (newsletterSelectedIds.length >= 3) {
+          setNewsletterStatus('Pick at most 3 tracks.', 'error');
+          renderNewsletterTrackPicker();
+          return;
+        }
+        newsletterSelectedIds.push(id);
+      } else {
+        newsletterSelectedIds = newsletterSelectedIds.filter(x => x !== id);
+      }
+      setNewsletterStatus('');
+      renderNewsletterTrackPicker();
+      scheduleNewsletterPreview();
+    }
+
+    function renderNewsletterTrackBlurbs() {
+      const wrap = document.getElementById('nlTrackBlurbs');
+      if (!wrap) return;
+      const selected = newsletterSelectedIds
+        .map(id => tracks.find(t => t.id === id) || getPublishedTracks().find(t => t.id === id))
+        .filter(Boolean);
+      wrap.innerHTML = selected.map(t => {
+        const existing = document.getElementById('nlBlurb-' + t.id);
+        const val = existing ? existing.value : (t.desc || '');
+        return `<div class="form-group">
+          <label for="nlBlurb-${t.id}">Blurb — ${escapeHtmlLite(t.title)}</label>
+          <textarea class="form-textarea" id="nlBlurb-${t.id}" oninput="scheduleNewsletterPreview()">${escapeHtmlLite(val)}</textarea>
+        </div>`;
+      }).join('');
+    }
+
+    function buildNewsletterPayload(extra = {}) {
+      newsletterOptional.announcement = Boolean(document.getElementById('nlSectionAnnouncement')?.checked);
+      newsletterOptional.discount = Boolean(document.getElementById('nlSectionDiscount')?.checked);
+      const sections = getSelectedNewsletterSections();
+      const subject = (document.getElementById('nlSubject')?.value || '').trim();
+      const headline = (document.getElementById('nlHeadline')?.value || '').trim();
+      const intro = (document.getElementById('nlIntro')?.value || '').trim();
+      const payload = {
+        sections,
+        template: sections.length === 1 ? sections[0] : (sections.join('+') || 'tracks'),
+        subject: subject || headline || 'Riskin Tracks',
+        headline: headline || subject || 'News from Riskin Tracks',
+        intro,
+        ...extra,
+      };
+      if (sections.includes('tracks')) {
+        payload.tracks = newsletterSelectedIds.map(id => {
+          const t = tracks.find(x => x.id === id) || getPublishedTracks().find(x => x.id === id);
+          if (!t) return null;
+          const slug = trackSlug(t);
+          return {
+            id: t.id,
+            title: t.title,
+            slug,
+            blurb: (document.getElementById('nlBlurb-' + t.id)?.value || t.desc || '').trim(),
+            coverUrl: newsletterTrackCoverUrl(t),
+            listenUrl: newsletterListenUrl(t),
+          };
+        }).filter(Boolean);
+      }
+      if (sections.includes('discount')) {
+        payload.discount = {
+          code: (document.getElementById('nlDiscountCode')?.value || '').trim(),
+          description: (document.getElementById('nlDiscountDesc')?.value || '').trim(),
+          expiry: (document.getElementById('nlDiscountExpiry')?.value || '').trim(),
+          ctaLabel: (document.getElementById('nlDiscountCta')?.value || 'Claim offer').trim(),
+          ctaUrl: (document.getElementById('nlDiscountUrl')?.value || location.origin + '/').trim(),
+        };
+      }
+      if (sections.includes('announcement')) {
+        payload.announcement = {
+          body: (document.getElementById('nlAnnounceBody')?.value || '').trim(),
+          ctaLabel: (document.getElementById('nlAnnounceCta')?.value || '').trim(),
+          ctaUrl: (document.getElementById('nlAnnounceUrl')?.value || location.origin + '/').trim(),
+        };
+      }
+      const testEmail = (document.getElementById('nlTestEmail')?.value || '').trim();
+      if (testEmail) payload.testEmail = testEmail;
+      return payload;
+    }
+
+    function writeNewsletterPreviewHtml(html) {
+      const frame = document.getElementById('nlPreviewFrame');
+      if (!frame) return;
+      const doc = frame.contentDocument || frame.contentWindow?.document;
+      if (!doc) return;
+      const bodyHtml = html || '<p style="color:#8b92a8;font-family:system-ui;padding:24px">Preview will appear here.</p>';
+      doc.open();
+      doc.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;background:#0c0d10}</style></head><body>${bodyHtml}</body></html>`);
+      doc.close();
+      // Keep the email HTML in the iframe — don't navigate it to raw MP3 / external URLs.
+      try {
+        doc.addEventListener('click', (e) => {
+          const a = e.target?.closest?.('a[href]');
+          if (!a) return;
+          const href = a.getAttribute('href') || '';
+          if (!href || href === '#' || href.startsWith('javascript:')) return;
+          e.preventDefault();
+          e.stopPropagation();
+          window.open(a.href, '_blank', 'noopener,noreferrer');
+        }, true);
+      } catch { /* ignore */ }
+    }
+
+    function setNewsletterFullPreview(on) {
+      newsletterFullPreview = Boolean(on);
+      document.getElementById('nlLayout')?.classList.toggle('newsletter-full-preview', newsletterFullPreview);
+      const expandBtn = document.getElementById('nlPreviewExpandBtn');
+      if (expandBtn) expandBtn.textContent = newsletterFullPreview ? 'Exit full' : 'Expand';
+    }
+
+    function toggleNewsletterFullPreview() {
+      setNewsletterFullPreview(!newsletterFullPreview);
+    }
+
+    function newsletterPreviewBack() {
+      if (newsletterFullPreview) {
+        setNewsletterFullPreview(false);
+        return;
+      }
+      // Restore email HTML if a Listen/CTA link navigated the iframe away.
+      previewNewsletter({ silent: true }).then(() => {
+        setNewsletterStatus('Preview restored.', 'ok');
+      });
+    }
+
+    function scheduleNewsletterPreview() {
+      clearTimeout(newsletterPreviewTimer);
+      newsletterPreviewTimer = setTimeout(() => previewNewsletter({ silent: true }), 400);
+    }
+
+    async function previewNewsletter({ silent } = {}) {
+      if (IS_STATIC_DEV_SERVER) {
+        writeNewsletterPreviewHtml('<p style="color:#8b92a8;font-family:system-ui;padding:24px">Preview needs <code>npm run dev</code> at http://localhost:8888 (Netlify functions).</p>');
+        if (!silent) setNewsletterStatus('Preview needs npm run dev at http://localhost:8888 (Netlify functions).', 'error');
+        return;
+      }
+      const payload = buildNewsletterPayload({ previewOnly: true });
+      delete payload.testEmail;
+      try {
+        const res = await fetch(NEWSLETTER_SEND_ENDPOINT, {
+          method: 'POST',
+          headers: newsletterAdminHeaders(),
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          if (!silent) setNewsletterStatus(data.error || 'Preview failed.', 'error');
+          return;
+        }
+        writeNewsletterPreviewHtml(data.html || '');
+        if (!silent) setNewsletterStatus('Preview updated (actual email HTML).', 'ok');
+      } catch (err) {
+        if (!silent) setNewsletterStatus('Preview failed — is npm run dev running?', 'error');
+      }
+    }
+
+    function loadLocalNewsletterHistory() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(NEWSLETTER_HISTORY_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveLocalNewsletterHistory(items) {
+      try {
+        localStorage.setItem(NEWSLETTER_HISTORY_KEY, JSON.stringify((items || []).slice(0, 100)));
+      } catch { /* ignore */ }
+    }
+
+    function loadLocalNewsletterSchedule() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(NEWSLETTER_SCHEDULE_KEY) || '[]');
+        return Array.isArray(raw) ? raw : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveLocalNewsletterSchedule(items) {
+      try {
+        localStorage.setItem(NEWSLETTER_SCHEDULE_KEY, JSON.stringify((items || []).slice(0, 50)));
+      } catch { /* ignore */ }
+    }
+
+    function mergeNewsletterHistory(serverItems, localItems) {
+      const map = new Map();
+      [...(serverItems || []), ...(localItems || [])].forEach(item => {
+        if (!item) return;
+        const key = item.id || `${item.sentAt}|${item.subject}`;
+        if (!map.has(key)) map.set(key, item);
+      });
+      return [...map.values()].sort((a, b) => String(b.sentAt || '').localeCompare(String(a.sentAt || '')));
+    }
+
+    function mergeNewsletterSchedule(serverItems, localItems) {
+      const map = new Map();
+      [...(serverItems || []), ...(localItems || [])].forEach(item => {
+        if (!item || !item.id) return;
+        map.set(item.id, item);
+      });
+      return [...map.values()].sort((a, b) => String(a.scheduledAt || '').localeCompare(String(b.scheduledAt || '')));
+    }
+
+    function newsletterSectionsLabel(item) {
+      if (Array.isArray(item?.sections) && item.sections.length) return item.sections.join(' + ');
+      return item?.template || 'tracks';
+    }
+
+    function renderNewsletterHistory(items) {
+      const wrap = document.getElementById('nlHistoryList');
+      if (!wrap) return;
+      if (!items.length) {
+        wrap.innerHTML = '<div class="newsletter-history-item"><span class="newsletter-history-meta">No sends yet.</span></div>';
+        return;
+      }
+      wrap.innerHTML = items.map(item => {
+        const when = item.sentAt ? new Date(item.sentAt).toLocaleString() : '—';
+        const type = newsletterSectionsLabel(item);
+        const count = item.recipientCount != null ? `${item.recipientCount} recipients` : (item.testEmail ? 'test send' : 'recipients n/a');
+        const mode = item.mode ? ` · ${item.mode}` : '';
+        return `<div class="newsletter-history-item">
+          <div>
+            <strong>${escapeHtmlLite(item.subject || '(no subject)')}</strong>
+            <div class="newsletter-history-meta">${escapeHtmlLite(type)} · ${escapeHtmlLite(count)}${escapeHtmlLite(mode)}</div>
+          </div>
+          <div class="newsletter-history-meta">${escapeHtmlLite(when)}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderNewsletterSchedule(items) {
+      const wrap = document.getElementById('nlScheduleList');
+      if (!wrap) return;
+      const pending = (items || []).filter(i => i && i.status !== 'sent');
+      if (!pending.length) {
+        wrap.innerHTML = '<div class="newsletter-schedule-item"><span class="newsletter-history-meta">No scheduled sends.</span></div>';
+        return;
+      }
+      wrap.innerHTML = pending.map(item => {
+        const when = item.localLabel || (item.scheduledAt ? new Date(item.scheduledAt).toLocaleString() : '—');
+        const tz = item.timezone ? ` · ${item.timezone}` : '';
+        const type = newsletterSectionsLabel(item);
+        const idAttr = escapeHtmlLite(item.id);
+        return `<div class="newsletter-schedule-item">
+          <div>
+            <strong>${escapeHtmlLite(item.subject || '(no subject)')}</strong>
+            <div class="newsletter-history-meta">${escapeHtmlLite(type)} · ${escapeHtmlLite(when)}${escapeHtmlLite(tz)}</div>
+          </div>
+          <button type="button" class="btn btn-ghost" onclick="cancelScheduledNewsletter('${idAttr}')">Cancel</button>
+        </div>`;
+      }).join('');
+    }
+
+    async function loadNewsletterHistory() {
+      const local = loadLocalNewsletterHistory();
+      if (IS_STATIC_DEV_SERVER) {
+        renderNewsletterHistory(local);
+        return;
+      }
+      try {
+        const res = await fetch(NEWSLETTER_HISTORY_ENDPOINT, { headers: newsletterAdminHeaders() });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && Array.isArray(data.items)) {
+          const merged = mergeNewsletterHistory(data.items, local);
+          saveLocalNewsletterHistory(merged);
+          renderNewsletterHistory(merged);
+          return;
+        }
+      } catch { /* fall through */ }
+      renderNewsletterHistory(local);
+    }
+
+    async function loadNewsletterSchedule() {
+      const local = loadLocalNewsletterSchedule();
+      if (IS_STATIC_DEV_SERVER) {
+        renderNewsletterSchedule(local);
+        return local;
+      }
+      try {
+        const res = await fetch(NEWSLETTER_SCHEDULE_ENDPOINT, { headers: newsletterAdminHeaders() });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && Array.isArray(data.items)) {
+          const merged = mergeNewsletterSchedule(data.items, local);
+          saveLocalNewsletterSchedule(merged);
+          renderNewsletterSchedule(merged);
+          return merged;
+        }
+      } catch { /* fall through */ }
+      renderNewsletterSchedule(local);
+      return local;
+    }
+
+    function datetimeLocalToIso(value) {
+      if (!value) return null;
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return null;
+      return d.toISOString();
+    }
+
+    async function scheduleNewsletter() {
+      if (IS_STATIC_DEV_SERVER) {
+        setNewsletterStatus('Schedule needs npm run dev at http://localhost:8888 (Netlify functions).', 'error');
+        return;
+      }
+      const composeError = validateNewsletterCompose();
+      if (composeError) {
+        setNewsletterStatus(composeError, 'error');
+        return;
+      }
+      const localValue = document.getElementById('nlScheduleAt')?.value || '';
+      const scheduledAt = datetimeLocalToIso(localValue);
+      if (!scheduledAt) {
+        setNewsletterStatus('Pick a future date and time to schedule.', 'error');
+        return;
+      }
+      if (Date.parse(scheduledAt) < Date.now() - 30_000) {
+        setNewsletterStatus('Scheduled time must be in the future.', 'error');
+        return;
+      }
+
+      const compose = buildNewsletterPayload();
+      delete compose.testEmail;
+      const timezone = newsletterLocalTimezone();
+      const localLabel = new Date(scheduledAt).toLocaleString(undefined, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      });
+      const btn = document.getElementById('nlScheduleBtn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Scheduling…'; }
+      setNewsletterStatus('Saving schedule…');
+
+      const body = {
+        scheduledAt,
+        timezone,
+        localLabel,
+        payload: compose,
+      };
+
+      try {
+        const res = await fetch(NEWSLETTER_SCHEDULE_ENDPOINT, {
+          method: 'POST',
+          headers: newsletterAdminHeaders(),
+          body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          // Fall back to localStorage-only schedule so local poll still works
+          if (data.error && !data.entry) {
+            setNewsletterStatus(data.error || 'Could not schedule.', 'error');
+            return;
+          }
+        }
+        let entry = data.entry;
+        if (!entry) {
+          entry = {
+            id: `sched-local-${Date.now()}`,
+            scheduledAt,
+            timezone,
+            localLabel,
+            createdAt: new Date().toISOString(),
+            status: 'pending',
+            subject: compose.subject,
+            sections: compose.sections,
+            template: compose.template,
+            headline: compose.headline,
+            payload: compose,
+          };
+          const local = mergeNewsletterSchedule([entry], loadLocalNewsletterSchedule());
+          saveLocalNewsletterSchedule(local);
+          renderNewsletterSchedule(local);
+          setNewsletterStatus(`Scheduled for ${localLabel} (${timezone}) — saved locally.`, 'ok');
+        } else {
+          const merged = mergeNewsletterSchedule(data.items || [entry], loadLocalNewsletterSchedule());
+          saveLocalNewsletterSchedule(merged);
+          renderNewsletterSchedule(merged);
+          setNewsletterStatus(`Scheduled for ${localLabel} (${timezone}).`, 'ok');
+        }
+        document.getElementById('nlScheduleAt').value = '';
+      } catch {
+        setNewsletterStatus('Schedule failed — is npm run dev running?', 'error');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Schedule'; }
+      }
+    }
+
+    async function cancelScheduledNewsletter(id) {
+      if (!id) return;
+      if (!confirm('Cancel this scheduled newsletter?')) return;
+      const local = loadLocalNewsletterSchedule().filter(i => i.id !== id);
+      saveLocalNewsletterSchedule(local);
+      renderNewsletterSchedule(local);
+      if (IS_STATIC_DEV_SERVER) {
+        setNewsletterStatus('Scheduled send cancelled.', 'ok');
+        return;
+      }
+      try {
+        const res = await fetch(NEWSLETTER_SCHEDULE_ENDPOINT, {
+          method: 'POST',
+          headers: newsletterAdminHeaders(),
+          body: JSON.stringify({ action: 'cancel', id }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && Array.isArray(data.items)) {
+          const merged = mergeNewsletterSchedule(data.items, []);
+          saveLocalNewsletterSchedule(merged);
+          renderNewsletterSchedule(merged);
+        }
+        setNewsletterStatus('Scheduled send cancelled.', 'ok');
+      } catch {
+        setNewsletterStatus('Cancelled locally; server sync failed.', 'error');
+      }
+    }
+
+    async function fireScheduledNewsletter(item) {
+      if (!item?.payload) return { ok: false, error: 'Missing payload' };
+      const res = await fetch(NEWSLETTER_SEND_ENDPOINT, {
+        method: 'POST',
+        headers: newsletterAdminHeaders(),
+        body: JSON.stringify(item.payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        return { ok: false, error: data.error || data.detail || `HTTP ${res.status}` };
+      }
+      if (data.history) {
+        const merged = mergeNewsletterHistory([data.history], loadLocalNewsletterHistory());
+        saveLocalNewsletterHistory(merged);
+        renderNewsletterHistory(merged);
+      }
+      try {
+        await fetch(NEWSLETTER_SCHEDULE_ENDPOINT, {
+          method: 'POST',
+          headers: newsletterAdminHeaders(),
+          body: JSON.stringify({ action: 'mark-sent', id: item.id }),
+        });
+      } catch { /* ignore */ }
+      const local = loadLocalNewsletterSchedule().filter(i => i.id !== item.id);
+      saveLocalNewsletterSchedule(local);
+      renderNewsletterSchedule(local);
+      return { ok: true, data };
+    }
+
+    async function pollNewsletterSchedule() {
+      if (newsletterScheduleBusy) return;
+      const page = document.getElementById('page-admin-newsletter');
+      if (!page?.classList.contains('active')) return;
+
+      newsletterScheduleBusy = true;
+      try {
+        const items = await loadNewsletterSchedule();
+        const due = (items || []).filter(i => {
+          if (!i || i.status === 'sent') return false;
+          const t = Date.parse(i.scheduledAt);
+          return !Number.isNaN(t) && t <= Date.now();
+        });
+        for (const item of due) {
+          setNewsletterStatus(`Sending scheduled: ${item.subject || 'newsletter'}…`);
+          const result = await fireScheduledNewsletter(item);
+          if (result.ok) {
+            setNewsletterStatus(`Scheduled send delivered: ${item.subject || 'newsletter'}.`, 'ok');
+          } else {
+            setNewsletterStatus(`Scheduled send failed (${item.subject || 'newsletter'}): ${result.error}`, 'error');
+            break;
+          }
+        }
+      } finally {
+        newsletterScheduleBusy = false;
+      }
+    }
+
+    function startNewsletterSchedulePoll() {
+      clearInterval(newsletterSchedulePollTimer);
+      newsletterSchedulePollTimer = setInterval(pollNewsletterSchedule, 20000);
+      setTimeout(pollNewsletterSchedule, 1500);
+    }
+
+    async function sendNewsletter() {
+      if (IS_STATIC_DEV_SERVER) {
+        setNewsletterStatus('Send needs npm run dev at http://localhost:8888 (Netlify functions).', 'error');
+        return;
+      }
+      const composeError = validateNewsletterCompose();
+      if (composeError) {
+        setNewsletterStatus(composeError, 'error');
+        return;
+      }
+      const btn = document.getElementById('nlSendBtn');
+      const payload = buildNewsletterPayload();
+      const isTest = Boolean(payload.testEmail);
+      const confirmMsg = isTest
+        ? `Send test newsletter only to ${payload.testEmail}? (Does not broadcast to the waitlist.)`
+        : 'Send this newsletter to ALL waitlist subscribers (full Resend audience / WAITLIST_AUDIENCE_ID)?';
+      if (!confirm(confirmMsg)) return;
+
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      setNewsletterStatus(isTest ? 'Sending test…' : 'Sending to all waitlist subscribers…');
+
+      try {
+        const res = await fetch(NEWSLETTER_SEND_ENDPOINT, {
+          method: 'POST',
+          headers: newsletterAdminHeaders(),
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const detail = data.detail ? ` — ${data.detail}` : '';
+          setNewsletterStatus((data.error || 'Send failed.') + detail, 'error');
+          return;
+        }
+        if (data.history) {
+          const merged = mergeNewsletterHistory([data.history], loadLocalNewsletterHistory());
+          saveLocalNewsletterHistory(merged);
+          renderNewsletterHistory(merged);
+        } else {
+          await loadNewsletterHistory();
+        }
+        const countLabel = data.recipientCount != null ? ` (${data.recipientCount} recipients)` : '';
+        setNewsletterStatus(
+          isTest
+            ? `Test sent to ${payload.testEmail}. Mode: ${data.mode || 'ok'}.`
+            : `Sent to all waitlist subscribers${countLabel}. Mode: ${data.mode || 'ok'}.`,
+          'ok'
+        );
+        await previewNewsletter({ silent: true });
+      } catch {
+        setNewsletterStatus('Send failed — is npm run dev running with RESEND_API_KEY?', 'error');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = NEWSLETTER_SEND_BTN_LABEL; }
+      }
+    }
+
+    function initNewsletterAdmin() {
+      if (!document.getElementById('nlSubject')?.value) {
+        document.getElementById('nlSubject').value = 'New from Riskin Tracks';
+      }
+      if (!document.getElementById('nlHeadline')?.value) {
+        document.getElementById('nlHeadline').value = 'Fresh tracks for indie games';
+      }
+      if (!document.getElementById('nlDiscountUrl')?.value) {
+        document.getElementById('nlDiscountUrl').value = 'https://riskintracks.com/';
+      }
+      if (!document.getElementById('nlAnnounceUrl')?.value) {
+        document.getElementById('nlAnnounceUrl').value = 'https://riskintracks.com/';
+      }
+      newsletterOptional.announcement = Boolean(document.getElementById('nlSectionAnnouncement')?.checked);
+      newsletterOptional.discount = Boolean(document.getElementById('nlSectionDiscount')?.checked);
+      updateNewsletterTimezoneLabel();
+      syncNewsletterOptionalUI();
+      setNewsletterFullPreview(false);
+      renderNewsletterTrackPicker();
+      loadNewsletterHistory();
+      loadNewsletterSchedule();
+      startNewsletterSchedulePoll();
+      scheduleNewsletterPreview();
+      ['nlSubject', 'nlHeadline', 'nlIntro', 'nlDiscountCode', 'nlDiscountDesc', 'nlDiscountExpiry', 'nlDiscountCta', 'nlDiscountUrl', 'nlAnnounceBody', 'nlAnnounceCta', 'nlAnnounceUrl'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.dataset.nlBound) {
+          el.dataset.nlBound = '1';
+          el.addEventListener('input', scheduleNewsletterPreview);
+        }
+      });
+    }
+
 
     function contactStaticServerMessage() {
       return 'Contact email only works with npm run dev at http://localhost:8888. Port 8765 (start-server.ps1) does not run Netlify functions.';
@@ -7721,6 +8955,9 @@
       updateFeelToggleState();
       updateCatalogSortUI();
       renderFilterTabs();
+      // Generate thumbs before first paint — localStorage strips data: artwork, so
+      // without this the browse list would briefly show catalog cover.jpg paths.
+      ensureAllTrackArtwork();
       renderTracks();
       try {
         await loadTrackMeta();

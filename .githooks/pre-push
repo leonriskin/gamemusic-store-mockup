@@ -1,0 +1,25 @@
+#!/bin/sh
+# Auto-sync tracks/* to Cloudflare R2 before every git push (Windows + Git Bash).
+# Skip with: SKIP_R2_UPLOAD=1 git push
+# Manual upload: npm run upload:r2
+
+if [ "$SKIP_R2_UPLOAD" = "1" ]; then
+  echo "pre-push: SKIP_R2_UPLOAD=1 — skipping R2 upload."
+  exit 0
+fi
+
+ROOT="$(git rev-parse --show-toplevel)"
+PS1="$ROOT/scripts/pre-push-r2-upload.ps1"
+
+if command -v powershell.exe >/dev/null 2>&1; then
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$PS1" -ProjectRoot "$ROOT"
+  exit $?
+fi
+
+if command -v pwsh >/dev/null 2>&1; then
+  pwsh -NoProfile -File "$PS1" -ProjectRoot "$ROOT"
+  exit $?
+fi
+
+echo "pre-push: PowerShell not found — cannot run R2 upload. Install PowerShell or run: npm run upload:r2"
+exit 1

@@ -1,4 +1,4 @@
-﻿{
+{
     "_instructions":  "Track metadata for published catalog comes from Tracks-Upload-Status-2013.xlsx. After updating the spreadsheet, copy it to tracks/Tracks-Upload-Status-2013.xlsx and run scripts/import-track-meta.ps1 to refresh tracks/track-meta.json.",
     "tracks":  [
                    {

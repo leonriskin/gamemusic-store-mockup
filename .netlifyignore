@@ -1,0 +1,45 @@
+# Netlify deploy ignore — files stay in git but are NOT uploaded on each deploy.
+# Syntax matches .gitignore. Saves build/deploy credits on large or dev-only paths.
+#
+# Toggle live site: see scripts/prepare-redirects.mjs (not this file).
+
+# Import scripts, ffmpeg, staging WAVs/zips (local dev only)
+scripts/
+
+# Logo concept mockups and preview HTML (production uses assets/riskin-tracks-logo-header.png)
+assets/logo-concepts/
+
+# Extra logo exports not referenced by index.html or under-construction.html
+# (keep assets/riskin-tracks-logo-header.png and assets/jspdf.umd.min.js)
+assets/riskin-tracks-logo-full.png
+assets/riskin-tracks-logo-icon.png
+assets/riskin-tracks-logo-icon-cropped.png
+assets/riskin-tracks-logo-icon-header.png
+assets/riskin-tracks-logo-icon.svg
+assets/riskin-tracks-logo-mark.svg
+assets/riskin-tracks-cart-icon-options*.png
+
+# Internal catalog spreadsheet (not used by the public site)
+tracks/Tracks-Upload-Status-2013.xlsx
+tracks/.~lock*
+
+# Track media served from Cloudflare R2 in production (keep catalog.json + track-meta.json)
+tracks/**/*.mp3
+tracks/**/*.zip
+tracks/**/cover.jpg
+tracks/**/cover.jpeg
+tracks/**/cover.png
+
+# Local dev server helper
+start-server.ps1
+
+# Editor / OS junk (if ever committed)
+.cursor/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Logs
+*.log

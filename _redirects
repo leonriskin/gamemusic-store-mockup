@@ -1,18 +1,11 @@
 # Riskin Tracks — site mode toggle
 #
-# CONSTRUCTION MODE (current): redirect all paths to the under-construction page.
-# LIVE MODE: comment out or delete the /* line below, then commit and deploy.
+# LOCAL DEV (npm run dev / localhost:8888): this file intentionally has NO active
+# redirects so Netlify Dev serves index.html with the contact form and checkout.
 #
-# Local dev (localhost) is unaffected — Netlify applies _redirects on deploy only.
+# PRODUCTION (riskintracks.com): redirects are generated at deploy time by
+# scripts/prepare-redirects.mjs (see netlify.toml build.command). After a local
+# production deploy, run npm run dev (or restore-local-redirects) to reset this file.
 #
-# Quick toggle:
-#   Construction → keep this line active:
-#     /*    /under-construction.html    200!
-#   Live site    → comment it out:
-#     # /*    /under-construction.html    200!
-#
-# Why 200! (forced rewrite): Netlify serves existing files (e.g. index.html)
-# before a plain 200 rewrite. The trailing ! forces the rewrite so every path,
-# including /, serves under-construction.html instead of the live site.
-
-/*    /under-construction.html    200!
+# Go live on production: edit scripts/prepare-redirects.mjs to skip construction
+# redirects for production, commit, and deploy.

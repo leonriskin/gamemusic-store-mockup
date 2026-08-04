@@ -1,0 +1,5 @@
+name = "riskin-tracks-assets"
+compatibility_date = "2024-01-01"
+
+# Used by scripts/upload-tracks-to-r2.ps1 for R2 uploads only.
+account_id = "90f505deba234410dfcef0f5a4b880f8"

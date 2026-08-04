@@ -16,3 +16,28 @@ npm-debug.log*
 
 # Optional local dev artifacts
 .cursor/
+
+# R2 upload state (local incremental sync cache)
+scripts/.r2-upload-state.json
+
+# Track media — served from Cloudflare R2 in production.
+# Keep catalog metadata in git: tracks/catalog.json, tracks/track-meta.json
+tracks/**/*.mp3
+tracks/**/*.zip
+tracks/**/cover.jpg
+tracks/**/cover.jpeg
+tracks/**/cover.png
+tracks/*.xlsx
+tracks/.~lock*
+
+# Dependencies / build
+node_modules/
+
+# Local Netlify folder
+.netlify
+
+# Local temp / tooling (not for deploy)
+.tmp*
+deno.lock
+scripts/.import-staging/
+scripts/.tools/
